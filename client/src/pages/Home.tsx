@@ -2,45 +2,26 @@ import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { useCart } from "../contexts/CartContext";
 import { useToast } from "@/hooks/use-toast";
 import { MenuItem, Review } from "@shared/schema";
-import { MapPin, Clock, Wifi, Music, Utensils, Star, ChevronRight } from "lucide-react";
-import { useEffect, useState } from "react";
+import { ChevronRight, UtensilsCrossed, Clock } from "lucide-react";
+import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 
 const Home = () => {
   const { addToCart } = useCart();
   const { toast } = useToast();
-  const [isImagesLoaded, setIsImagesLoaded] = useState(false);
   
-  // Load popular menu items
-  const { data: specialItems, isLoading } = useQuery({
+  // Load popular menu items 
+  const { data: menuItems, isLoading } = useQuery({
     queryKey: ["/api/menu"],
-    select: (data: MenuItem[]) => data.filter(item => 
-      ["Truffle Pasta", "Wagyu Steak", "Chocolate Lava Cake"].includes(item.name)
-    )
-  });
-  
-  // Load all menu items for the carousel
-  const { data: allMenuItems, isLoading: isMenuLoading } = useQuery({
-    queryKey: ["/api/menu"],
-    select: (data: MenuItem[]) => data.sort(() => Math.random() - 0.5).slice(0, 8) // Randomize and get 8 items
   });
   
   // Get reviews
   const { data: reviews, isLoading: isReviewsLoading } = useQuery<Review[]>({
     queryKey: ["/api/reviews"],
   });
-  
-  // Simulate image preloading
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsImagesLoaded(true);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, []);
 
   const handleAddToCart = (item: MenuItem) => {
     addToCart({
