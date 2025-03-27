@@ -439,6 +439,52 @@ const Home = () => {
         </div>
       </section>
       
+      {/* Special Offers Section */}
+      <section className="py-16 relative overflow-hidden bg-gradient-to-r from-primary/90 to-primary">
+        {/* Decorative elements */}
+        <div className="absolute w-64 h-64 top-0 left-1/4 bg-white/5 rounded-full blur-3xl"></div>
+        <div className="absolute w-80 h-80 bottom-0 right-1/4 bg-white/5 rounded-full blur-3xl"></div>
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-4xl mx-auto bg-white/10 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden">
+            <div className="grid grid-cols-1 md:grid-cols-2">
+              <div className="p-8 md:p-10 text-white">
+                <div className="inline-block mb-4 bg-white/20 px-3 py-1 rounded-full text-sm font-medium">
+                  LIMITED TIME OFFER
+                </div>
+                <h2 className="font-heading text-3xl md:text-4xl font-bold mb-4">
+                  Get 20% Off on Your First Order!
+                </h2>
+                <p className="mb-6 text-white/80">
+                  Experience our exquisite cuisine with a special discount for new customers. 
+                  Use promo code <span className="font-bold bg-primary/60 px-2 py-1 rounded">WELCOME20</span> at checkout.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Link href="/menu">
+                    <Button className="bg-white text-primary hover:bg-white/90 h-12 px-6 rounded-full font-medium">
+                      Claim Offer
+                    </Button>
+                  </Link>
+                  <div className="flex items-center text-white/80 text-sm">
+                    <Clock className="h-4 w-4 mr-2" />
+                    <span>Offer expires in 7 days</span>
+                  </div>
+                </div>
+              </div>
+              <div className="relative h-60 md:h-auto overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-l from-transparent to-primary/40 z-10"></div>
+                <img 
+                  src="https://images.unsplash.com/photo-1559847844-5315695dad5a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                  alt="Special Offer" 
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Customer Reviews Section */}
       <section className="py-20 bg-white relative overflow-hidden">
         {/* Decorative elements */}

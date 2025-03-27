@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
-import { ShoppingCart, Menu, X } from "lucide-react";
+import { ShoppingCart, Menu, X, PhoneCall } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "../contexts/CartContext";
 import Cart from "./Cart";
@@ -10,6 +10,31 @@ const Navbar = () => {
   const [cartOpen, setCartOpen] = useState(false);
   const [location] = useLocation();
   const { cartItems } = useCart();
+  const [scrolled, setScrolled] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  // Handle scroll event to change navbar appearance
+  useEffect(() => {
+    const handleScroll = () => {
+      const offset = window.scrollY;
+      if (offset > 50) {
+        if (!scrolled) {
+          setScrolled(true);
+          setIsAnimating(true);
+          setTimeout(() => setIsAnimating(false), 300);
+        }
+      } else {
+        if (scrolled) {
+          setScrolled(false);
+          setIsAnimating(true);
+          setTimeout(() => setIsAnimating(false), 300);
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [scrolled]);
 
   const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -37,13 +62,35 @@ const Navbar = () => {
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-white shadow-md">
+    <header className={`sticky top-0 z-50 transition-all duration-300 ${
+      scrolled 
+        ? 'bg-white shadow-lg py-2' 
+        : 'bg-white/90 backdrop-blur-sm shadow-md py-3'
+      } ${isAnimating ? 'animate-navSlideDown' : ''}`}>
       <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center py-4">
+        <div className="flex justify-between items-center">
           <div className="flex items-center">
-            <Link href="/" className="font-heading text-2xl font-bold text-primary">
-              Savoria
+            <Link href="/" className="flex items-center">
+              <div className="mr-2 rounded-lg overflow-hidden bg-primary/10 p-1.5">
+                <div className="h-8 w-8 rounded-md bg-primary text-white flex items-center justify-center font-bold text-xl">S</div>
+              </div>
+              <div>
+                <span className="font-heading text-2xl font-bold text-primary block leading-none">Savoria</span>
+                <span className="text-xs text-gray-500 italic">Fine Dining Experience</span>
+              </div>
             </Link>
+            
+            {/* Contact Info - Only visible when not scrolled and on larger screens */}
+            <div className={`hidden lg:flex items-center ml-8 space-x-4 text-sm transition-opacity duration-300 ${scrolled ? 'opacity-0' : 'opacity-100'}`}>
+              <div className="flex items-center text-gray-600">
+                <PhoneCall className="h-3.5 w-3.5 mr-2 text-primary" />
+                <span>+1 (555) 123-4567</span>
+              </div>
+              <div className="h-4 w-px bg-gray-300"></div>
+              <div className="text-gray-600">
+                <span>Open: 10:00 AM - 10:00 PM</span>
+              </div>
+            </div>
           </div>
           
           {/* Desktop Navigation */}

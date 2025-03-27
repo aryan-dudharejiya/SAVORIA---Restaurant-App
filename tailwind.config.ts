@@ -79,12 +79,84 @@ export default {
             height: "0",
           },
         },
+        "nav-slide-down": {
+          from: {
+            transform: "translateY(-10px)",
+            opacity: "0.7",
+          },
+          to: {
+            transform: "translateY(0)",
+            opacity: "1",
+          },
+        },
+        "slow-zoom": {
+          from: {
+            transform: "scale(1)",
+          },
+          to: {
+            transform: "scale(1.1)",
+          },
+        },
+        "fade-in-up": {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(20px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
+        "fade-in": {
+          from: {
+            opacity: "0",
+          },
+          to: {
+            opacity: "1",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "navSlideDown": "nav-slide-down 0.3s ease-out",
+        "slowZoom": "slow-zoom 20s ease-out infinite alternate",
+        "fadeInUp": "fade-in-up 0.6s ease-out",
+        "fadeIn": "fade-in 0.6s ease-out",
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
+  plugins: [
+    require("tailwindcss-animate"), 
+    require("@tailwindcss/typography"),
+    function({ addUtilities }) {
+      const newUtilities = {
+        '.line-clamp-1': {
+          display: '-webkit-box',
+          '-webkit-line-clamp': '1',
+          '-webkit-box-orient': 'vertical',
+          overflow: 'hidden',
+        },
+        '.line-clamp-2': {
+          display: '-webkit-box',
+          '-webkit-line-clamp': '2',
+          '-webkit-box-orient': 'vertical',
+          overflow: 'hidden',
+        },
+        '.line-clamp-3': {
+          display: '-webkit-box',
+          '-webkit-line-clamp': '3',
+          '-webkit-box-orient': 'vertical',
+          overflow: 'hidden',
+        },
+        '.line-clamp-4': {
+          display: '-webkit-box',
+          '-webkit-line-clamp': '4',
+          '-webkit-box-orient': 'vertical',
+          overflow: 'hidden',
+        },
+      }
+      addUtilities(newUtilities)
+    }
+  ],
 } satisfies Config;
