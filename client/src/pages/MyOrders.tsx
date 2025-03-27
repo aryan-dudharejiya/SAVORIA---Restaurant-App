@@ -168,67 +168,65 @@ export default function MyOrders() {
   };
   
   return (
-    <Layout>
-      <div className="container mx-auto py-8 px-4">
-        <h1 className="text-3xl font-bold mb-8 text-center">My Orders</h1>
-        
-        {!phoneNumber ? (
-          <PhoneNumberForm onSubmit={handleSearchOrders} />
-        ) : (
-          <div className="max-w-3xl mx-auto">
-            {isLoading ? (
-              <div className="flex flex-col items-center justify-center py-12">
-                <Loader2 className="h-8 w-8 animate-spin text-primary mb-4" />
-                <p>Loading your orders...</p>
+    <div className="container mx-auto py-8 px-4">
+      <h1 className="text-3xl font-bold mb-8 text-center">My Orders</h1>
+      
+      {!phoneNumber ? (
+        <PhoneNumberForm onSubmit={handleSearchOrders} />
+      ) : (
+        <div className="max-w-3xl mx-auto">
+          {isLoading ? (
+            <div className="flex flex-col items-center justify-center py-12">
+              <Loader2 className="h-8 w-8 animate-spin text-primary mb-4" />
+              <p>Loading your orders...</p>
+            </div>
+          ) : error ? (
+            <div className="flex flex-col items-center justify-center py-12 text-center">
+              <div className="mb-4 text-red-500">
+                <Search className="h-12 w-12 mx-auto" />
               </div>
-            ) : error ? (
-              <div className="flex flex-col items-center justify-center py-12 text-center">
-                <div className="mb-4 text-red-500">
-                  <Search className="h-12 w-12 mx-auto" />
-                </div>
-                <h2 className="text-xl font-bold mb-2">Couldn't Load Orders</h2>
-                <p className="text-muted-foreground mb-4">
-                  We encountered an error while loading your orders. Please try again.
-                </p>
-                <div className="flex gap-4">
-                  <Button onClick={() => setPhoneNumber(null)}>Try Again</Button>
-                </div>
+              <h2 className="text-xl font-bold mb-2">Couldn't Load Orders</h2>
+              <p className="text-muted-foreground mb-4">
+                We encountered an error while loading your orders. Please try again.
+              </p>
+              <div className="flex gap-4">
+                <Button onClick={() => setPhoneNumber(null)}>Try Again</Button>
               </div>
-            ) : orders?.length > 0 ? (
-              <div className="space-y-6">
-                <div className="flex justify-between items-center">
-                  <h2 className="text-xl font-bold">Your Order History</h2>
-                  <Button variant="outline" onClick={() => setPhoneNumber(null)}>
-                    Change Phone Number
-                  </Button>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {orders.map((order: Order) => (
-                    <OrderCard key={order.id} order={order} />
-                  ))}
-                </div>
+            </div>
+          ) : orders?.length > 0 ? (
+            <div className="space-y-6">
+              <div className="flex justify-between items-center">
+                <h2 className="text-xl font-bold">Your Order History</h2>
+                <Button variant="outline" onClick={() => setPhoneNumber(null)}>
+                  Change Phone Number
+                </Button>
               </div>
-            ) : (
-              <div className="flex flex-col items-center justify-center py-12 text-center">
-                <div className="mb-4 text-muted-foreground">
-                  <Receipt className="h-12 w-12 mx-auto" />
-                </div>
-                <h2 className="text-xl font-bold mb-2">No Orders Found</h2>
-                <p className="text-muted-foreground mb-4">
-                  We couldn't find any orders associated with the phone number: {phoneNumber}
-                </p>
-                <div className="flex gap-4">
-                  <Button onClick={() => setPhoneNumber(null)}>Try Another Number</Button>
-                  <Button variant="outline" onClick={() => window.location.href = '/menu'}>
-                    Browse Menu
-                  </Button>
-                </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {orders.map((order: Order) => (
+                  <OrderCard key={order.id} order={order} />
+                ))}
               </div>
-            )}
-          </div>
-        )}
-      </div>
-    </Layout>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center py-12 text-center">
+              <div className="mb-4 text-muted-foreground">
+                <Receipt className="h-12 w-12 mx-auto" />
+              </div>
+              <h2 className="text-xl font-bold mb-2">No Orders Found</h2>
+              <p className="text-muted-foreground mb-4">
+                We couldn't find any orders associated with the phone number: {phoneNumber}
+              </p>
+              <div className="flex gap-4">
+                <Button onClick={() => setPhoneNumber(null)}>Try Another Number</Button>
+                <Button variant="outline" onClick={() => window.location.href = '/menu'}>
+                  Browse Menu
+                </Button>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
   );
 }

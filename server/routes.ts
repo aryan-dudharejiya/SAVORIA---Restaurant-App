@@ -230,11 +230,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       const { amount } = req.body;
       
+      if (!amount || isNaN(amount)) {
+        return res.status(400).json({ message: "Invalid amount" });
+      }
+      
       // Create a PaymentIntent with the order amount and currency
       const paymentIntent = await stripe.paymentIntents.create({
         amount: Math.round(amount * 100), // Convert to smallest currency unit (cents)
         currency: "inr",
-        payment_method_types: ["upi", "card"],
+        // Use common payment method types that are widely supported
+        payment_method_types: ["card"],
+        // Add automatic payment methods for better compatibility
+        automatic_payment_methods: {
+          enabled: true,
+        },
       });
       
       res.json({
@@ -242,6 +251,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         paymentIntentId: paymentIntent.id
       });
     } catch (error: any) {
+      console.error("Stripe error:", error);
       res.status(500).json({ message: `Payment failed: ${error.message}` });
     }
   });

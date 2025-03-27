@@ -228,14 +228,12 @@ export default function TrackOrder() {
   const trackingId = params?.trackingId;
   
   return (
-    <Layout>
-      <div className="container mx-auto py-8 px-4">
-        <h1 className="text-3xl font-bold mb-8 text-center">Track Order</h1>
-        
-        <div className="max-w-3xl mx-auto">
-          {trackingId ? <OrderTracker /> : <TrackOrderForm />}
-        </div>
+    <div className="container mx-auto py-8 px-4">
+      <h1 className="text-3xl font-bold mb-8 text-center">Track Order</h1>
+      
+      <div className="max-w-3xl mx-auto">
+        {trackingId ? <OrderTracker /> : <TrackOrderForm />}
       </div>
-    </Layout>
+    </div>
   );
 }

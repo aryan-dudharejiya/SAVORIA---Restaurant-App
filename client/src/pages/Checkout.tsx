@@ -26,7 +26,9 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Loader2 } from "lucide-react";
 
 // Load Stripe outside of component to avoid recreating it on every render
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
+const stripePromise = import.meta.env.VITE_STRIPE_PUBLIC_KEY ? 
+  loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY) : 
+  Promise.reject(new Error("Missing Stripe public key"));
 
 function OrderSummary({ cartItems }: { cartItems: CartItem[] }) {
   const totalAmount = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
@@ -235,201 +237,197 @@ export default function Checkout() {
   
   if (orderStep === 'confirmation') {
     return (
-      <Layout>
-        <div className="container mx-auto py-8 px-4">
-          <Card className="max-w-lg mx-auto">
-            <CardHeader>
-              <CardTitle className="text-center text-green-600">Order Placed Successfully!</CardTitle>
-              <CardDescription className="text-center">Thank you for your order.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="text-center">
-                <p className="font-medium">Your order has been confirmed.</p>
-                <p className="text-sm text-muted-foreground mt-2">
-                  Order Tracking ID: <span className="font-bold">{orderId}</span>
-                </p>
-                <p className="text-sm mt-4">
-                  You can track your order status using this tracking ID.
-                </p>
-              </div>
-            </CardContent>
-            <CardFooter className="flex flex-col space-y-2">
-              <Button 
-                className="w-full" 
-                onClick={() => navigate(`/track-order/${orderId}`)}
-              >
-                Track Order
-              </Button>
-              <Button 
-                variant="outline" 
-                className="w-full" 
-                onClick={() => navigate('/')}
-              >
-                Return to Home
-              </Button>
-            </CardFooter>
-          </Card>
-        </div>
-      </Layout>
+      <div className="container mx-auto py-8 px-4">
+        <Card className="max-w-lg mx-auto">
+          <CardHeader>
+            <CardTitle className="text-center text-green-600">Order Placed Successfully!</CardTitle>
+            <CardDescription className="text-center">Thank you for your order.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="text-center">
+              <p className="font-medium">Your order has been confirmed.</p>
+              <p className="text-sm text-muted-foreground mt-2">
+                Order Tracking ID: <span className="font-bold">{orderId}</span>
+              </p>
+              <p className="text-sm mt-4">
+                You can track your order status using this tracking ID.
+              </p>
+            </div>
+          </CardContent>
+          <CardFooter className="flex flex-col space-y-2">
+            <Button 
+              className="w-full" 
+              onClick={() => navigate(`/track-order/${orderId}`)}
+            >
+              Track Order
+            </Button>
+            <Button 
+              variant="outline" 
+              className="w-full" 
+              onClick={() => navigate('/')}
+            >
+              Return to Home
+            </Button>
+          </CardFooter>
+        </Card>
+      </div>
     );
   }
   
   return (
-    <Layout>
-      <div className="container mx-auto py-8 px-4">
-        <h1 className="text-3xl font-bold mb-8 text-center">Checkout</h1>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div>
-            {orderStep === 'details' ? (
-              <Card>
-                <CardHeader>
-                  <CardTitle>Delivery Details</CardTitle>
-                  <CardDescription>Fill in your delivery information</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                      <FormField
-                        control={form.control}
-                        name="fullName"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Full Name</FormLabel>
-                            <FormControl>
-                              <Input placeholder="Enter your full name" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      
-                      <FormField
-                        control={form.control}
-                        name="phoneNumber"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Phone Number</FormLabel>
-                            <FormControl>
-                              <Input placeholder="Enter your phone number" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      
-                      <FormField
-                        control={form.control}
-                        name="deliveryAddress"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Delivery Address</FormLabel>
-                            <FormControl>
-                              <Textarea 
-                                placeholder="Enter your full delivery address" 
-                                {...field} 
-                                rows={3}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      
-                      <FormField
-                        control={form.control}
-                        name="notes"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Order Notes (Optional)</FormLabel>
-                            <FormControl>
-                              <Textarea 
-                                placeholder="Any special instructions for your order?" 
-                                {...field} 
-                                rows={2}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      
-                      <FormField
-                        control={form.control}
-                        name="paymentMethod"
-                        render={({ field }) => (
-                          <FormItem className="space-y-3">
-                            <FormLabel>Payment Method</FormLabel>
-                            <FormControl>
-                              <RadioGroup
-                                onValueChange={field.onChange}
-                                defaultValue={field.value}
-                                className="flex flex-col space-y-1"
-                              >
-                                <div className="flex items-center space-x-2">
-                                  <RadioGroupItem value="cod" id="cod" />
-                                  <Label htmlFor="cod" className="font-normal">Cash on Delivery</Label>
-                                </div>
-                                <div className="flex items-center space-x-2">
-                                  <RadioGroupItem value="upi" id="upi" />
-                                  <Label htmlFor="upi" className="font-normal">UPI/Card Payment</Label>
-                                </div>
-                              </RadioGroup>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      
-                      <Button 
-                        type="submit" 
-                        className="w-full" 
-                        disabled={isSubmitting || cartItems.length === 0}
-                      >
-                        {isSubmitting ? (
-                          <>
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Processing...
-                          </>
-                        ) : (
-                          'Proceed to Payment'
-                        )}
-                      </Button>
-                    </form>
-                  </Form>
-                </CardContent>
-              </Card>
-            ) : orderStep === 'payment' && clientSecret ? (
-              <Card>
-                <CardHeader>
-                  <CardTitle>Payment</CardTitle>
-                  <CardDescription>Complete your payment securely</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Elements stripe={stripePromise} options={{ clientSecret }}>
-                    <PaymentForm 
-                      clientSecret={clientSecret} 
-                      onPaymentSuccess={handlePaymentSuccess} 
+    <div className="container mx-auto py-8 px-4">
+      <h1 className="text-3xl font-bold mb-8 text-center">Checkout</h1>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          {orderStep === 'details' ? (
+            <Card>
+              <CardHeader>
+                <CardTitle>Delivery Details</CardTitle>
+                <CardDescription>Fill in your delivery information</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                    <FormField
+                      control={form.control}
+                      name="fullName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Full Name</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter your full name" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
-                  </Elements>
-                </CardContent>
-                <CardFooter>
-                  <Button 
-                    variant="outline" 
-                    className="w-full" 
-                    onClick={() => setOrderStep('details')}
-                  >
-                    Back to Details
-                  </Button>
-                </CardFooter>
-              </Card>
-            ) : null}
-          </div>
-          
-          <div>
-            <OrderSummary cartItems={cartItems} />
-          </div>
+                    
+                    <FormField
+                      control={form.control}
+                      name="phoneNumber"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Phone Number</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter your phone number" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={form.control}
+                      name="deliveryAddress"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Delivery Address</FormLabel>
+                          <FormControl>
+                            <Textarea 
+                              placeholder="Enter your full delivery address" 
+                              {...field} 
+                              rows={3}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={form.control}
+                      name="notes"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Order Notes (Optional)</FormLabel>
+                          <FormControl>
+                            <Textarea 
+                              placeholder="Any special instructions for your order?" 
+                              {...field} 
+                              rows={2}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={form.control}
+                      name="paymentMethod"
+                      render={({ field }) => (
+                        <FormItem className="space-y-3">
+                          <FormLabel>Payment Method</FormLabel>
+                          <FormControl>
+                            <RadioGroup
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                              className="flex flex-col space-y-1"
+                            >
+                              <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="cod" id="cod" />
+                                <Label htmlFor="cod" className="font-normal">Cash on Delivery</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="upi" id="upi" />
+                                <Label htmlFor="upi" className="font-normal">UPI/Card Payment</Label>
+                              </div>
+                            </RadioGroup>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <Button 
+                      type="submit" 
+                      className="w-full" 
+                      disabled={isSubmitting || cartItems.length === 0}
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Processing...
+                        </>
+                      ) : (
+                        'Proceed to Payment'
+                      )}
+                    </Button>
+                  </form>
+                </Form>
+              </CardContent>
+            </Card>
+          ) : orderStep === 'payment' && clientSecret ? (
+            <Card>
+              <CardHeader>
+                <CardTitle>Payment</CardTitle>
+                <CardDescription>Complete your payment securely</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Elements stripe={stripePromise} options={{ clientSecret }}>
+                  <PaymentForm 
+                    clientSecret={clientSecret} 
+                    onPaymentSuccess={handlePaymentSuccess} 
+                  />
+                </Elements>
+              </CardContent>
+              <CardFooter>
+                <Button 
+                  variant="outline" 
+                  className="w-full" 
+                  onClick={() => setOrderStep('details')}
+                >
+                  Back to Details
+                </Button>
+              </CardFooter>
+            </Card>
+          ) : null}
+        </div>
+        
+        <div>
+          <OrderSummary cartItems={cartItems} />
         </div>
       </div>
-    </Layout>
+    </div>
   );
 }
