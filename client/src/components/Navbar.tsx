@@ -41,18 +41,20 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center py-4">
           <div className="flex items-center">
-            <Link href="/">
-              <a className="font-heading text-2xl font-bold text-primary">Savoria</a>
+            <Link href="/" className="font-heading text-2xl font-bold text-primary">
+              Savoria
             </Link>
           </div>
           
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8">
             {navLinks.map((link) => (
-              <Link key={link.href} href={link.href}>
-                <a className={`nav-link font-medium ${location === link.href ? 'text-primary' : ''}`}>
-                  {link.label}
-                </a>
+              <Link 
+                key={link.href} 
+                href={link.href} 
+                className={`nav-link font-medium ${location === link.href ? 'text-primary' : ''}`}
+              >
+                {link.label}
               </Link>
             ))}
           </nav>
@@ -77,7 +79,7 @@ const Navbar = () => {
               asChild
             >
               <Link href="/menu">
-                <a>Order Now</a>
+                Order Now
               </Link>
             </Button>
             
@@ -96,13 +98,13 @@ const Navbar = () => {
         {mobileMenuOpen && (
           <div className="md:hidden pb-4">
             {navLinks.map((link) => (
-              <Link key={link.href} href={link.href}>
-                <a 
-                  className="block py-2 border-b border-gray-200"
-                  onClick={closeMenus}
-                >
-                  {link.label}
-                </a>
+              <Link 
+                key={link.href} 
+                href={link.href} 
+                className="block py-2 border-b border-gray-200"
+                onClick={closeMenus}
+              >
+                {link.label}
               </Link>
             ))}
             <div className="pt-3">
@@ -112,7 +114,7 @@ const Navbar = () => {
                 asChild
               >
                 <Link href="/menu">
-                  <a>Order Now</a>
+                  Order Now
                 </Link>
               </Button>
             </div>
@@ -123,7 +125,7 @@ const Navbar = () => {
       {/* Cart Dropdown */}
       {cartOpen && <Cart onClose={() => setCartOpen(false)} />}
 
-      <style jsx>{`
+      <style>{`
         .nav-link {
           position: relative;
         }

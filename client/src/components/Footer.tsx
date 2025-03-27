@@ -39,18 +39,18 @@ const Footer = () => {
               Experience the art of fine dining with our exquisite dishes prepared by world-class chefs.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-white hover:text-primary transition">
+              <button className="text-white hover:text-primary transition" aria-label="Facebook">
                 <Facebook />
-              </a>
-              <a href="#" className="text-white hover:text-primary transition">
+              </button>
+              <button className="text-white hover:text-primary transition" aria-label="Instagram">
                 <Instagram />
-              </a>
-              <a href="#" className="text-white hover:text-primary transition">
+              </button>
+              <button className="text-white hover:text-primary transition" aria-label="Twitter">
                 <Twitter />
-              </a>
-              <a href="#" className="text-white hover:text-primary transition">
+              </button>
+              <button className="text-white hover:text-primary transition" aria-label="Mail">
                 <Mail />
-              </a>
+              </button>
             </div>
           </div>
           
@@ -58,28 +58,28 @@ const Footer = () => {
             <h4 className="text-xl font-bold mb-4">Quick Links</h4>
             <ul className="space-y-2">
               <li>
-                <Link href="/">
-                  <a className="text-gray-300 hover:text-white transition">Home</a>
+                <Link href="/" className="text-gray-300 hover:text-white transition">
+                  Home
                 </Link>
               </li>
               <li>
-                <Link href="/menu">
-                  <a className="text-gray-300 hover:text-white transition">Menu</a>
+                <Link href="/menu" className="text-gray-300 hover:text-white transition">
+                  Menu
                 </Link>
               </li>
               <li>
-                <Link href="/reservation">
-                  <a className="text-gray-300 hover:text-white transition">Reservation</a>
+                <Link href="/reservation" className="text-gray-300 hover:text-white transition">
+                  Reservation
                 </Link>
               </li>
               <li>
-                <Link href="/reviews">
-                  <a className="text-gray-300 hover:text-white transition">Reviews</a>
+                <Link href="/reviews" className="text-gray-300 hover:text-white transition">
+                  Reviews
                 </Link>
               </li>
               <li>
-                <Link href="/contact">
-                  <a className="text-gray-300 hover:text-white transition">Contact</a>
+                <Link href="/contact" className="text-gray-300 hover:text-white transition">
+                  Contact
                 </Link>
               </li>
             </ul>
