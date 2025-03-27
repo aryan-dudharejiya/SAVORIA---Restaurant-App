@@ -30,15 +30,47 @@ function OrderStatusProgressBar({ status }: { status: string }) {
   };
   
   const getStatusIcon = (status: string, isActive: boolean) => {
-    const className = `h-6 w-6 ${isActive ? "text-primary" : "text-muted-foreground"}`;
+    const fillClass = isActive ? "text-primary" : "text-muted-foreground";
+    const className = `h-8 w-8 ${fillClass}`;
+    const animationClass = isActive && status === "out_for_delivery" ? "animate-bounce" : "";
     
     switch (status) {
-      case "pending": return <Clock className={className} />;
-      case "confirmed": return <Check className={className} />;
-      case "preparing": return <ChefHat className={className} />;
-      case "out_for_delivery": return <Truck className={className} />;
-      case "delivered": return <Package className={className} />;
-      default: return <Clock className={className} />;
+      case "pending": 
+        return (
+          <div className={`${animationClass} rounded-full bg-gray-100 p-2 shadow-sm`}>
+            <Clock className={className} />
+          </div>
+        );
+      case "confirmed": 
+        return (
+          <div className={`${animationClass} rounded-full bg-green-100 p-2 shadow-sm`}>
+            <Check className={`${className} ${isActive ? "text-green-600" : ""}`} />
+          </div>
+        );
+      case "preparing": 
+        return (
+          <div className={`${animationClass} rounded-full bg-yellow-100 p-2 shadow-sm`}>
+            <ChefHat className={`${className} ${isActive ? "text-yellow-600" : ""}`} />
+          </div>
+        );
+      case "out_for_delivery": 
+        return (
+          <div className={`${animationClass} rounded-full bg-blue-100 p-2 shadow-sm`}>
+            <Truck className={`${className} ${isActive ? "text-blue-600" : ""}`} />
+          </div>
+        );
+      case "delivered": 
+        return (
+          <div className={`${animationClass} rounded-full bg-primary/10 p-2 shadow-sm`}>
+            <Package className={className} />
+          </div>
+        );
+      default: 
+        return (
+          <div className={`${animationClass} rounded-full bg-gray-100 p-2 shadow-sm`}>
+            <Clock className={className} />
+          </div>
+        );
     }
   };
   
@@ -301,9 +333,10 @@ function TrackOrderForm() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
         <div className="hidden md:block">
           <img 
-            src="https://images.unsplash.com/photo-1594608661623-aa0bd3a69799?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=600&h=800" 
+            src="https://images.unsplash.com/photo-1629412439621-62c84c9dfc9a?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=800&h=1000" 
             alt="Order Tracking" 
             className="w-full h-auto rounded-lg shadow-lg object-cover"
+            loading="lazy"
           />
         </div>
         

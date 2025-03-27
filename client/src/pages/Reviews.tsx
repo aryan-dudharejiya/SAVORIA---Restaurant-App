@@ -81,9 +81,10 @@ const Reviews = () => {
                   <div key={review.id} className="bg-gray-100 p-6 rounded-lg shadow transition-all hover:shadow-md">
                     <div className="flex items-center mb-4">
                       <img 
-                        src={review.avatar} 
+                        src={review.avatar || `https://randomuser.me/api/portraits/${review.id % 2 === 0 ? 'women' : 'men'}/${review.id % 70}.jpg`}
                         alt={review.name} 
-                        className="w-12 h-12 rounded-full object-cover"
+                        className="w-12 h-12 rounded-full object-cover shadow-md border-2 border-white"
+                        loading="lazy"
                       />
                       <div className="ml-4">
                         <h4 className="font-bold">{review.name}</h4>

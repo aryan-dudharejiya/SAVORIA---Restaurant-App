@@ -64,7 +64,7 @@ const Home = () => {
         <div 
           className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${isImagesLoaded ? 'opacity-100' : 'opacity-0'}`}
           style={{ 
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&h=900&q=80')` 
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&h=1200&q=80')` 
           }}
         ></div>
         {/* Animated overlay for text */}
@@ -130,7 +130,7 @@ const Home = () => {
               <div 
                 className="md:w-1/2 bg-cover bg-center h-64 md:h-auto"
                 style={{ 
-                  backgroundImage: `url('https://images.unsplash.com/photo-1544148103-0773bf10d330?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=500&q=80')` 
+                  backgroundImage: `url('https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=500&q=85')` 
                 }}
               ></div>
             </div>
@@ -325,9 +325,10 @@ const Home = () => {
                       <div className="flex items-center mb-4">
                         <div className="w-12 h-12 rounded-full bg-gray-200 overflow-hidden">
                           <img 
-                            src={`https://i.pravatar.cc/150?u=${review.id}`}
+                            src={`https://randomuser.me/api/portraits/${review.id % 2 === 0 ? 'women' : 'men'}/${review.id % 70}.jpg`}
                             alt={review.name}
                             className="w-full h-full object-cover"
+                            loading="lazy"
                           />
                         </div>
                         <div className="ml-4">

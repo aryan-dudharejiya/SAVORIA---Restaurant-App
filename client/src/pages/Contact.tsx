@@ -66,6 +66,25 @@ const Contact = () => {
   return (
     <section id="contact" className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+          <div className="overflow-hidden rounded-lg shadow-lg">
+            <img 
+              src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+              alt="Restaurant Exterior" 
+              className="w-full h-72 object-cover transition-transform duration-700 hover:scale-105"
+              loading="lazy"
+            />
+          </div>
+          <div className="overflow-hidden rounded-lg shadow-lg">
+            <img 
+              src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+              alt="Restaurant Interior" 
+              className="w-full h-72 object-cover transition-transform duration-700 hover:scale-105"
+              loading="lazy"
+            />
+          </div>
+        </div>
+        
         <div className="text-center mb-12">
           <p className="font-accent text-primary text-3xl">Get in Touch</p>
           <h2 className="font-heading text-4xl font-bold mt-2 mb-4">Contact Us</h2>
