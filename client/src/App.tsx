@@ -1,7 +1,7 @@
 import { Switch, Route } from "wouter";
 import { Toaster } from "@/components/ui/toaster";
 import Layout from "./components/Layout";
-import NewHome from "./pages/NewHome";
+import Home2 from "./pages/Home2";
 import Menu from "./pages/Menu";
 import Reservation from "./pages/Reservation";
 import Reviews from "./pages/Reviews";
@@ -15,7 +15,7 @@ import { CartProvider } from "./contexts/CartContext";
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={NewHome} />
+      <Route path="/" component={Home2} />
       <Route path="/menu" component={Menu} />
       <Route path="/reservation" component={Reservation} />
       <Route path="/reviews" component={Reviews} />
