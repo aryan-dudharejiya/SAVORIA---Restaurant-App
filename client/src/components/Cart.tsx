@@ -106,44 +106,21 @@ const Cart = ({ onClose }: CartProps) => {
     }
   };
 
-  const backdropVariants = {
-    hidden: { opacity: 0 },
-    visible: { 
-      opacity: 1,
-      transition: { 
-        duration: 0.2 
-      }
-    },
-    exit: { 
-      opacity: 0,
-      transition: { 
-        delay: 0.1,
-        duration: 0.2 
-      }
-    }
-  };
-
   return (
-    <motion.div 
-      className="fixed inset-0 z-50 flex justify-end overflow-hidden"
-      initial="hidden"
-      animate="visible"
-      exit="exit"
-      variants={backdropVariants}
-    >
+    <div className="fixed inset-0 z-[100] flex justify-end overflow-hidden">
       {/* Backdrop */}
-      <motion.div 
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+      <div 
+        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
         onClick={onClose}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
       />
       
       {/* Cart Panel */}
       <motion.div 
-        className="relative w-full sm:w-[450px] h-full bg-white shadow-2xl flex flex-col"
+        className="relative z-10 w-full sm:w-[450px] h-full bg-white shadow-2xl flex flex-col"
         variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -435,7 +412,7 @@ const Cart = ({ onClose }: CartProps) => {
           </>
         )}
       </motion.div>
-    </motion.div>
+    </div>
   );
 };
 

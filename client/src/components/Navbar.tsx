@@ -134,8 +134,10 @@ const Navbar = () => {
             
             {/* Cart Button */}
             <button 
-              className={`relative transition-colors duration-300 ${
-                scrolled ? 'text-gray-800 hover:text-primary' : 'text-white hover:text-primary/90'
+              className={`relative flex items-center justify-center p-2.5 rounded-full transition-all duration-300 ${
+                scrolled 
+                  ? 'bg-white hover:bg-primary/10 text-primary shadow-md border border-gray-100' 
+                  : 'bg-white/20 hover:bg-white/30 text-white backdrop-blur-sm'
               }`}
               onClick={() => setCartOpen(!cartOpen)}
               aria-label="Shopping cart"
@@ -147,6 +149,7 @@ const Navbar = () => {
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     exit={{ scale: 0 }}
+                    transition={{ type: "spring", stiffness: 500, damping: 25 }}
                     className="absolute -top-2 -right-2 bg-primary text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow-md"
                   >
                     {totalItems}
