@@ -1,0 +1,40 @@
+import { Switch, Route } from "wouter";
+import { queryClient } from "./lib/queryClient";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "@/components/ui/toaster";
+import Layout from "./components/Layout";
+import Home from "./pages/Home";
+import Menu from "./pages/Menu";
+import Reservation from "./pages/Reservation";
+import Reviews from "./pages/Reviews";
+import Contact from "./pages/Contact";
+import NotFound from "@/pages/not-found";
+import { CartProvider } from "./contexts/CartContext";
+
+function Router() {
+  return (
+    <Switch>
+      <Route path="/" component={Home} />
+      <Route path="/menu" component={Menu} />
+      <Route path="/reservation" component={Reservation} />
+      <Route path="/reviews" component={Reviews} />
+      <Route path="/contact" component={Contact} />
+      <Route component={NotFound} />
+    </Switch>
+  );
+}
+
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <CartProvider>
+        <Layout>
+          <Router />
+        </Layout>
+        <Toaster />
+      </CartProvider>
+    </QueryClientProvider>
+  );
+}
+
+export default App;
