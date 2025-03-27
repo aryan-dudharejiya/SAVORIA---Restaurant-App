@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useCart } from "../contexts/CartContext";
 import Cart from "./Cart";
 import { motion, AnimatePresence } from "framer-motion";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -14,9 +15,26 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
+  const isMobile = useIsMobile();
+  
+  // Determine if current page has a dark background (home page only)
+  const isHomePage = location === "/";
+  
+  // Default to "scrolled" look on non-home pages
+  useEffect(() => {
+    if (!isHomePage) {
+      setScrolled(true);
+    } else {
+      // Check initial scroll position
+      setScrolled(window.scrollY > 20);
+    }
+  }, [isHomePage]);
 
   // Handle scroll event to change navbar appearance and hide on scroll down
   useEffect(() => {
+    // Only apply scroll behavior on home page
+    if (!isHomePage) return;
+    
     const handleScroll = () => {
       const currentScrollPos = window.scrollY;
       
@@ -32,7 +50,7 @@ const Navbar = () => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [prevScrollPos]);
+  }, [prevScrollPos, isHomePage]);
 
   const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
