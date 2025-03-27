@@ -1,8 +1,15 @@
-import type { Express } from "express";
+import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertReservationSchema, insertContactMessageSchema } from "@shared/schema";
+import { 
+  insertReservationSchema, 
+  insertContactMessageSchema, 
+  insertOrderSchema,
+  checkoutFormSchema,
+  Order
+} from "@shared/schema";
 import { fromZodError } from "zod-validation-error";
+import Stripe from "stripe";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // API routes - prefix with /api

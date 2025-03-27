@@ -2,8 +2,10 @@ import {
   MenuItem, InsertMenuItem, 
   Reservation, InsertReservation,
   ContactMessage, InsertContactMessage,
-  Review, InsertReview
+  Review, InsertReview,
+  Order, InsertOrder, CartItem
 } from "@shared/schema";
+import crypto from 'crypto';
 
 export interface IStorage {
   // Menu Items
@@ -25,6 +27,14 @@ export interface IStorage {
   getReviews(): Promise<Review[]>;
   getReview(id: number): Promise<Review | undefined>;
   createReview(review: InsertReview): Promise<Review>;
+  
+  // Orders
+  getOrders(): Promise<Order[]>;
+  getOrder(id: number): Promise<Order | undefined>;
+  getOrderByTrackingId(trackingId: string): Promise<Order | undefined>;
+  createOrder(order: InsertOrder): Promise<Order>;
+  updateOrder(id: number, updates: Partial<Order>): Promise<Order | undefined>;
+  getOrdersByPhoneNumber(phoneNumber: string): Promise<Order[]>;
 }
 
 export class MemStorage implements IStorage {
@@ -32,22 +42,26 @@ export class MemStorage implements IStorage {
   private reservations: Map<number, Reservation>;
   private contactMessages: Map<number, ContactMessage>;
   private reviews: Map<number, Review>;
+  private orders: Map<number, Order>;
   
   private menuItemId: number;
   private reservationId: number;
   private contactMessageId: number;
   private reviewId: number;
+  private orderId: number;
   
   constructor() {
     this.menuItems = new Map();
     this.reservations = new Map();
     this.contactMessages = new Map();
     this.reviews = new Map();
+    this.orders = new Map();
     
     this.menuItemId = 1;
     this.reservationId = 1;
     this.contactMessageId = 1;
     this.reviewId = 1;
+    this.orderId = 1;
     
     // Initialize with sample menu items
     this.initializeMenuItems();
@@ -124,6 +138,81 @@ export class MemStorage implements IStorage {
     const review: Review = { ...reviewData, id };
     this.reviews.set(id, review);
     return review;
+  }
+  
+  // Orders
+  async getOrders(): Promise<Order[]> {
+    return Array.from(this.orders.values());
+  }
+  
+  async getOrder(id: number): Promise<Order | undefined> {
+    return this.orders.get(id);
+  }
+  
+  async getOrderByTrackingId(trackingId: string): Promise<Order | undefined> {
+    return Array.from(this.orders.values()).find(
+      order => order.trackingId === trackingId
+    );
+  }
+  
+  async getOrdersByPhoneNumber(phoneNumber: string): Promise<Order[]> {
+    return Array.from(this.orders.values()).filter(
+      order => order.phoneNumber === phoneNumber
+    );
+  }
+  
+  async createOrder(orderData: InsertOrder): Promise<Order> {
+    const id = this.orderId++;
+    const createdAt = new Date();
+    const updatedAt = new Date();
+    
+    // Generate tracking ID if not provided
+    const trackingId = orderData.trackingId || this.generateTrackingId();
+    
+    // Calculate estimated delivery time (30-45 minutes from now)
+    const randomMinutes = Math.floor(Math.random() * 15) + 30; // Random between 30-45
+    const deliveryDate = new Date();
+    deliveryDate.setMinutes(deliveryDate.getMinutes() + randomMinutes);
+    
+    const estimatedDeliveryTime = orderData.estimatedDeliveryTime || 
+      `${deliveryDate.getHours()}:${String(deliveryDate.getMinutes()).padStart(2, '0')}`;
+    
+    const order: Order = {
+      ...orderData,
+      id,
+      trackingId,
+      estimatedDeliveryTime,
+      createdAt,
+      updatedAt
+    };
+    
+    this.orders.set(id, order);
+    
+    return order;
+  }
+  
+  async updateOrder(id: number, updates: Partial<Order>): Promise<Order | undefined> {
+    const order = this.orders.get(id);
+    
+    if (!order) {
+      return undefined;
+    }
+    
+    const updatedOrder = {
+      ...order,
+      ...updates,
+      updatedAt: new Date()
+    };
+    
+    this.orders.set(id, updatedOrder);
+    
+    return updatedOrder;
+  }
+  
+  private generateTrackingId(): string {
+    // Generate a unique tracking ID (e.g., SAV-1234-ABCD)
+    const randomPart = crypto.randomBytes(2).toString('hex').toUpperCase();
+    return `SAV-${this.orderId}-${randomPart}`;
   }
   
   // Initialize sample data
