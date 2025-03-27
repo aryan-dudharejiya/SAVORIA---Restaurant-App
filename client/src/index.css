@@ -22,3 +22,56 @@
     font-style: italic;
   }
 }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scrollDown {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Image lazy loading effect */
+img.lazy-load {
+  @apply opacity-0 transition-opacity duration-500;
+}
+
+img.lazy-load.loaded {
+  @apply opacity-100;
+}
+
+/* Menu item card hover effect */
+.menu-card {
+  @apply transition-all duration-300;
+}
+
+.menu-card:hover {
+  @apply shadow-xl -translate-y-1;
+}
+
+/* Carousel styling */
+.carousel-item {
+  @apply transition-all duration-300 opacity-90;
+}
+
+.carousel-item.active {
+  @apply opacity-100 scale-105;
+}

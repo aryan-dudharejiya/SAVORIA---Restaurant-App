@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams, useLocation } from "wouter";
 import { apiRequest } from "@/lib/queryClient";
@@ -7,7 +7,11 @@ import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2, Check, Clock, Truck, Package, ChefHat, Search } from "lucide-react";
+import { 
+  Loader2, Check, Clock, Truck, Package, ChefHat, Search, 
+  MapPin, Utensils, CreditCard, ArrowRight, Coffee 
+} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { type Order } from "@shared/schema";
 
 function OrderStatusProgressBar({ status }: { status: string }) {
@@ -73,52 +77,146 @@ function OrderDetails({ order }: { order: Order }) {
   const orderTime = order.createdAt ? new Date(order.createdAt).toLocaleTimeString() : 'Unknown time';
   const items = Array.isArray(order.items) ? order.items : [];
   
+  // Status badge color
+  const getStatusBadgeColor = (status: string) => {
+    switch (status) {
+      case "pending": return "bg-yellow-100 text-yellow-800";
+      case "confirmed": return "bg-blue-100 text-blue-800";
+      case "preparing": return "bg-indigo-100 text-indigo-800";
+      case "out_for_delivery": return "bg-purple-100 text-purple-800";
+      case "delivered": return "bg-green-100 text-green-800";
+      default: return "bg-gray-100 text-gray-800";
+    }
+  };
+  
+  // Payment badge color
+  const getPaymentBadgeColor = (status: string) => {
+    switch (status) {
+      case "paid": return "bg-green-100 text-green-800";
+      case "pending": return "bg-yellow-100 text-yellow-800";
+      case "failed": return "bg-red-100 text-red-800";
+      default: return "bg-gray-100 text-gray-800";
+    }
+  };
+  
+  // Calculate estimated delivery time if not provided
+  const defaultDeliveryTime = () => {
+    const now = new Date();
+    const hours = now.getHours() + 1;
+    const minutes = now.getMinutes();
+    return `${hours % 12 || 12}:${minutes < 10 ? '0' + minutes : minutes} ${hours >= 12 ? 'PM' : 'AM'}`;
+  };
+  
+  const estimatedDelivery = order.estimatedDeliveryTime || defaultDeliveryTime();
+  
   return (
     <Card className="w-full">
-      <CardHeader>
-        <CardTitle>Order #{order.trackingId}</CardTitle>
-        <CardDescription>Placed on {orderDate} at {orderTime}</CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <OrderStatusProgressBar status={order.status} />
-        
-        <div className="space-y-4 mt-6">
+      <CardHeader className="border-b">
+        <div className="flex justify-between items-center">
           <div>
-            <h3 className="font-medium text-sm text-muted-foreground">Delivery Details</h3>
-            <p className="font-medium">{order.fullName}</p>
-            <p>{order.phoneNumber}</p>
-            <p className="whitespace-pre-line">{order.deliveryAddress}</p>
+            <CardTitle className="flex items-center gap-2">
+              Order #{order.trackingId} 
+              <Badge className={getStatusBadgeColor(order.status)}>
+                {order.status === "out_for_delivery" ? "Out for Delivery" : order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+              </Badge>
+            </CardTitle>
+            <CardDescription>Placed on {orderDate} at {orderTime}</CardDescription>
           </div>
-          
-          <div>
-            <h3 className="font-medium text-sm text-muted-foreground">Order Items</h3>
-            <div className="space-y-2 mt-2 max-h-60 overflow-y-auto">
-              {items.map((item: any, index: number) => (
-                <div key={index} className="flex justify-between">
-                  <span>{item.name} × {item.quantity}</span>
-                  <span>${(item.price * item.quantity).toFixed(2)}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-          
-          <div className="flex justify-between font-bold pt-2 border-t">
-            <span>Total:</span>
-            <span>${parseFloat(order.totalAmount).toFixed(2)}</span>
-          </div>
-          
-          <div>
-            <h3 className="font-medium text-sm text-muted-foreground">Payment Method</h3>
-            <p className="capitalize">{order.paymentMethod}</p>
-            <p className="text-xs text-muted-foreground capitalize">Status: {order.paymentStatus}</p>
-          </div>
-          
-          {order.estimatedDeliveryTime && (
-            <div>
-              <h3 className="font-medium text-sm text-muted-foreground">Estimated Delivery</h3>
-              <p>Today, approximately by {order.estimatedDeliveryTime}</p>
+          {order.status === "out_for_delivery" && (
+            <div className="bg-primary/10 text-primary rounded-lg p-3 flex flex-col items-center">
+              <Clock className="h-6 w-6" />
+              <span className="text-xs font-medium mt-1">Arriving Soon</span>
             </div>
           )}
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-6 pt-6">
+        <OrderStatusProgressBar status={order.status} />
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+          <div className="space-y-4">
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <div className="flex items-center gap-2 mb-2">
+                <MapPin className="h-4 w-4 text-primary" />
+                <h3 className="font-medium text-sm">Delivery Details</h3>
+              </div>
+              <p className="font-medium">{order.fullName}</p>
+              <p>{order.phoneNumber}</p>
+              <p className="whitespace-pre-line">{order.deliveryAddress}</p>
+            </div>
+            
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <div className="flex items-center gap-2 mb-2">
+                <CreditCard className="h-4 w-4 text-primary" />
+                <h3 className="font-medium text-sm">Payment Information</h3>
+              </div>
+              <div className="flex items-center justify-between">
+                <p className="capitalize flex items-center">
+                  {order.paymentMethod === "card" ? (
+                    <CreditCard className="h-4 w-4 mr-1 inline" />
+                  ) : (
+                    <Coffee className="h-4 w-4 mr-1 inline" />
+                  )}
+                  {order.paymentMethod}
+                </p>
+                <Badge className={getPaymentBadgeColor(order.paymentStatus)}>
+                  {order.paymentStatus}
+                </Badge>
+              </div>
+            </div>
+            
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <div className="flex items-center gap-2 mb-2">
+                <Truck className="h-4 w-4 text-primary" />
+                <h3 className="font-medium text-sm">Delivery Information</h3>
+              </div>
+              <div className="flex justify-between items-center">
+                <p>Estimated Time:</p>
+                <p className="font-medium">{estimatedDelivery}</p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="space-y-4">
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <div className="flex items-center gap-2 mb-3">
+                <Utensils className="h-4 w-4 text-primary" />
+                <h3 className="font-medium text-sm">Order Items</h3>
+              </div>
+              <div className="space-y-3 max-h-60 overflow-y-auto pr-1">
+                {items.map((item: any, index: number) => (
+                  <div key={index} className="flex justify-between items-center border-b pb-2">
+                    <div className="flex items-center">
+                      <span className="w-5 h-5 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs mr-2">
+                        {item.quantity}
+                      </span>
+                      <span>{item.name}</span>
+                    </div>
+                    <span className="font-medium">${(item.price * item.quantity).toFixed(2)}</span>
+                  </div>
+                ))}
+              </div>
+              
+              <div className="mt-4 pt-2 border-t">
+                <div className="flex justify-between items-center text-sm">
+                  <span>Subtotal</span>
+                  <span>${parseFloat(order.totalAmount).toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between items-center text-sm mt-1">
+                  <span>Delivery Fee</span>
+                  <span>$0.00</span>
+                </div>
+                <div className="flex justify-between items-center font-bold mt-2 pt-2 border-t text-primary">
+                  <span>Total</span>
+                  <span>${parseFloat(order.totalAmount).toFixed(2)}</span>
+                </div>
+              </div>
+            </div>
+            
+            <Button className="w-full" variant="outline">
+              <MapPin className="mr-2 h-4 w-4" /> Track Delivery
+            </Button>
+          </div>
         </div>
       </CardContent>
     </Card>
@@ -173,6 +271,7 @@ function OrderTracker() {
 
 function TrackOrderForm() {
   const [trackingId, setTrackingId] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [, navigate] = useLocation();
   const { toast } = useToast();
   
@@ -188,38 +287,109 @@ function TrackOrderForm() {
       return;
     }
     
-    navigate(`/track-order/${trackingId}`);
+    setIsSubmitting(true);
+    
+    // Simulate a small delay to show loading state
+    setTimeout(() => {
+      navigate(`/track-order/${trackingId}`);
+      setIsSubmitting(false);
+    }, 500);
   };
   
   return (
-    <Card className="w-full max-w-md mx-auto">
-      <CardHeader>
-        <CardTitle>Track Your Order</CardTitle>
-        <CardDescription>Enter your order tracking ID below</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="flex flex-col space-y-2">
-            <label htmlFor="trackingId" className="text-sm font-medium">
-              Tracking ID
-            </label>
-            <div className="flex gap-2">
-              <Input
-                id="trackingId"
-                placeholder="e.g. SAV-1234-ABC"
-                value={trackingId}
-                onChange={(e) => setTrackingId(e.target.value)}
-                className="flex-1"
-              />
-              <Button type="submit">Track</Button>
+    <div className="max-w-4xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <div className="hidden md:block">
+          <img 
+            src="https://images.unsplash.com/photo-1594608661623-aa0bd3a69799?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=600&h=800" 
+            alt="Order Tracking" 
+            className="w-full h-auto rounded-lg shadow-lg object-cover"
+          />
+        </div>
+        
+        <Card className="w-full shadow-lg border-0">
+          <CardHeader className="text-center border-b pb-6">
+            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Package className="h-8 w-8 text-primary" />
             </div>
+            <CardTitle className="text-2xl">Track Your Order</CardTitle>
+            <CardDescription>Enter your order tracking ID to check delivery status</CardDescription>
+          </CardHeader>
+          <CardContent className="pt-6">
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="flex flex-col space-y-2">
+                <div className="flex items-center gap-2 mb-1">
+                  <Search className="h-4 w-4 text-muted-foreground" />
+                  <label htmlFor="trackingId" className="text-sm font-medium">
+                    Tracking ID
+                  </label>
+                </div>
+                <Input
+                  id="trackingId"
+                  placeholder="e.g. SAV-1234-ABC"
+                  value={trackingId}
+                  onChange={(e) => setTrackingId(e.target.value)}
+                  className="flex-1 h-12"
+                />
+              </div>
+              
+              <Button 
+                type="submit" 
+                className="w-full h-12 mt-4" 
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Locating your order...
+                  </>
+                ) : (
+                  <>
+                    Track Order <ArrowRight className="ml-2 h-4 w-4" />
+                  </>
+                )}
+              </Button>
+            </form>
+            
+            <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+              <div className="flex items-start">
+                <Clock className="h-5 w-5 text-amber-500 mt-0.5 mr-2 flex-shrink-0" />
+                <p className="text-sm text-amber-800">
+                  The tracking ID can be found in your order confirmation email or SMS. 
+                  If you've lost your tracking ID, you can also check your order history in <a href="/my-orders" className="underline font-medium">My Orders</a>.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+      
+      <div className="mt-12 pt-8 border-t grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+        <div className="flex flex-col items-center">
+          <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-3">
+            <Package className="h-6 w-6 text-primary" />
           </div>
-        </form>
-      </CardContent>
-      <CardFooter className="text-sm text-muted-foreground">
-        <p>The tracking ID can be found in your order confirmation email or SMS.</p>
-      </CardFooter>
-    </Card>
+          <h3 className="font-medium mb-2">Real-time Tracking</h3>
+          <p className="text-sm text-muted-foreground">Track your order's status in real-time with accurate updates</p>
+        </div>
+        
+        <div className="flex flex-col items-center">
+          <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-3">
+            <Truck className="h-6 w-6 text-primary" />
+          </div>
+          <h3 className="font-medium mb-2">Delivery Alerts</h3>
+          <p className="text-sm text-muted-foreground">Receive notifications as your order progresses through each stage</p>
+        </div>
+        
+        <div className="flex flex-col items-center">
+          <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-3">
+            <MapPin className="h-6 w-6 text-primary" />
+          </div>
+          <h3 className="font-medium mb-2">Location Updates</h3>
+          <p className="text-sm text-muted-foreground">Know exactly where your delivery is and when it will arrive</p>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -228,12 +398,13 @@ export default function TrackOrder() {
   const trackingId = params?.trackingId;
   
   return (
-    <div className="container mx-auto py-8 px-4">
-      <h1 className="text-3xl font-bold mb-8 text-center">Track Order</h1>
+    <div className="container mx-auto py-12 px-4">
+      <h1 className="text-4xl font-bold mb-4 text-center font-heading">Track Your Order</h1>
+      <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
+        Stay updated with your order's journey from our kitchen to your doorstep
+      </p>
       
-      <div className="max-w-3xl mx-auto">
-        {trackingId ? <OrderTracker /> : <TrackOrderForm />}
-      </div>
+      {trackingId ? <OrderTracker /> : <TrackOrderForm />}
     </div>
   );
 }
