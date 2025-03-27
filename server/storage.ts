@@ -166,8 +166,8 @@ export class MemStorage implements IStorage {
     const createdAt = new Date();
     const updatedAt = new Date();
     
-    // Generate tracking ID if not provided
-    const trackingId = orderData.trackingId || this.generateTrackingId();
+    // Always generate a tracking ID regardless of whether one was provided
+    const trackingId = this.generateTrackingId();
     
     // Calculate estimated delivery time (30-45 minutes from now)
     const randomMinutes = Math.floor(Math.random() * 15) + 30; // Random between 30-45
@@ -203,6 +203,7 @@ export class MemStorage implements IStorage {
     };
     
     this.orders.set(id, order);
+    console.log(`Created new order with tracking ID: ${trackingId}`);
     
     return order;
   }

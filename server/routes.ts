@@ -124,6 +124,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Create a new order
   app.post("/api/orders", async (req, res) => {
     try {
+      // Validate the incoming order data using our schema
       const validationResult = insertOrderSchema.safeParse(req.body);
       
       if (!validationResult.success) {
@@ -131,9 +132,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: errorMessage });
       }
       
+      // The createOrder method in storage will generate the trackingId
       const order = await storage.createOrder(validationResult.data);
       res.status(201).json(order);
     } catch (error) {
+      console.error("Order creation error:", error);
       res.status(500).json({ message: "Failed to create order" });
     }
   });
