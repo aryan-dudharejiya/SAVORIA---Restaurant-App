@@ -177,9 +177,25 @@ export class MemStorage implements IStorage {
     const estimatedDeliveryTime = orderData.estimatedDeliveryTime || 
       `${deliveryDate.getHours()}:${String(deliveryDate.getMinutes()).padStart(2, '0')}`;
     
+    // Ensure notes is never undefined
+    const notes = orderData.notes ?? '';
+    
+    // Ensure required fields have default values
+    const status = orderData.status || 'pending';
+    const paymentStatus = orderData.paymentStatus || 'pending';
+    const paymentMethod = orderData.paymentMethod || 'cod';
+    
+    // Make sure we have a valid totalAmount
+    const totalAmount = orderData.totalAmount || '0';
+    
     const order: Order = {
       ...orderData,
       id,
+      notes,
+      status,
+      paymentStatus,
+      paymentMethod,
+      totalAmount,
       trackingId,
       estimatedDeliveryTime,
       createdAt,

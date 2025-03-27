@@ -30,6 +30,8 @@ const Navbar = () => {
     { href: "/", label: "Home" },
     { href: "/menu", label: "Menu" },
     { href: "/reservation", label: "Reservation" },
+    { href: "/track-order", label: "Track Order" },
+    { href: "/my-orders", label: "My Orders" },
     { href: "/reviews", label: "Reviews" },
     { href: "/contact", label: "Contact" }
   ];

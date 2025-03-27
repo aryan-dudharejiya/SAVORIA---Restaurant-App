@@ -2,14 +2,16 @@ import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "../contexts/CartContext";
 import { useToast } from "@/hooks/use-toast";
+import { useLocation } from "wouter";
 
 interface CartProps {
   onClose: () => void;
 }
 
 const Cart = ({ onClose }: CartProps) => {
-  const { cartItems, removeFromCart, clearCart } = useCart();
+  const { cartItems, removeFromCart } = useCart();
   const { toast } = useToast();
+  const [, navigate] = useLocation();
 
   const totalPrice = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
@@ -26,11 +28,8 @@ const Cart = ({ onClose }: CartProps) => {
       return;
     }
 
-    toast({
-      title: "Order placed successfully!",
-      description: "Thank you for your order. It will be ready soon.",
-    });
-    clearCart();
+    // Navigate to checkout page
+    navigate('/checkout');
     onClose();
   };
 

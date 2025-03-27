@@ -1,0 +1,435 @@
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useLocation } from "wouter";
+import { useState, useEffect } from "react";
+import { useCart } from "@/contexts/CartContext";
+import { checkoutFormSchema, type CartItem, type CheckoutFormData } from "@shared/schema";
+import { apiRequest } from "@/lib/queryClient";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { useToast } from "@/hooks/use-toast";
+import Layout from "@/components/Layout";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Loader2 } from "lucide-react";
+
+// Load Stripe outside of component to avoid recreating it on every render
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
+
+function OrderSummary({ cartItems }: { cartItems: CartItem[] }) {
+  const totalAmount = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+  
+  return (
+    <Card className="w-full">
+      <CardHeader>
+        <CardTitle>Order Summary</CardTitle>
+        <CardDescription>Review your order details</CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="max-h-64 overflow-y-auto">
+          {cartItems.map((item) => (
+            <div key={item.id} className="flex justify-between items-center py-2 border-b">
+              <div>
+                <p className="font-medium">{item.name}</p>
+                <p className="text-sm text-muted-foreground">Qty: {item.quantity}</p>
+              </div>
+              <p className="font-medium">${(item.price * item.quantity).toFixed(2)}</p>
+            </div>
+          ))}
+        </div>
+        
+        <div className="flex justify-between items-center font-bold text-lg pt-4">
+          <span>Total:</span>
+          <span>${totalAmount.toFixed(2)}</span>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function PaymentForm({ 
+  clientSecret, 
+  onPaymentSuccess 
+}: { 
+  clientSecret: string; 
+  onPaymentSuccess: () => void 
+}) {
+  const stripe = useStripe();
+  const elements = useElements();
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!stripe || !elements) {
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const { error } = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          return_url: window.location.origin,
+        },
+        redirect: 'if_required',
+      });
+
+      if (error) {
+        toast({
+          title: "Payment Failed",
+          description: error.message || "An error occurred during payment processing.",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Payment Successful",
+          description: "Your payment has been processed successfully!",
+        });
+        onPaymentSuccess();
+      }
+    } catch (error: any) {
+      toast({
+        title: "Payment Error",
+        description: error.message || "An unexpected error occurred.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <PaymentElement />
+      <Button 
+        type="submit" 
+        disabled={!stripe || !elements || isLoading} 
+        className="w-full"
+      >
+        {isLoading ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Processing...
+          </>
+        ) : (
+          'Pay Now'
+        )}
+      </Button>
+    </form>
+  );
+}
+
+export default function Checkout() {
+  const { cartItems, clearCart } = useCart();
+  const [, navigate] = useLocation();
+  const [paymentMethod, setPaymentMethod] = useState<'cod' | 'upi'>('cod');
+  const [orderStep, setOrderStep] = useState<'details' | 'payment' | 'confirmation'>('details');
+  const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [orderId, setOrderId] = useState<string | null>(null);
+  const { toast } = useToast();
+  
+  const totalAmount = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+  
+  const form = useForm<CheckoutFormData>({
+    resolver: zodResolver(checkoutFormSchema),
+    defaultValues: {
+      fullName: "",
+      phoneNumber: "",
+      deliveryAddress: "",
+      notes: "",
+      paymentMethod: "cod"
+    },
+  });
+  
+  const { isSubmitting } = form.formState;
+  
+  useEffect(() => {
+    if (cartItems.length === 0 && orderStep === 'details') {
+      navigate('/menu');
+      toast({
+        title: "Empty Cart",
+        description: "Your cart is empty. Please add items before checkout.",
+      });
+    }
+  }, [cartItems, navigate, orderStep, toast]);
+  
+  // Handle submitting the customer details and creating the order
+  const onSubmit = async (data: CheckoutFormData) => {
+    try {
+      setPaymentMethod(data.paymentMethod);
+      
+      if (data.paymentMethod === 'upi') {
+        // Create payment intent with Stripe for UPI payment
+        const paymentResponse = await apiRequest('POST', '/api/create-payment-intent', {
+          amount: totalAmount
+        });
+        
+        if (!paymentResponse.ok) {
+          throw new Error('Failed to create payment intent');
+        }
+        
+        const paymentData = await paymentResponse.json();
+        setClientSecret(paymentData.clientSecret);
+        setOrderStep('payment');
+      } else {
+        // For COD, create order directly
+        await createOrder(data);
+      }
+    } catch (error: any) {
+      toast({
+        title: "Checkout Error",
+        description: error.message || "An error occurred during checkout.",
+        variant: "destructive",
+      });
+    }
+  };
+  
+  const createOrder = async (data: CheckoutFormData) => {
+    try {
+      const orderResponse = await apiRequest('POST', '/api/orders', {
+        fullName: data.fullName,
+        phoneNumber: data.phoneNumber,
+        deliveryAddress: data.deliveryAddress,
+        notes: data.notes || '',
+        paymentMethod: data.paymentMethod,
+        items: cartItems,
+        totalAmount: totalAmount.toString(),
+        paymentStatus: data.paymentMethod === 'cod' ? 'pending' : 'completed'
+      });
+      
+      if (!orderResponse.ok) {
+        throw new Error('Failed to create order');
+      }
+      
+      const orderData = await orderResponse.json();
+      setOrderId(orderData.trackingId);
+      clearCart();
+      setOrderStep('confirmation');
+    } catch (error: any) {
+      toast({
+        title: "Order Error",
+        description: error.message || "An error occurred while placing your order.",
+        variant: "destructive",
+      });
+    }
+  };
+  
+  const handlePaymentSuccess = async () => {
+    const data = form.getValues();
+    await createOrder(data);
+  };
+  
+  if (orderStep === 'confirmation') {
+    return (
+      <Layout>
+        <div className="container mx-auto py-8 px-4">
+          <Card className="max-w-lg mx-auto">
+            <CardHeader>
+              <CardTitle className="text-center text-green-600">Order Placed Successfully!</CardTitle>
+              <CardDescription className="text-center">Thank you for your order.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="text-center">
+                <p className="font-medium">Your order has been confirmed.</p>
+                <p className="text-sm text-muted-foreground mt-2">
+                  Order Tracking ID: <span className="font-bold">{orderId}</span>
+                </p>
+                <p className="text-sm mt-4">
+                  You can track your order status using this tracking ID.
+                </p>
+              </div>
+            </CardContent>
+            <CardFooter className="flex flex-col space-y-2">
+              <Button 
+                className="w-full" 
+                onClick={() => navigate(`/track-order/${orderId}`)}
+              >
+                Track Order
+              </Button>
+              <Button 
+                variant="outline" 
+                className="w-full" 
+                onClick={() => navigate('/')}
+              >
+                Return to Home
+              </Button>
+            </CardFooter>
+          </Card>
+        </div>
+      </Layout>
+    );
+  }
+  
+  return (
+    <Layout>
+      <div className="container mx-auto py-8 px-4">
+        <h1 className="text-3xl font-bold mb-8 text-center">Checkout</h1>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            {orderStep === 'details' ? (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Delivery Details</CardTitle>
+                  <CardDescription>Fill in your delivery information</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                      <FormField
+                        control={form.control}
+                        name="fullName"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Full Name</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Enter your full name" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={form.control}
+                        name="phoneNumber"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Phone Number</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Enter your phone number" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={form.control}
+                        name="deliveryAddress"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Delivery Address</FormLabel>
+                            <FormControl>
+                              <Textarea 
+                                placeholder="Enter your full delivery address" 
+                                {...field} 
+                                rows={3}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={form.control}
+                        name="notes"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Order Notes (Optional)</FormLabel>
+                            <FormControl>
+                              <Textarea 
+                                placeholder="Any special instructions for your order?" 
+                                {...field} 
+                                rows={2}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={form.control}
+                        name="paymentMethod"
+                        render={({ field }) => (
+                          <FormItem className="space-y-3">
+                            <FormLabel>Payment Method</FormLabel>
+                            <FormControl>
+                              <RadioGroup
+                                onValueChange={field.onChange}
+                                defaultValue={field.value}
+                                className="flex flex-col space-y-1"
+                              >
+                                <div className="flex items-center space-x-2">
+                                  <RadioGroupItem value="cod" id="cod" />
+                                  <Label htmlFor="cod" className="font-normal">Cash on Delivery</Label>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                  <RadioGroupItem value="upi" id="upi" />
+                                  <Label htmlFor="upi" className="font-normal">UPI/Card Payment</Label>
+                                </div>
+                              </RadioGroup>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <Button 
+                        type="submit" 
+                        className="w-full" 
+                        disabled={isSubmitting || cartItems.length === 0}
+                      >
+                        {isSubmitting ? (
+                          <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Processing...
+                          </>
+                        ) : (
+                          'Proceed to Payment'
+                        )}
+                      </Button>
+                    </form>
+                  </Form>
+                </CardContent>
+              </Card>
+            ) : orderStep === 'payment' && clientSecret ? (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Payment</CardTitle>
+                  <CardDescription>Complete your payment securely</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Elements stripe={stripePromise} options={{ clientSecret }}>
+                    <PaymentForm 
+                      clientSecret={clientSecret} 
+                      onPaymentSuccess={handlePaymentSuccess} 
+                    />
+                  </Elements>
+                </CardContent>
+                <CardFooter>
+                  <Button 
+                    variant="outline" 
+                    className="w-full" 
+                    onClick={() => setOrderStep('details')}
+                  >
+                    Back to Details
+                  </Button>
+                </CardFooter>
+              </Card>
+            ) : null}
+          </div>
+          
+          <div>
+            <OrderSummary cartItems={cartItems} />
+          </div>
+        </div>
+      </div>
+    </Layout>
+  );
+}
