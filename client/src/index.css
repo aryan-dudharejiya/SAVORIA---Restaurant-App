@@ -67,6 +67,21 @@ img.lazy-load.loaded {
   @apply shadow-xl -translate-y-1;
 }
 
+/* Slow zoom animation for hero section */
+@keyframes slowZoom {
+  from {
+    transform: scale(1.05);
+  }
+  to {
+    transform: scale(1.15);
+  }
+}
+
+/* Shadow glow for buttons */
+.hover\:shadow-glow:hover {
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.5), 0 0 30px rgba(255, 255, 255, 0.2);
+}
+
 /* Carousel styling */
 .carousel-item {
   @apply transition-all duration-300 opacity-90;
