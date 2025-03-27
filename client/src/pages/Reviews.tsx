@@ -20,11 +20,11 @@ const Reviews = () => {
     return () => clearTimeout(timer);
   }, []);
   
-  const { data: reviews, isLoading } = useQuery({
+  const { data: reviews, isLoading } = useQuery<Review[]>({
     queryKey: ["/api/reviews"]
   });
   
-  const totalSlides = reviews ? Math.ceil(reviews.length / itemsPerSlide) : 0;
+  const totalSlides = reviews && reviews.length ? Math.ceil(reviews.length / itemsPerSlide) : 0;
   
   const renderStars = (rating: number) => {
     const stars = [];
@@ -47,10 +47,12 @@ const Reviews = () => {
     return stars;
   };
   
-  const currentReviews = reviews?.slice(
-    activeSlide * itemsPerSlide,
-    (activeSlide + 1) * itemsPerSlide
-  );
+  const currentReviews = reviews && reviews.length 
+    ? reviews.slice(
+        activeSlide * itemsPerSlide,
+        (activeSlide + 1) * itemsPerSlide
+      ) 
+    : [];
   
   // Animation variants
   const fadeInUp = {
