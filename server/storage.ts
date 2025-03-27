@@ -257,6 +257,20 @@ export class MemStorage implements IStorage {
         category: "starters",
         image: "https://images.unsplash.com/photo-1551978129-b73f45d132eb?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
       },
+      {
+        name: "Shrimp Cocktail",
+        description: "Jumbo shrimp served with our signature cocktail sauce and lemon wedges.",
+        price: "16.99",
+        category: "starters",
+        image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
+      },
+      {
+        name: "Spinach Artichoke Dip",
+        description: "Creamy blend of spinach, artichokes, and melted cheeses, served with toasted bread.",
+        price: "10.99",
+        category: "starters",
+        image: "https://images.unsplash.com/photo-1576300292702-bb2af0d5fd4c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
+      },
       // Main Course
       {
         name: "Grilled Salmon",
@@ -278,6 +292,27 @@ export class MemStorage implements IStorage {
         price: "38.99",
         category: "main",
         image: "https://images.unsplash.com/photo-1560611588-163f49a6cbe9?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
+      },
+      {
+        name: "Seafood Paella",
+        description: "Traditional Spanish rice dish with shrimp, mussels, clams, and saffron.",
+        price: "29.99",
+        category: "main",
+        image: "https://images.unsplash.com/photo-1630175858099-301b0b3b2ed7?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
+      },
+      {
+        name: "Lamb Chops",
+        description: "Herb-crusted lamb chops with mint jelly and roasted potatoes.",
+        price: "32.99",
+        category: "main",
+        image: "https://images.unsplash.com/photo-1602891576642-1933349b0fda?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
+      },
+      {
+        name: "Vegetarian Risotto",
+        description: "Creamy Arborio rice with seasonal vegetables, parmesan cheese, and truffle oil.",
+        price: "19.99",
+        category: "main",
+        image: "https://images.unsplash.com/photo-1633964913876-be5d67d91d78?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
       },
       // Desserts
       {
@@ -301,6 +336,20 @@ export class MemStorage implements IStorage {
         category: "desserts",
         image: "https://images.unsplash.com/photo-1559715745-e1b33a271c8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
       },
+      {
+        name: "Cheesecake",
+        description: "New York style cheesecake with a graham cracker crust and berry compote.",
+        price: "10.99",
+        category: "desserts",
+        image: "https://images.unsplash.com/photo-1524351199678-941a58a3df50?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
+      },
+      {
+        name: "Gelato Selection",
+        description: "Choice of three scoops of our house-made gelato with biscotti.",
+        price: "7.99",
+        category: "desserts",
+        image: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
+      },
       // Drinks
       {
         name: "House Red Wine",
@@ -315,6 +364,27 @@ export class MemStorage implements IStorage {
         price: "9.99",
         category: "drinks",
         image: "https://images.unsplash.com/photo-1623123095585-bfa830a89394?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
+      },
+      {
+        name: "Craft Beer Flight",
+        description: "Selection of four local craft beers, served in tasting glasses.",
+        price: "12.99",
+        category: "drinks",
+        image: "https://images.unsplash.com/photo-1566633806327-68e152aaf26d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
+      },
+      {
+        name: "Sparkling Prosecco",
+        description: "Glass of crisp, dry Italian prosecco with delicate bubbles.",
+        price: "8.99",
+        category: "drinks",
+        image: "https://images.unsplash.com/photo-1585985750376-3ea447d9dc6c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
+      },
+      {
+        name: "Espresso Martini",
+        description: "Cocktail made with vodka, coffee liqueur, and freshly brewed espresso.",
+        price: "11.99",
+        category: "drinks",
+        image: "https://images.unsplash.com/photo-1620088676099-c496e35cbbb6?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
       }
     ];
     
@@ -343,6 +413,42 @@ export class MemStorage implements IStorage {
         avatar: "https://randomuser.me/api/portraits/women/67.jpg",
         rating: 5,
         review: "We celebrated our anniversary here and it was perfect! The staff made us feel special, and the chocolate lava cake was the best dessert I've ever had."
+      },
+      {
+        name: "David Martinez",
+        avatar: "https://randomuser.me/api/portraits/men/32.jpg",
+        rating: 5,
+        review: "The seafood paella is simply outstanding! Fresh ingredients and authentic flavor. The service was attentive and the ambiance was perfect for our family dinner."
+      },
+      {
+        name: "Sophia Williams",
+        avatar: "https://randomuser.me/api/portraits/women/42.jpg",
+        rating: 4,
+        review: "Love the craft beer selection and the lamb chops were cooked to perfection. The only reason for 4 stars instead of 5 is that we had to wait a bit for our table despite having reservations."
+      },
+      {
+        name: "James Wilson",
+        avatar: "https://randomuser.me/api/portraits/men/58.jpg",
+        rating: 5,
+        review: "I'm a regular here and the consistency is remarkable. The espresso martini pairs perfectly with their tiramisu for a delightful end to any meal. Highly recommended!"
+      },
+      {
+        name: "Olivia Taylor",
+        avatar: "https://randomuser.me/api/portraits/women/33.jpg",
+        rating: 5,
+        review: "As a vegetarian, I was thrilled with their risotto. It's rare to find a restaurant that pays such attention to vegetarian options. The flavors were complex and satisfying."
+      },
+      {
+        name: "Robert Garcia",
+        avatar: "https://randomuser.me/api/portraits/men/21.jpg",
+        rating: 4,
+        review: "The calamari appetizer was extremely tender and the dipping sauce was a perfect complement. We enjoyed the whole dining experience, especially the attentive staff."
+      },
+      {
+        name: "Emma Nelson",
+        avatar: "https://randomuser.me/api/portraits/women/19.jpg",
+        rating: 5,
+        review: "We came for brunch and were blown away by the quality. The mimosas were perfectly balanced and the shrimp cocktail was the freshest I've had in years. Can't wait to return!"
       }
     ];
     

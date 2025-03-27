@@ -58,6 +58,8 @@ const Navbar = () => {
     { href: "/", label: "Home" },
     { href: "/menu", label: "Menu" },
     { href: "/reservation", label: "Reservation" },
+    { href: "/track-order", label: "Track Order" },
+    { href: "/my-orders", label: "My Orders" },
     { href: "/reviews", label: "Reviews" },
     { href: "/contact", label: "Contact" }
   ];
@@ -65,7 +67,7 @@ const Navbar = () => {
   return (
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        visible ? 'translate-y-0' : '-translate-y-full'
+        visible ? 'translate-y-0' : isHomePage ? '-translate-y-full' : 'translate-y-0'
       } ${
         scrolled 
           ? 'bg-white shadow-lg py-2' 
@@ -104,17 +106,31 @@ const Navbar = () => {
           </nav>
           
           {/* Action Buttons */}
-          <div className="flex items-center space-x-6">
-            {/* Phone Button (visible only on desktop) */}
-            <a 
-              href="tel:+1234567890" 
-              className={`hidden md:flex items-center gap-2 transition-colors duration-300 ${
+          <div className="flex items-center space-x-4">
+            {/* Checkout Button - Desktop only */}
+            <Link 
+              href="/checkout" 
+              className={`hidden md:flex items-center gap-1 transition-colors duration-300 ${
                 scrolled ? 'text-gray-800 hover:text-primary' : 'text-white hover:text-primary/90'
               }`}
             >
-              <Phone className="w-4 h-4" />
-              <span className="text-sm font-medium">Order by Phone</span>
-            </a>
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                width="18" 
+                height="18" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+                className="mr-1"
+              >
+                <path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6" />
+                <path d="M12 12V8l4 4-4 4v-4" />
+              </svg>
+              <span className="text-sm font-medium">Checkout</span>
+            </Link>
             
             {/* Cart Button */}
             <button 
@@ -138,17 +154,6 @@ const Navbar = () => {
                 )}
               </AnimatePresence>
             </button>
-            
-            {/* CTA Button */}
-            <Button 
-              className="hidden md:flex bg-primary hover:bg-primary/90 text-white rounded-md px-5 shadow-sm"
-              size="sm"
-              asChild
-            >
-              <Link href="/menu">
-                Order Online
-              </Link>
-            </Button>
             
             {/* Mobile Menu Button */}
             <button 
@@ -201,21 +206,39 @@ const Navbar = () => {
                 ))}
               </nav>
               
-              <motion.div
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.5 }}
-              >
-                <Button 
-                  className="w-full bg-white hover:bg-white/90 text-primary py-6 rounded-md text-lg"
-                  onClick={() => setMobileMenuOpen(false)}
-                  asChild
+              <div className="flex flex-col space-y-4">
+                <motion.div
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.5 }}
                 >
-                  <Link href="/menu">
-                    Order Now
-                  </Link>
-                </Button>
-              </motion.div>
+                  <Button 
+                    className="w-full bg-white hover:bg-white/90 text-primary py-6 rounded-md text-lg"
+                    onClick={() => setMobileMenuOpen(false)}
+                    asChild
+                  >
+                    <Link href="/menu">
+                      View Menu
+                    </Link>
+                  </Button>
+                </motion.div>
+                
+                <motion.div
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.6 }}
+                >
+                  <Button 
+                    className="w-full bg-primary/20 hover:bg-primary/30 text-white py-6 rounded-md text-lg border border-white/20"
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      setCartOpen(true);
+                    }}
+                  >
+                    View Cart
+                  </Button>
+                </motion.div>
+              </div>
             </motion.div>
           </motion.div>
         )}
