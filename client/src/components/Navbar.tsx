@@ -228,9 +228,9 @@ const Navbar = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.25, ease: "easeInOut" }}
-              className="fixed inset-0 bg-black/85 backdrop-blur-[2px] z-40 will-change-[opacity]"
-              style={{ backfaceVisibility: "hidden" }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="fixed inset-0 bg-black/85 backdrop-blur-md z-[9998] will-change-[opacity]"
+              style={{ backfaceVisibility: "hidden", pointerEvents: 'auto' }}
               onClick={() => setMobileMenuOpen(false)}
             />
             
@@ -244,25 +244,26 @@ const Navbar = () => {
                 ease: [0.32, 0.72, 0, 1],
                 opacity: { duration: 0.2 }
               }}
-              className="fixed inset-y-0 right-0 w-[80%] sm:w-[70%] md:w-[50%] lg:w-[35%] bg-gradient-to-br from-black/95 to-restaurant-primary/90 z-50 flex flex-col justify-center items-center shadow-xl overflow-y-auto overscroll-contain"
+              className="fixed inset-y-0 right-0 w-[80%] sm:w-[70%] md:w-[50%] lg:w-[35%] bg-gradient-to-br from-black/95 to-restaurant-primary/90 z-[9999] flex flex-col justify-center items-center shadow-2xl overflow-y-auto overscroll-contain pointer-events-auto"
               style={{ willChange: "transform, opacity" }}
             >
               {/* Close button in top right */}
               <button 
-                className="absolute top-6 right-6 flex items-center justify-center w-12 h-12 rounded-full bg-black/20 text-white hover:bg-black/40 transition-all duration-300 active:scale-95 hover:shadow-lg"
+                className="absolute top-5 right-5 flex items-center justify-center w-14 h-14 rounded-full bg-white/10 text-white hover:bg-white/20 transition-all duration-300 active:scale-95 hover:shadow-lg border border-white/20 backdrop-filter backdrop-blur-sm"
                 onClick={() => setMobileMenuOpen(false)}
                 aria-label="Close menu"
+                style={{ zIndex: 10000 }}
               >
-                <X size={26} strokeWidth={2.5} className="text-white" />
+                <X size={30} strokeWidth={2.5} className="text-white" />
               </button>
               
               <motion.div 
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.1, staggerChildren: 0.1 }}
-                className="w-full max-w-md px-6 sm:px-8 py-16"
+                className="w-full max-w-md px-6 sm:px-8 py-20 flex flex-col"
               >
-                <nav className="flex flex-col space-y-6 text-center mb-12">
+                <nav className="flex flex-col space-y-8 text-center mb-14">
                   {navLinks.map((link, index) => (
                     <motion.div
                       key={link.href}
@@ -273,16 +274,17 @@ const Navbar = () => {
                     >
                       <Link 
                         href={link.href} 
-                        className={`relative block text-white text-[1.2rem] sm:text-[1.25rem] font-heading font-medium tracking-wide hover:text-restaurant-secondary transition-all duration-300 ease-in-out group py-3 ${
+                        className={`relative block text-white text-[1.3rem] sm:text-[1.4rem] font-heading font-medium tracking-wide hover:text-restaurant-secondary transition-all duration-300 ease-in-out group py-3 px-4 ${
                           location === link.href ? 'text-restaurant-secondary font-semibold' : ''
                         }`}
                         onClick={() => setMobileMenuOpen(false)}
+                        style={{ pointerEvents: 'auto' }}
                       >
                         {link.label}
                         {/* Animated underline effect */}
                         <span 
                           className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-restaurant-secondary transition-all duration-300 ease-in-out ${
-                            location === link.href ? 'w-12' : 'group-hover:w-12'
+                            location === link.href ? 'w-16' : 'group-hover:w-16'
                           }`}
                         />
                       </Link>
@@ -290,20 +292,21 @@ const Navbar = () => {
                   ))}
                 </nav>
                 
-                <div className="flex flex-col space-y-5 w-full mt-8">
+                <div className="flex flex-col space-y-6 w-full mt-10">
                   <motion.div
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.5 }}
                   >
                     <Button 
-                      className="w-full bg-[#D72638] hover:bg-[#C02030] text-white py-6 rounded-lg text-[1.1rem] font-heading font-semibold shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98]"
+                      className="w-full bg-[#D72638] hover:bg-[#C02030] text-white py-7 rounded-xl text-[1.25rem] font-heading font-semibold shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-[1.03] active:scale-[0.98]"
                       onClick={() => setMobileMenuOpen(false)}
                       asChild
+                      style={{ pointerEvents: 'auto' }}
                     >
-                      <Link href="/menu" className="flex items-center justify-center gap-2">
-                        <Menu className="w-5 h-5" />
-                        Order Now
+                      <Link href="/menu" className="flex items-center justify-center gap-3">
+                        <Menu className="w-6 h-6" />
+                        <span>Order Now</span>
                       </Link>
                     </Button>
                   </motion.div>
@@ -314,13 +317,14 @@ const Navbar = () => {
                     transition={{ delay: 0.6 }}
                   >
                     <Button 
-                      className="w-full bg-transparent hover:bg-white/10 text-white py-6 rounded-lg text-[1.1rem] border border-white/40 font-heading font-semibold transition-all duration-300 ease-in-out shadow-md hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98]"
+                      className="w-full bg-white/10 hover:bg-white/15 text-white py-7 rounded-xl text-[1.25rem] border border-white/40 font-heading font-semibold transition-all duration-300 ease-in-out shadow-md hover:shadow-lg transform hover:scale-[1.03] active:scale-[0.98] backdrop-blur-sm"
                       onClick={() => setMobileMenuOpen(false)}
                       asChild
+                      style={{ pointerEvents: 'auto' }}
                     >
-                      <Link href="/cart" className="flex items-center justify-center gap-2">
-                        <ShoppingCart className="w-5 h-5" />
-                        View Cart
+                      <Link href="/cart" className="flex items-center justify-center gap-3">
+                        <ShoppingCart className="w-6 h-6" />
+                        <span>View Cart</span>
                       </Link>
                     </Button>
                   </motion.div>
@@ -330,28 +334,31 @@ const Navbar = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.7 }}
-                  className="absolute bottom-8 left-0 right-0 flex flex-col items-center gap-3"
+                  className="absolute bottom-10 left-0 right-0 flex flex-col items-center gap-5"
+                  style={{ pointerEvents: 'auto' }}
                 >
-                  <div className="flex flex-col items-center gap-3">
+                  <div className="flex flex-col items-center gap-4">
                     <a 
                       href="tel:+1234567890" 
-                      className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-white/10 text-white hover:bg-white/20 transition-all duration-300 backdrop-blur-sm"
+                      className="inline-flex items-center justify-center gap-3 px-6 py-4 rounded-full bg-white/10 text-white hover:bg-white/20 transition-all duration-300 backdrop-blur-sm border border-white/10 hover:border-white/20 active:scale-95"
+                      style={{ pointerEvents: 'auto' }}
                     >
                       <Phone className="w-5 h-5 text-restaurant-secondary" strokeWidth={2.5} />
-                      <span className="font-medium tracking-wide">(123) 456-7890</span>
+                      <span className="font-medium tracking-wide text-base">(123) 456-7890</span>
                     </a>
                     
                     <a 
                       href="/reservation" 
                       onClick={() => setMobileMenuOpen(false)}
-                      className="inline-flex items-center justify-center gap-2 px-5 py-2 text-white/90 hover:text-white transition-all duration-300 text-sm"
+                      className="inline-flex items-center justify-center gap-2 px-6 py-3 text-white hover:text-restaurant-secondary transition-all duration-300 text-base hover:bg-white/5 rounded-full active:scale-95"
+                      style={{ pointerEvents: 'auto' }}
                     >
-                      <CalendarDays className="w-4 h-4 text-restaurant-secondary/90" strokeWidth={2} />
+                      <CalendarDays className="w-5 h-5 text-restaurant-secondary" strokeWidth={2} />
                       <span className="font-medium">Reserve a Table</span>
                     </a>
                   </div>
                   
-                  <p className="text-white/60 text-xs mt-2">
+                  <p className="text-white/70 text-sm mt-1 font-medium tracking-wide">
                     Open 10:00 AM - 10:00 PM
                   </p>
                 </motion.div>
