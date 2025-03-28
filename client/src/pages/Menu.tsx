@@ -266,25 +266,27 @@ const Menu = () => {
             className="mb-8"
           >
             <div className="flex justify-center">
-              <TabsList className="bg-amber-100/50 p-1 rounded-full">
-                <TabsTrigger 
-                  value="all" 
-                  className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ${activeCategory === 'all' ? 'bg-primary text-white' : 'text-amber-900/70 hover:text-amber-900'}`}
-                  onClick={() => scrollToCategory('all')}
-                >
-                  All Menu
-                </TabsTrigger>
-                {Object.keys(categoryTitles).map(category => (
+              <Tabs defaultValue="all">
+                <TabsList className="bg-amber-100/50 p-1 rounded-full">
                   <TabsTrigger 
-                    key={category} 
-                    value={category}
-                    className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ${activeCategory === category ? 'bg-primary text-white' : 'text-amber-900/70 hover:text-amber-900'}`}
-                    onClick={() => scrollToCategory(category)}
+                    value="all" 
+                    className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ${activeCategory === 'all' ? 'bg-primary text-white' : 'text-amber-900/70 hover:text-amber-900'}`}
+                    onClick={() => scrollToCategory('all')}
                   >
-                    {categoryTitles[category]}
+                    All Menu
                   </TabsTrigger>
-                ))}
-              </TabsList>
+                  {Object.keys(categoryTitles).map(category => (
+                    <TabsTrigger 
+                      key={category} 
+                      value={category}
+                      className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ${activeCategory === category ? 'bg-primary text-white' : 'text-amber-900/70 hover:text-amber-900'}`}
+                      onClick={() => scrollToCategory(category)}
+                    >
+                      {categoryTitles[category]}
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+              </Tabs>
             </div>
           </motion.div>
         </div>
