@@ -305,14 +305,14 @@ export class MemStorage implements IStorage {
         description: "Herb-crusted lamb chops with mint jelly and roasted potatoes.",
         price: "32.99",
         category: "main",
-        image: "https://images.unsplash.com/photo-1602891576642-1933349b0fda?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
+        image: "https://images.unsplash.com/photo-1600803907087-f56d462fd26b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
       },
       {
         name: "Vegetarian Risotto",
         description: "Creamy Arborio rice with seasonal vegetables, parmesan cheese, and truffle oil.",
         price: "19.99",
         category: "main",
-        image: "https://images.unsplash.com/photo-1633964913876-be5d67d91d78?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
+        image: "https://images.unsplash.com/photo-1476124369491-e7addf5db371?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
       },
       // Desserts
       {
@@ -320,24 +320,28 @@ export class MemStorage implements IStorage {
         description: "Classic Italian dessert with layers of coffee-soaked ladyfingers and mascarpone cream.",
         price: "9.99",
         category: "desserts",
-        image: "https://images.unsplash.com/photo-1551024601-78e7d5134b8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
+        image: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
       },
       {
         name: "Crème Brûlée",
         description: "Rich vanilla custard topped with a layer of caramelized sugar.",
         price: "8.99",
         category: "desserts",
-        image: "https://images.unsplash.com/photo-1587668178277-295251f900ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
+        image: "https://images.unsplash.com/photo-1534767854069-14a57f75c2f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
       },
       {
         name: "Chocolate Lava Cake",
         description: "Decadent chocolate cake with a molten center, served with vanilla ice cream and berries.",
         price: "12.99",
         category: "desserts",
-        image: "https://images.unsplash.com/photo-1559715745-e1b33a271c8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
+        image: "https://images.unsplash.com/photo-1624353365286-3f8d62daad51?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
       },
       {
         name: "Cheesecake",
+        description: "New York style cheesecake with a graham cracker crust and fresh berry compote.",
+        price: "11.99",
+        category: "desserts",
+        image: "https://images.unsplash.com/photo-1567171466295-4afa63d45416?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"e",
         description: "New York style cheesecake with a graham cracker crust and berry compote.",
         price: "10.99",
         category: "desserts",
