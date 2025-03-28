@@ -85,7 +85,7 @@ const Contact = () => {
   };
   
   return (
-    <section id="contact" className="py-24 bg-gradient-to-b from-gray-50 to-white">
+    <section id="contact" className="py-24 bg-[#FAF5E9]">
       <div className="container mx-auto px-4">
         <motion.div
           initial="hidden"
@@ -181,11 +181,11 @@ const Contact = () => {
               initial={{ opacity: 0, x: -30 }}
               animate={isLoaded ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
               transition={{ delay: 0.2, duration: 0.6 }}
-              className="p-8 lg:p-12 form-container rounded-l-xl"
+              className="p-8 lg:p-12 bg-[#FAF5E9] rounded-l-xl"
             >
               <div className="flex items-center gap-2 mb-6">
                 <MessageSquare className="text-primary h-5 w-5" />
-                <h3 className="font-bold text-2xl text-[#3D2C2E]">Send us a Message</h3>
+                <h3 className="font-bold text-2xl text-[#3D2C2E] font-['Poppins']">Send us a Message</h3>
               </div>
               
               <Form {...form}>
@@ -200,7 +200,9 @@ const Contact = () => {
                           <Input 
                             placeholder="Your name" 
                             {...field} 
-                            className="form-input" 
+                            className="rounded-lg border border-[#D1D5DB] border-[1.5px] bg-[#FFF3E3] px-4 py-3 min-h-[50px] text-[#3D2C2E] text-base
+                            shadow-[0_2px_4px_rgba(0,0,0,0.05)] focus:border-[#D72638] focus:outline-none focus:shadow-[0_0_5px_rgba(215,38,56,0.4)]
+                            hover:border-[#D72638]/50 placeholder:text-[#9CA3AF] placeholder:font-normal transition-all duration-300" 
                           />
                         </FormControl>
                         <FormMessage className="form-error" />
@@ -219,7 +221,9 @@ const Contact = () => {
                             type="email" 
                             placeholder="Your email address" 
                             {...field} 
-                            className="form-input" 
+                            className="rounded-lg border border-[#D1D5DB] border-[1.5px] bg-[#FFF3E3] px-4 py-3 min-h-[50px] text-[#3D2C2E] text-base
+                            shadow-[0_2px_4px_rgba(0,0,0,0.05)] focus:border-[#D72638] focus:outline-none focus:shadow-[0_0_5px_rgba(215,38,56,0.4)]
+                            hover:border-[#D72638]/50 placeholder:text-[#9CA3AF] placeholder:font-normal transition-all duration-300" 
                           />
                         </FormControl>
                         <FormMessage className="form-error" />
@@ -236,7 +240,9 @@ const Contact = () => {
                         <FormControl>
                           <Textarea 
                             placeholder="How can we help you?" 
-                            className="form-textarea min-h-[150px]" 
+                            className="rounded-lg border border-[#D1D5DB] border-[1.5px] bg-[#FFF3E3] px-4 py-3 min-h-[150px] text-[#3D2C2E] text-base
+                            shadow-[0_2px_4px_rgba(0,0,0,0.05)] focus:border-[#D72638] focus:outline-none focus:shadow-[0_0_5px_rgba(215,38,56,0.4)]
+                            hover:border-[#D72638]/50 placeholder:text-[#9CA3AF] placeholder:font-normal transition-all duration-300 resize-y" 
                             onChange={field.onChange}
                             value={field.value}
                             name={field.name}
