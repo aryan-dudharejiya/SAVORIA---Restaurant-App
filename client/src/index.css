@@ -73,6 +73,59 @@
   .container {
     @apply px-4 md:px-6 lg:px-8 mx-auto max-w-7xl;
   }
+  
+  /* Modern Form Styling */
+  .form-container {
+    @apply bg-[#FAF5E9] rounded-lg p-6 shadow-[0px_4px_10px_rgba(0,0,0,0.05)];
+  }
+  
+  .form-field-group {
+    @apply mb-6 last:mb-0;
+  }
+
+  .form-label {
+    @apply block mb-2 text-[16px] font-semibold text-[#3D2C2E] font-sans;
+  }
+  
+  .form-input {
+    @apply w-full rounded-[6px] border border-[#D1D5DB] bg-[#FFF3E3] px-4 py-3 min-h-[45px] text-[#3D2C2E] text-[16px] placeholder:text-[#9CA3AF] focus:border-[#D72638] focus:outline-none transition-colors duration-200;
+  }
+  
+  .form-select {
+    @apply w-full rounded-[6px] border border-[#D1D5DB] bg-[#FFF3E3] px-4 py-3 min-h-[45px] text-[#3D2C2E] text-[16px] focus:border-[#D72638] focus:outline-none transition-colors duration-200;
+  }
+  
+  .form-textarea {
+    @apply w-full rounded-[6px] border border-[#D1D5DB] bg-[#FFF3E3] px-4 py-3 min-h-[120px] text-[#3D2C2E] text-[16px] placeholder:text-[#9CA3AF] focus:border-[#D72638] focus:outline-none transition-colors duration-200 resize-y;
+  }
+  
+  .form-checkbox {
+    @apply rounded-sm border-2 border-[#D1D5DB] text-[#D72638] focus:ring-[#D72638];
+  }
+  
+  .form-radio {
+    @apply border-2 border-[#D1D5DB] text-[#D72638] focus:ring-[#D72638];
+  }
+  
+  .form-error {
+    @apply mt-1 text-sm text-[#D72638];
+  }
+  
+  .form-helper {
+    @apply mt-1 text-sm text-gray-500;
+  }
+
+  .btn-form-primary {
+    @apply bg-[#D72638] text-white font-semibold rounded-lg px-6 py-3 min-h-[45px] transition-all duration-300 hover:bg-[#D72638]/90 hover:shadow-lg transform hover:scale-105;
+  }
+  
+  .btn-form-secondary {
+    @apply bg-[#FF914D] text-white font-semibold rounded-lg px-6 py-3 min-h-[45px] transition-all duration-300 hover:bg-[#FF914D]/90 hover:shadow-lg transform hover:scale-105;
+  }
+  
+  .btn-form-outline {
+    @apply bg-transparent border-2 border-[#FF914D] text-[#FF914D] font-semibold rounded-lg px-6 py-3 min-h-[45px] transition-all duration-300 hover:bg-[#FF914D]/10 transform hover:scale-105;
+  }
 }
 
 @keyframes fadeIn {

@@ -181,11 +181,11 @@ const Contact = () => {
               initial={{ opacity: 0, x: -30 }}
               animate={isLoaded ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
               transition={{ delay: 0.2, duration: 0.6 }}
-              className="p-8 lg:p-12"
+              className="p-8 lg:p-12 form-container"
             >
               <div className="flex items-center gap-2 mb-6">
                 <MessageSquare className="text-primary h-5 w-5" />
-                <h3 className="font-bold text-2xl">Send us a Message</h3>
+                <h3 className="font-bold text-2xl text-[#3D2C2E]">Send us a Message</h3>
               </div>
               
               <Form {...form}>
@@ -194,12 +194,12 @@ const Contact = () => {
                     control={form.control}
                     name="name"
                     render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Full Name</FormLabel>
+                      <FormItem className="form-field-group">
+                        <FormLabel className="form-label">Full Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="Your name" {...field} className="rounded-md" />
+                          <Input placeholder="Your name" {...field} className="form-input" />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="form-error" />
                       </FormItem>
                     )}
                   />
@@ -208,12 +208,12 @@ const Contact = () => {
                     control={form.control}
                     name="email"
                     render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
+                      <FormItem className="form-field-group">
+                        <FormLabel className="form-label">Email</FormLabel>
                         <FormControl>
-                          <Input type="email" placeholder="Your email address" {...field} className="rounded-md" />
+                          <Input type="email" placeholder="Your email address" {...field} className="form-input" />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="form-error" />
                       </FormItem>
                     )}
                   />
@@ -222,23 +222,27 @@ const Contact = () => {
                     control={form.control}
                     name="message"
                     render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Message</FormLabel>
+                      <FormItem className="form-field-group">
+                        <FormLabel className="form-label">Message</FormLabel>
                         <FormControl>
                           <Textarea 
                             placeholder="How can we help you?" 
-                            className="min-h-[150px] rounded-md" 
-                            {...field} 
+                            className="form-textarea min-h-[150px]" 
+                            onChange={field.onChange}
+                            value={field.value}
+                            name={field.name}
+                            onBlur={field.onBlur}
+                            ref={field.ref}
                           />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="form-error" />
                       </FormItem>
                     )}
                   />
                   
                   <Button 
                     type="submit" 
-                    className="w-full bg-primary hover:bg-primary/90 text-white rounded-md py-6"
+                    className="btn-form-primary w-full"
                     disabled={contactMessage.isPending}
                   >
                     {contactMessage.isPending ? "Sending..." : "Send Message"}
@@ -274,19 +278,19 @@ const Contact = () => {
       
       {/* Contact Form Success Modal */}
       <Dialog open={confirmationOpen} onOpenChange={setConfirmationOpen}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md bg-[#FFF7E6] border-[#D1D5DB] p-6">
           <DialogHeader>
-            <DialogTitle className="text-center">Message Sent!</DialogTitle>
+            <DialogTitle className="text-center text-[#3D2C2E] text-2xl font-semibold">Message Sent!</DialogTitle>
             <DialogDescription className="text-center">
-              <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4 mt-4">
+              <div className="w-16 h-16 bg-[#D72638] rounded-full flex items-center justify-center mx-auto mb-4 mt-4 shadow-md">
                 <CheckCircle className="h-8 w-8 text-white" />
               </div>
-              <p>Thank you for reaching out. We'll get back to you as soon as possible.</p>
+              <p className="text-[#3D2C2E] text-base">Thank you for reaching out. We'll get back to you as soon as possible.</p>
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter className="sm:justify-center">
+          <DialogFooter className="sm:justify-center mt-6">
             <Button 
-              className="bg-primary hover:bg-primary/90 text-white" 
+              className="btn-form-primary" 
               onClick={() => setConfirmationOpen(false)}
             >
               Close

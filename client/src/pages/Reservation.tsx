@@ -57,7 +57,7 @@ const Reservation = () => {
       date: "",
       time: "",
       guests: "",
-      notes: "",
+      notes: "", // This needs to be a string (not null or undefined)
     },
   });
   
@@ -128,13 +128,13 @@ const Reservation = () => {
   const maxDateString = maxDate.toISOString().split('T')[0];
   
   return (
-    <section id="reservation" className="py-16 bg-gray-100">
+    <section id="reservation" className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
         <div className="max-w-5xl mx-auto">
-          <div className="flex flex-col md:flex-row">
-            <Card className="md:w-1/2 p-0 shadow-lg rounded-tl-lg rounded-bl-lg order-2 md:order-1">
-              <CardContent className="p-8">
-                <h2 className="font-heading text-3xl font-bold mb-6">Book a Table</h2>
+          <div className="flex flex-col md:flex-row shadow-xl rounded-lg overflow-hidden">
+            <Card className="md:w-1/2 p-0 border-0 shadow-none rounded-none order-2 md:order-1">
+              <CardContent className="form-container p-8 rounded-none h-full">
+                <h2 className="font-heading text-3xl font-bold mb-4 text-[#3D2C2E]">Book a Table</h2>
                 <p className="text-gray-600 mb-8">
                   Reserve your table now for a memorable dining experience. We'll confirm your booking via email.
                 </p>
@@ -146,12 +146,12 @@ const Reservation = () => {
                         control={form.control}
                         name="name"
                         render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Full Name</FormLabel>
+                          <FormItem className="form-field-group">
+                            <FormLabel className="form-label">Full Name</FormLabel>
                             <FormControl>
-                              <Input placeholder="John Doe" {...field} />
+                              <Input placeholder="John Doe" {...field} className="form-input" />
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage className="form-error" />
                           </FormItem>
                         )}
                       />
@@ -160,12 +160,12 @@ const Reservation = () => {
                         control={form.control}
                         name="email"
                         render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Email</FormLabel>
+                          <FormItem className="form-field-group">
+                            <FormLabel className="form-label">Email</FormLabel>
                             <FormControl>
-                              <Input type="email" placeholder="john@example.com" {...field} />
+                              <Input type="email" placeholder="john@example.com" {...field} className="form-input" />
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage className="form-error" />
                           </FormItem>
                         )}
                       />
@@ -176,17 +176,18 @@ const Reservation = () => {
                         control={form.control}
                         name="date"
                         render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Date</FormLabel>
+                          <FormItem className="form-field-group">
+                            <FormLabel className="form-label">Date</FormLabel>
                             <FormControl>
                               <Input 
                                 type="date" 
                                 min={today} 
                                 max={maxDateString} 
                                 {...field} 
+                                className="form-input"
                               />
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage className="form-error" />
                           </FormItem>
                         )}
                       />
@@ -195,18 +196,18 @@ const Reservation = () => {
                         control={form.control}
                         name="time"
                         render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Time</FormLabel>
+                          <FormItem className="form-field-group">
+                            <FormLabel className="form-label">Time</FormLabel>
                             <Select
                               onValueChange={field.onChange}
                               defaultValue={field.value}
                             >
                               <FormControl>
-                                <SelectTrigger>
+                                <SelectTrigger className="form-select">
                                   <SelectValue placeholder="Select Time" />
                                 </SelectTrigger>
                               </FormControl>
-                              <SelectContent>
+                              <SelectContent className="bg-white border border-[#D1D5DB]">
                                 {timeSlots.map((slot) => (
                                   <SelectItem key={slot.value} value={slot.value}>
                                     {slot.label}
@@ -214,7 +215,7 @@ const Reservation = () => {
                                 ))}
                               </SelectContent>
                             </Select>
-                            <FormMessage />
+                            <FormMessage className="form-error" />
                           </FormItem>
                         )}
                       />
@@ -224,18 +225,18 @@ const Reservation = () => {
                       control={form.control}
                       name="guests"
                       render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Number of Guests</FormLabel>
+                        <FormItem className="form-field-group">
+                          <FormLabel className="form-label">Number of Guests</FormLabel>
                           <Select
                             onValueChange={field.onChange}
                             defaultValue={field.value}
                           >
                             <FormControl>
-                              <SelectTrigger>
+                              <SelectTrigger className="form-select">
                                 <SelectValue placeholder="Select Number of Guests" />
                               </SelectTrigger>
                             </FormControl>
-                            <SelectContent>
+                            <SelectContent className="bg-white border border-[#D1D5DB]">
                               <SelectItem value="1">1 Person</SelectItem>
                               <SelectItem value="2">2 People</SelectItem>
                               <SelectItem value="3">3 People</SelectItem>
@@ -245,7 +246,7 @@ const Reservation = () => {
                               <SelectItem value="7+">7+ People (Please specify in notes)</SelectItem>
                             </SelectContent>
                           </Select>
-                          <FormMessage />
+                          <FormMessage className="form-error" />
                         </FormItem>
                       )}
                     />
@@ -254,23 +255,27 @@ const Reservation = () => {
                       control={form.control}
                       name="notes"
                       render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Special Requests (Optional)</FormLabel>
+                        <FormItem className="form-field-group">
+                          <FormLabel className="form-label">Special Requests (Optional)</FormLabel>
                           <FormControl>
                             <Textarea 
                               placeholder="Any special requests or dietary requirements?" 
-                              className="resize-none" 
-                              {...field}
+                              className="form-textarea" 
+                              onChange={field.onChange}
+                              value={field.value || ''}
+                              name={field.name}
+                              onBlur={field.onBlur}
+                              ref={field.ref}
                             />
                           </FormControl>
-                          <FormMessage />
+                          <FormMessage className="form-error" />
                         </FormItem>
                       )}
                     />
                     
                     <Button 
                       type="submit" 
-                      className="w-full bg-primary hover:bg-primary/90 text-white py-3 rounded-md font-medium text-lg"
+                      className="btn-form-primary w-full"
                       disabled={reservation.isPending}
                     >
                       {reservation.isPending ? "Booking..." : "Book Now"}
@@ -281,7 +286,7 @@ const Reservation = () => {
             </Card>
             
             <div 
-              className="md:w-1/2 bg-cover bg-center rounded-tr-lg rounded-br-lg h-64 md:h-auto order-1 md:order-2"
+              className="md:w-1/2 bg-cover bg-center h-64 md:h-auto order-1 md:order-2"
               style={{ 
                 backgroundImage: `url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=1000&q=80')` 
               }}
@@ -292,20 +297,20 @@ const Reservation = () => {
       
       {/* Confirmation Dialog */}
       <Dialog open={confirmationOpen} onOpenChange={setConfirmationOpen}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md bg-[#FFF7E6] border-[#D1D5DB] p-6">
           <DialogHeader>
-            <DialogTitle className="text-center">Reservation Confirmed!</DialogTitle>
+            <DialogTitle className="text-center text-[#3D2C2E] text-2xl font-semibold">Reservation Confirmed!</DialogTitle>
             <DialogDescription className="text-center">
-              <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4 mt-4">
+              <div className="w-16 h-16 bg-[#D72638] rounded-full flex items-center justify-center mx-auto mb-4 mt-4 shadow-md">
                 <CheckCircle className="h-8 w-8 text-white" />
               </div>
-              <p className="mb-2">Thank you for your reservation.</p>
-              <p>We've sent a confirmation to your email.</p>
+              <p className="mb-2 text-[#3D2C2E] text-base">Thank you for your reservation.</p>
+              <p className="text-[#3D2C2E] text-base">We've sent a confirmation to your email.</p>
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter className="sm:justify-center">
+          <DialogFooter className="sm:justify-center mt-6">
             <Button 
-              className="bg-primary hover:bg-primary/90 text-white" 
+              className="btn-form-primary" 
               onClick={() => setConfirmationOpen(false)}
             >
               Close

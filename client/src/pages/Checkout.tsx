@@ -34,17 +34,17 @@ function OrderSummary({ cartItems }: { cartItems: CartItem[] }) {
   const totalAmount = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
   
   return (
-    <Card className="w-full">
-      <CardHeader>
-        <CardTitle>Order Summary</CardTitle>
+    <Card className="w-full border-0 shadow-lg">
+      <CardHeader className="bg-[#FFF7E6] rounded-t-lg">
+        <CardTitle className="text-[#3D2C2E] text-2xl">Order Summary</CardTitle>
         <CardDescription>Review your order details</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="max-h-64 overflow-y-auto">
+      <CardContent className="space-y-4 p-6">
+        <div className="max-h-72 overflow-y-auto pr-2">
           {cartItems.map((item) => (
-            <div key={item.id} className="flex justify-between items-start py-3 border-b gap-3">
+            <div key={item.id} className="flex justify-between items-start py-3 border-b border-[#EFEFEF] gap-3 hover:bg-[#FFF7F0] rounded-md p-2 transition-colors">
               {item.image && (
-                <div className="w-16 h-16 rounded-md overflow-hidden flex-shrink-0">
+                <div className="w-20 h-20 rounded-md overflow-hidden flex-shrink-0 shadow-sm">
                   <img 
                     src={item.image} 
                     alt={item.name} 
@@ -54,17 +54,18 @@ function OrderSummary({ cartItems }: { cartItems: CartItem[] }) {
                 </div>
               )}
               <div className="flex-1 min-w-0">
-                <p className="font-medium truncate">{item.name}</p>
-                <p className="text-sm text-muted-foreground">Qty: {item.quantity}</p>
+                <p className="font-medium truncate text-[#3D2C2E]">{item.name}</p>
+                <p className="text-sm text-[#6B7280] mt-1">Qty: {item.quantity}</p>
+                <p className="text-xs text-[#D72638] font-medium mt-1">${item.price.toFixed(2)} each</p>
               </div>
-              <p className="font-medium shrink-0">${(item.price * item.quantity).toFixed(2)}</p>
+              <p className="font-semibold shrink-0 text-[#D72638]">${(item.price * item.quantity).toFixed(2)}</p>
             </div>
           ))}
         </div>
         
-        <div className="flex justify-between items-center font-bold text-lg pt-4">
+        <div className="flex justify-between items-center font-bold text-xl pt-4 mt-2 border-t border-[#EFEFEF] text-[#3D2C2E]">
           <span>Total:</span>
-          <span>${totalAmount.toFixed(2)}</span>
+          <span className="text-[#D72638]">${totalAmount.toFixed(2)}</span>
         </div>
       </CardContent>
     </Card>
@@ -126,12 +127,14 @@ function PaymentForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <PaymentElement />
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="bg-white p-4 rounded-lg border border-[#E5E7EB]">
+        <PaymentElement className="payment-element" />
+      </div>
       <Button 
         type="submit" 
         disabled={!stripe || !elements || isLoading} 
-        className="w-full"
+        className="btn-form-primary w-full mt-6"
       >
         {isLoading ? (
           <>
@@ -248,16 +251,21 @@ export default function Checkout() {
   if (orderStep === 'confirmation') {
     return (
       <div className="container mx-auto py-8 px-4">
-        <Card className="max-w-lg mx-auto">
-          <CardHeader>
-            <CardTitle className="text-center text-green-600">Order Placed Successfully!</CardTitle>
+        <Card className="max-w-lg mx-auto border-0 shadow-lg">
+          <CardHeader className="bg-[#FFF7E6] rounded-t-lg">
+            <CardTitle className="text-center text-[#D72638] text-2xl">Order Placed Successfully!</CardTitle>
             <CardDescription className="text-center">Thank you for your order.</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="form-container p-8 space-y-4">
             <div className="text-center">
-              <p className="font-medium">Your order has been confirmed.</p>
-              <p className="text-sm text-muted-foreground mt-2">
-                Order Tracking ID: <span className="font-bold">{orderId}</span>
+              <div className="w-20 h-20 bg-[#D72638] rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <p className="font-medium text-[#3D2C2E] text-lg">Your order has been confirmed.</p>
+              <p className="mt-2 bg-[#FFF3E3] inline-block px-4 py-2 rounded-full">
+                Order Tracking ID: <span className="font-bold text-[#D72638]">{orderId}</span>
               </p>
               
               {/* Order thumbnail images */}
@@ -267,7 +275,7 @@ export default function Checkout() {
                     item.image ? (
                       <div 
                         key={index} 
-                        className="inline-block h-16 w-16 rounded-full border-2 border-white overflow-hidden"
+                        className="inline-block h-16 w-16 rounded-full border-2 border-white overflow-hidden shadow-md"
                       >
                         <img 
                           src={item.image} 
@@ -279,28 +287,28 @@ export default function Checkout() {
                     ) : null
                   ))}
                   {cartItems.length > 3 && (
-                    <div className="inline-flex h-16 w-16 items-center justify-center rounded-full border-2 border-white bg-gray-100 text-sm font-medium">
+                    <div className="inline-flex h-16 w-16 items-center justify-center rounded-full border-2 border-white bg-[#FFF3E3] text-sm font-medium text-[#D72638] shadow-md">
                       +{cartItems.length - 3}
                     </div>
                   )}
                 </div>
               </div>
               
-              <p className="text-sm mt-4">
+              <p className="text-sm mt-4 text-[#3D2C2E]">
                 You can track your order status using this tracking ID.
               </p>
             </div>
           </CardContent>
-          <CardFooter className="flex flex-col space-y-2">
+          <CardFooter className="flex flex-col space-y-3 p-6 bg-[#FAFAFA] rounded-b-lg border-t border-[#EFEFEF]">
             <Button 
-              className="w-full" 
+              className="btn-form-primary w-full" 
               onClick={() => navigate(`/track-order/${orderId}`)}
             >
               Track Order
             </Button>
             <Button 
               variant="outline" 
-              className="w-full" 
+              className="w-full hover:bg-[#FFF3E3] hover:text-[#D72638] transition-colors" 
               onClick={() => navigate('/')}
             >
               Return to Home
@@ -318,24 +326,24 @@ export default function Checkout() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
           {orderStep === 'details' ? (
-            <Card>
-              <CardHeader>
-                <CardTitle>Delivery Details</CardTitle>
+            <Card className="border-0 shadow-lg">
+              <CardHeader className="bg-[#FFF7E6] rounded-t-lg">
+                <CardTitle className="text-[#3D2C2E] text-2xl">Delivery Details</CardTitle>
                 <CardDescription>Fill in your delivery information</CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="form-container p-8 rounded-b-lg">
                 <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
                     <FormField
                       control={form.control}
                       name="fullName"
                       render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Full Name</FormLabel>
+                        <FormItem className="form-field-group">
+                          <FormLabel className="form-label">Full Name</FormLabel>
                           <FormControl>
-                            <Input placeholder="Enter your full name" {...field} />
+                            <Input placeholder="Enter your full name" {...field} className="form-input" />
                           </FormControl>
-                          <FormMessage />
+                          <FormMessage className="form-error" />
                         </FormItem>
                       )}
                     />
@@ -344,12 +352,12 @@ export default function Checkout() {
                       control={form.control}
                       name="phoneNumber"
                       render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Phone Number</FormLabel>
+                        <FormItem className="form-field-group">
+                          <FormLabel className="form-label">Phone Number</FormLabel>
                           <FormControl>
-                            <Input placeholder="Enter your phone number" {...field} />
+                            <Input placeholder="Enter your phone number" {...field} className="form-input" />
                           </FormControl>
-                          <FormMessage />
+                          <FormMessage className="form-error" />
                         </FormItem>
                       )}
                     />
@@ -358,16 +366,21 @@ export default function Checkout() {
                       control={form.control}
                       name="deliveryAddress"
                       render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Delivery Address</FormLabel>
+                        <FormItem className="form-field-group">
+                          <FormLabel className="form-label">Delivery Address</FormLabel>
                           <FormControl>
                             <Textarea 
                               placeholder="Enter your full delivery address" 
-                              {...field} 
+                              className="form-textarea" 
                               rows={3}
+                              onChange={field.onChange}
+                              value={field.value}
+                              name={field.name}
+                              onBlur={field.onBlur}
+                              ref={field.ref}
                             />
                           </FormControl>
-                          <FormMessage />
+                          <FormMessage className="form-error" />
                         </FormItem>
                       )}
                     />
@@ -376,16 +389,21 @@ export default function Checkout() {
                       control={form.control}
                       name="notes"
                       render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Order Notes (Optional)</FormLabel>
+                        <FormItem className="form-field-group">
+                          <FormLabel className="form-label">Order Notes (Optional)</FormLabel>
                           <FormControl>
                             <Textarea 
                               placeholder="Any special instructions for your order?" 
-                              {...field} 
+                              className="form-textarea" 
                               rows={2}
+                              onChange={field.onChange}
+                              value={field.value}
+                              name={field.name}
+                              onBlur={field.onBlur}
+                              ref={field.ref}
                             />
                           </FormControl>
-                          <FormMessage />
+                          <FormMessage className="form-error" />
                         </FormItem>
                       )}
                     />
@@ -394,32 +412,40 @@ export default function Checkout() {
                       control={form.control}
                       name="paymentMethod"
                       render={({ field }) => (
-                        <FormItem className="space-y-3">
-                          <FormLabel>Payment Method</FormLabel>
+                        <FormItem className="space-y-3 form-field-group">
+                          <FormLabel className="form-label">Payment Method</FormLabel>
                           <FormControl>
                             <RadioGroup
                               onValueChange={field.onChange}
                               defaultValue={field.value}
-                              className="flex flex-col space-y-1"
+                              className="flex flex-col space-y-2"
                             >
-                              <div className="flex items-center space-x-2">
-                                <RadioGroupItem value="cod" id="cod" />
-                                <Label htmlFor="cod" className="font-normal">Cash on Delivery</Label>
+                              <div className="flex items-center space-x-3 bg-white p-3 rounded-md border border-[#D1D5DB] hover:border-[#D72638] transition-colors">
+                                <RadioGroupItem 
+                                  value="cod" 
+                                  id="cod" 
+                                  className="form-radio w-5 h-5"
+                                />
+                                <Label htmlFor="cod" className="cursor-pointer font-medium text-[#3D2C2E]">Cash on Delivery</Label>
                               </div>
-                              <div className="flex items-center space-x-2">
-                                <RadioGroupItem value="upi" id="upi" />
-                                <Label htmlFor="upi" className="font-normal">UPI/Card Payment</Label>
+                              <div className="flex items-center space-x-3 bg-white p-3 rounded-md border border-[#D1D5DB] hover:border-[#D72638] transition-colors">
+                                <RadioGroupItem 
+                                  value="upi" 
+                                  id="upi" 
+                                  className="form-radio w-5 h-5"
+                                />
+                                <Label htmlFor="upi" className="cursor-pointer font-medium text-[#3D2C2E]">UPI/Card Payment</Label>
                               </div>
                             </RadioGroup>
                           </FormControl>
-                          <FormMessage />
+                          <FormMessage className="form-error" />
                         </FormItem>
                       )}
                     />
                     
                     <Button 
                       type="submit" 
-                      className="w-full" 
+                      className="btn-form-primary w-full mt-4" 
                       disabled={isSubmitting || cartItems.length === 0}
                     >
                       {isSubmitting ? (
@@ -435,12 +461,12 @@ export default function Checkout() {
               </CardContent>
             </Card>
           ) : orderStep === 'payment' && clientSecret ? (
-            <Card>
-              <CardHeader>
-                <CardTitle>Payment</CardTitle>
+            <Card className="border-0 shadow-lg">
+              <CardHeader className="bg-[#FFF7E6] rounded-t-lg">
+                <CardTitle className="text-[#3D2C2E] text-2xl">Payment</CardTitle>
                 <CardDescription>Complete your payment securely</CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="form-container p-8 rounded-b-lg">
                 <Elements stripe={stripePromise} options={{ clientSecret }}>
                   <PaymentForm 
                     clientSecret={clientSecret} 
@@ -448,10 +474,10 @@ export default function Checkout() {
                   />
                 </Elements>
               </CardContent>
-              <CardFooter>
+              <CardFooter className="p-4 bg-[#FAFAFA] rounded-b-lg border-t border-[#EFEFEF]">
                 <Button 
                   variant="outline" 
-                  className="w-full" 
+                  className="w-full hover:bg-[#FFF3E3] hover:text-[#D72638] transition-colors" 
                   onClick={() => setOrderStep('details')}
                 >
                   Back to Details

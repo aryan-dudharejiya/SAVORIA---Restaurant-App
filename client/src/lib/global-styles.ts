@@ -23,6 +23,7 @@ export const globalStyles = {
     hover: 'shadow-hover',        // Custom hover shadow
     card: 'shadow-card',          // Card shadow
     button: 'shadow-button',      // Button shadow
+    formElement: 'shadow-[0px_4px_10px_rgba(0,0,0,0.05)]', // Form elements shadow
   },
 
   // Animation transitions
@@ -32,6 +33,7 @@ export const globalStyles = {
     slow: 'transition-all duration-500 ease-in-out',
     hover: 'transition-transform duration-300 hover:scale-105',
     button: 'transition-all duration-300 hover:shadow-hover transform hover:scale-[1.02]',
+    buttonScale: 'transition-all duration-300 hover:shadow-hover transform hover:scale-[1.05]',
   },
 
   // Text styles for consistency
@@ -43,6 +45,9 @@ export const globalStyles = {
     bodyBold: 'text-base font-body font-semibold',
     small: 'text-sm font-body',
     caption: 'text-xs font-body text-gray-500',
+    formLabel: 'text-[16px] font-semibold text-[#3D2C2E]', // Form labels
+    formInput: 'text-[16px] font-normal text-[#3D2C2E]', // Form input text
+    formHelper: 'text-sm text-gray-500', // Helper text for forms
   },
 
   // Color variations for primary color
@@ -69,6 +74,16 @@ export const globalStyles = {
     
     // Text color
     text: 'text-restaurant-text',
+    
+    // Form specific colors
+    formBg: 'bg-[#FFF7E6]', // Light beige for form backgrounds
+    formInputBg: 'bg-[#F7F7F7]', // Light gray for input backgrounds
+    formInputWarmBg: 'bg-[#FFF3E3]', // Warm beige for premium input backgrounds
+    formInputBorder: 'border-[#D1D5DB]', // Subtle border for inputs
+    formInputFocusBorder: 'focus:border-[#D72638]', // Primary color border on focus
+    formPlaceholder: 'placeholder:text-[#9CA3AF]', // Lighter shade for placeholders
+    formActiveButton: 'bg-[#D72638]', // Deep red for primary buttons
+    formSecondaryButton: 'bg-[#FF914D]', // Warm orange for secondary buttons
   },
 
   // Button styles
@@ -78,6 +93,11 @@ export const globalStyles = {
     accent: 'bg-restaurant-accent text-white font-heading font-semibold rounded-lg px-6 py-3 transition-all duration-300 hover:bg-restaurant-accent/90 hover:shadow-hover transform hover:scale-105',
     ghost: 'bg-transparent text-restaurant-text font-heading font-semibold rounded-lg px-6 py-3 transition-all duration-300 hover:bg-gray-100',
     outline: 'bg-transparent border border-restaurant-primary text-restaurant-primary font-heading font-semibold rounded-lg px-6 py-3 transition-all duration-300 hover:bg-restaurant-primary/5',
+    
+    // Form specific buttons
+    formPrimary: 'bg-[#D72638] text-white font-semibold rounded-lg px-6 py-3 min-h-[45px] transition-all duration-300 hover:bg-[#D72638]/90 hover:shadow-lg transform hover:scale-105',
+    formSecondary: 'bg-[#FF914D] text-white font-semibold rounded-lg px-6 py-3 min-h-[45px] transition-all duration-300 hover:bg-[#FF914D]/90 hover:shadow-lg transform hover:scale-105',
+    formOutline: 'bg-transparent border-2 border-[#FF914D] text-[#FF914D] font-semibold rounded-lg px-6 py-3 min-h-[45px] transition-all duration-300 hover:bg-[#FF914D]/10 transform hover:scale-105',
   },
   
   // Card styles
@@ -104,5 +124,19 @@ export const globalStyles = {
     card: 'rounded-xl overflow-hidden aspect-video object-cover',
     avatar: 'rounded-full object-cover',
     hero: 'w-full h-full object-cover object-center',
+  },
+  
+  // Form styles
+  forms: {
+    container: 'bg-[#FAF5E9] rounded-lg p-6 shadow-[0px_4px_10px_rgba(0,0,0,0.05)]',
+    fieldGroup: 'mb-6 last:mb-0',
+    label: 'block mb-2 text-[16px] font-semibold text-[#3D2C2E] font-sans',
+    input: 'w-full rounded-[6px] border border-[#D1D5DB] bg-[#FFF3E3] px-4 py-3 min-h-[45px] text-[#3D2C2E] text-[16px] placeholder:text-[#9CA3AF] focus:border-[#D72638] focus:outline-none transition-colors duration-200',
+    select: 'w-full rounded-[6px] border border-[#D1D5DB] bg-[#FFF3E3] px-4 py-3 min-h-[45px] text-[#3D2C2E] text-[16px] focus:border-[#D72638] focus:outline-none transition-colors duration-200',
+    textarea: 'w-full rounded-[6px] border border-[#D1D5DB] bg-[#FFF3E3] px-4 py-3 min-h-[120px] text-[#3D2C2E] text-[16px] placeholder:text-[#9CA3AF] focus:border-[#D72638] focus:outline-none transition-colors duration-200 resize-y',
+    checkbox: 'rounded-sm border-2 border-[#D1D5DB] text-[#D72638] focus:ring-[#D72638]',
+    radio: 'border-2 border-[#D1D5DB] text-[#D72638] focus:ring-[#D72638]',
+    error: 'mt-1 text-sm text-[#D72638]',
+    helper: 'mt-1 text-sm text-gray-500',
   }
 };
