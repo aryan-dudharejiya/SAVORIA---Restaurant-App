@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "wouter";
 import { ShoppingCart, Menu, X, Phone, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -17,9 +17,48 @@ const Navbar = () => {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
   const isMobile = useIsMobile();
+  const bodyRef = useRef<HTMLElement | null>(null);
   
   // Determine if current page has a dark background (home page only)
   const isHomePage = location === "/";
+  
+  // Effect to handle body scroll locking when mobile menu is open
+  useEffect(() => {
+    bodyRef.current = document.body;
+    
+    if (mobileMenuOpen) {
+      // Save current scroll position
+      const scrollY = window.scrollY;
+      
+      // Lock the body scroll by setting fixed position and preserving scroll position
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
+      document.body.style.overflowY = 'hidden';
+    } else if (bodyRef.current) {
+      // Unlock the body scroll when menu closes
+      const scrollY = bodyRef.current.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.style.overflowY = '';
+      
+      // Restore scroll position
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY.replace('-', '').replace('px', '')));
+      }
+    }
+    
+    return () => {
+      // Clean up in case component unmounts with menu open
+      if (bodyRef.current) {
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        document.body.style.overflowY = '';
+      }
+    };
+  }, [mobileMenuOpen]);
   
   // Default to "scrolled" look on non-home pages
   useEffect(() => {
@@ -147,15 +186,22 @@ const Navbar = () => {
               </AnimatePresence>
             </Link>
             
-            {/* Mobile Menu Button */}
+            {/* Mobile Menu Button - Larger and touch-friendly */}
             <button 
-              className={`lg:hidden z-10 transition-colors duration-300 ${
-                mobileMenuOpen ? 'text-white' : (scrolled ? 'text-restaurant-text' : 'text-white')
+              className={`lg:hidden z-10 flex items-center justify-center w-10 h-10 rounded-md transition-all duration-300 ease-in-out active:scale-95 ${
+                mobileMenuOpen 
+                  ? 'text-white bg-white/10 backdrop-blur-sm'
+                  : scrolled 
+                    ? 'text-restaurant-text hover:bg-gray-100/90' 
+                    : 'text-white hover:bg-white/10 backdrop-blur-sm'
               }`} 
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Mobile menu"
             >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              {mobileMenuOpen 
+                ? <X size={24} className="transform transition-transform duration-300" /> 
+                : <Menu size={24} className="transform transition-transform duration-300" />
+              }
             </button>
           </div>
         </div>
@@ -181,15 +227,15 @@ const Navbar = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: "100%" }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="fixed inset-y-0 right-0 w-full max-w-sm bg-gradient-to-br from-black/95 to-restaurant-primary/90 z-50 flex flex-col justify-center items-center shadow-2xl"
+              className="fixed inset-y-0 right-0 w-full max-w-sm bg-gradient-to-br from-black/95 to-restaurant-primary/90 z-50 flex flex-col justify-center items-center shadow-2xl overflow-y-auto overscroll-contain"
             >
               {/* Close button in top right */}
               <button 
-                className="absolute top-6 right-6 text-white/80 hover:text-white transition-all duration-300"
+                className="absolute top-6 right-6 flex items-center justify-center w-10 h-10 rounded-full bg-black/20 text-white hover:bg-black/30 transition-all duration-300 active:scale-95"
                 onClick={() => setMobileMenuOpen(false)}
                 aria-label="Close menu"
               >
-                <X size={28} />
+                <X size={24} />
               </button>
               
               <motion.div 
@@ -198,18 +244,18 @@ const Navbar = () => {
                 transition={{ delay: 0.1, staggerChildren: 0.1 }}
                 className="w-full max-w-md px-8"
               >
-                <nav className="flex flex-col space-y-7 text-center mb-14">
+                <nav className="flex flex-col space-y-5 text-center mb-12">
                   {navLinks.map((link, index) => (
                     <motion.div
                       key={link.href}
                       initial={{ y: 20, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       transition={{ delay: 0.1 + index * 0.1 }}
-                      className="overflow-hidden py-1"
+                      className="overflow-hidden py-2"
                     >
                       <Link 
                         href={link.href} 
-                        className={`relative block text-white text-[1.2rem] font-heading font-medium tracking-wide hover:text-restaurant-secondary transition-all duration-300 ease-in-out group ${
+                        className={`relative block text-white text-[1.25rem] font-heading font-medium tracking-wide hover:text-restaurant-secondary transition-all duration-300 ease-in-out group py-2 ${
                           location === link.href ? 'text-restaurant-secondary font-semibold' : ''
                         }`}
                         onClick={() => setMobileMenuOpen(false)}
@@ -217,8 +263,8 @@ const Navbar = () => {
                         {link.label}
                         {/* Animated underline effect */}
                         <span 
-                          className={`absolute bottom-0 left-0 w-0 h-0.5 bg-restaurant-secondary transition-all duration-300 ease-in-out ${
-                            location === link.href ? 'w-full' : 'group-hover:w-full'
+                          className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-restaurant-secondary transition-all duration-300 ease-in-out ${
+                            location === link.href ? 'w-12' : 'group-hover:w-12'
                           }`}
                         />
                       </Link>
@@ -226,14 +272,14 @@ const Navbar = () => {
                   ))}
                 </nav>
                 
-                <div className="flex flex-col space-y-4">
+                <div className="flex flex-col space-y-4 w-full mt-3">
                   <motion.div
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.5 }}
                   >
                     <Button 
-                      className={`w-full bg-white hover:bg-white/90 ${globalStyles.colors.primary} py-6 rounded-lg text-lg font-heading font-semibold ${globalStyles.shadows.hover} ${globalStyles.transitions.button}`}
+                      className="w-full bg-[#D72638] hover:bg-[#C02030] text-white py-5 rounded-lg text-lg font-heading font-semibold shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98]"
                       onClick={() => setMobileMenuOpen(false)}
                       asChild
                     >
@@ -249,12 +295,12 @@ const Navbar = () => {
                     transition={{ delay: 0.6 }}
                   >
                     <Button 
-                      className={`w-full bg-transparent hover:bg-white/10 text-white py-6 rounded-lg text-lg border border-white/20 font-heading font-semibold transition-all duration-300 ease-in-out`}
+                      className="w-full bg-transparent hover:bg-white/10 text-white py-5 rounded-lg text-lg border border-white/30 font-heading font-semibold transition-all duration-300 ease-in-out shadow-md hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98]"
                       onClick={() => setMobileMenuOpen(false)}
                       asChild
                     >
-                      <Link href="/cart">
-                        <ShoppingCart className="w-5 h-5 mr-2 inline-block" />
+                      <Link href="/cart" className="flex items-center justify-center gap-2">
+                        <ShoppingCart className="w-5 h-5" />
                         View Cart
                       </Link>
                     </Button>
@@ -269,10 +315,10 @@ const Navbar = () => {
                 >
                   <a 
                     href="tel:+1234567890" 
-                    className="inline-flex items-center justify-center gap-2 text-white/80 hover:text-white transition-all duration-300"
+                    className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white hover:bg-white/20 transition-all duration-300 backdrop-blur-sm"
                   >
-                    <Phone size={18} />
-                    <span className="font-medium">(123) 456-7890</span>
+                    <Phone className="w-5 h-5 text-restaurant-secondary" strokeWidth={2.5} />
+                    <span className="font-medium tracking-wide">(123) 456-7890</span>
                   </a>
                 </motion.div>
               </motion.div>
