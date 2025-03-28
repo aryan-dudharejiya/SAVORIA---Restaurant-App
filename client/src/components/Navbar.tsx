@@ -132,15 +132,15 @@ const Navbar = () => {
               <span className="text-sm font-medium">Checkout</span>
             </Link>
             
-            {/* Cart Button */}
-            <button 
+            {/* Cart Link */}
+            <Link 
+              href="/cart"
               className={`relative flex items-center justify-center p-2.5 rounded-full transition-all duration-300 ${
                 scrolled 
                   ? 'bg-white hover:bg-primary/10 text-primary shadow-md border border-gray-100' 
                   : 'bg-white/20 hover:bg-white/30 text-white backdrop-blur-sm'
               }`}
-              onClick={() => setCartOpen(!cartOpen)}
-              aria-label="Shopping cart"
+              aria-label="View Shopping Cart"
             >
               <ShoppingCart className="w-5 h-5" />
               <AnimatePresence>
@@ -156,7 +156,7 @@ const Navbar = () => {
                   </motion.span>
                 )}
               </AnimatePresence>
-            </button>
+            </Link>
             
             {/* Mobile Menu Button */}
             <button 
@@ -233,12 +233,12 @@ const Navbar = () => {
                 >
                   <Button 
                     className="w-full bg-primary/20 hover:bg-primary/30 text-white py-6 rounded-md text-lg border border-white/20"
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      setCartOpen(true);
-                    }}
+                    onClick={() => setMobileMenuOpen(false)}
+                    asChild
                   >
-                    View Cart
+                    <Link href="/cart">
+                      View Cart
+                    </Link>
                   </Button>
                 </motion.div>
               </div>

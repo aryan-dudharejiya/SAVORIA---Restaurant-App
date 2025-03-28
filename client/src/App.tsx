@@ -6,6 +6,7 @@ import Menu from "./pages/Menu";
 import Reservation from "./pages/Reservation";
 import Reviews from "./pages/Reviews";
 import Contact from "./pages/Contact";
+import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import TrackOrder from "./pages/TrackOrder";
 import MyOrders from "./pages/MyOrders";
@@ -20,6 +21,7 @@ function Router() {
       <Route path="/reservation" component={Reservation} />
       <Route path="/reviews" component={Reviews} />
       <Route path="/contact" component={Contact} />
+      <Route path="/cart" component={Cart} />
       <Route path="/checkout" component={Checkout} />
       <Route path="/track-order" component={TrackOrder} />
       <Route path="/track-order/:trackingId" component={TrackOrder} />
