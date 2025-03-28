@@ -341,11 +341,7 @@ export class MemStorage implements IStorage {
         description: "New York style cheesecake with a graham cracker crust and fresh berry compote.",
         price: "11.99",
         category: "desserts",
-        image: "https://images.unsplash.com/photo-1567171466295-4afa63d45416?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"e",
-        description: "New York style cheesecake with a graham cracker crust and berry compote.",
-        price: "10.99",
-        category: "desserts",
-        image: "https://images.unsplash.com/photo-1524351199678-941a58a3df50?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
+        image: "https://images.unsplash.com/photo-1567171466295-4afa63d45416?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
       },
       {
         name: "Gelato Selection",

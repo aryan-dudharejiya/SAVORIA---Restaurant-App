@@ -87,12 +87,12 @@ const Navbar = () => {
           </Link>
           
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8">
+          <nav className="hidden lg:flex items-center space-x-3 xl:space-x-8">
             {navLinks.map((link) => (
               <Link 
                 key={link.href} 
                 href={link.href} 
-                className={`relative font-heading font-medium text-sm uppercase tracking-wide ${globalStyles.transitions.medium} py-2 group ${
+                className={`relative font-heading font-medium text-[0.9rem] xl:text-sm uppercase tracking-wide transition-all duration-300 ease-in-out py-2 group ${
                   location === link.href 
                     ? scrolled ? `${globalStyles.colors.primary} font-semibold` : `${globalStyles.colors.secondary} font-semibold` 
                     : scrolled ? `${globalStyles.colors.text} hover:${globalStyles.colors.primary}` : `text-white hover:${globalStyles.colors.secondary}`
@@ -111,9 +111,9 @@ const Navbar = () => {
             {/* Checkout Button - Desktop only */}
             <Link 
               href="/checkout" 
-              className={`hidden md:flex items-center gap-1 px-4 py-2 rounded-lg ${globalStyles.transitions.medium} ${
+              className={`hidden md:flex items-center gap-1 px-4 py-2 rounded-lg transition-all duration-300 ease-in-out ${
                 scrolled ? 
-                  'text-restaurant-primary border border-restaurant-primary/30 hover:bg-restaurant-primary/5' : 
+                  'text-restaurant-primary border border-restaurant-primary/30 hover:bg-restaurant-primary/5 hover:shadow-sm' : 
                   'text-white border border-white/30 hover:bg-white/10 backdrop-blur-sm'
               }`}
             >
@@ -124,9 +124,9 @@ const Navbar = () => {
             {/* Cart Link */}
             <Link 
               href="/cart"
-              className={`relative flex items-center justify-center p-2.5 rounded-full ${globalStyles.transitions.medium} ${
+              className={`relative flex items-center justify-center p-2.5 rounded-full transition-all duration-300 ease-in-out ${
                 scrolled 
-                  ? `bg-white hover:bg-restaurant-primary/5 ${globalStyles.colors.primary} ${globalStyles.shadows.sm} border border-gray-100` 
+                  ? `bg-white hover:bg-restaurant-primary/5 ${globalStyles.colors.primary} shadow-sm hover:shadow-md border border-gray-100` 
                   : 'bg-white/20 hover:bg-white/30 text-white backdrop-blur-sm'
               }`}
               aria-label="View Shopping Cart"
@@ -139,7 +139,7 @@ const Navbar = () => {
                     animate={{ scale: 1 }}
                     exit={{ scale: 0 }}
                     transition={{ type: "spring", stiffness: 500, damping: 25 }}
-                    className={`absolute -top-2 -right-2 ${globalStyles.colors.primaryBg} text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center ${globalStyles.shadows.sm}`}
+                    className="absolute -top-2 -right-2 bg-[#D72638] text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow-sm"
                   >
                     {totalItems}
                   </motion.span>
@@ -149,7 +149,7 @@ const Navbar = () => {
             
             {/* Mobile Menu Button */}
             <button 
-              className={`md:hidden z-10 transition-colors duration-300 ${
+              className={`lg:hidden z-10 transition-colors duration-300 ${
                 mobileMenuOpen ? 'text-white' : (scrolled ? 'text-restaurant-text' : 'text-white')
               }`} 
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -164,76 +164,120 @@ const Navbar = () => {
       {/* Mobile Navigation Menu - Animated Full Screen Overlay */}
       <AnimatePresence>
         {mobileMenuOpen && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-gradient-to-br from-black/95 to-restaurant-primary/90 z-40 flex flex-col justify-center items-center"
-          >
+          <>
+            {/* Backdrop overlay that closes menu when clicked */}
             <motion.div 
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.1, staggerChildren: 0.1 }}
-              className="w-full max-w-md px-6"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40"
+              onClick={() => setMobileMenuOpen(false)}
+            />
+            
+            {/* Mobile menu content */}
+            <motion.div 
+              initial={{ opacity: 0, x: "100%" }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: "100%" }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="fixed inset-y-0 right-0 w-full max-w-sm bg-gradient-to-br from-black/95 to-restaurant-primary/90 z-50 flex flex-col justify-center items-center shadow-2xl"
             >
-              <nav className="flex flex-col space-y-6 text-center mb-10">
-                {navLinks.map((link, index) => (
+              {/* Close button in top right */}
+              <button 
+                className="absolute top-6 right-6 text-white/80 hover:text-white transition-all duration-300"
+                onClick={() => setMobileMenuOpen(false)}
+                aria-label="Close menu"
+              >
+                <X size={28} />
+              </button>
+              
+              <motion.div 
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.1, staggerChildren: 0.1 }}
+                className="w-full max-w-md px-8"
+              >
+                <nav className="flex flex-col space-y-7 text-center mb-14">
+                  {navLinks.map((link, index) => (
+                    <motion.div
+                      key={link.href}
+                      initial={{ y: 20, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 0.1 + index * 0.1 }}
+                      className="overflow-hidden py-1"
+                    >
+                      <Link 
+                        href={link.href} 
+                        className={`relative block text-white text-[1.2rem] font-heading font-medium tracking-wide hover:text-restaurant-secondary transition-all duration-300 ease-in-out group ${
+                          location === link.href ? 'text-restaurant-secondary font-semibold' : ''
+                        }`}
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        {link.label}
+                        {/* Animated underline effect */}
+                        <span 
+                          className={`absolute bottom-0 left-0 w-0 h-0.5 bg-restaurant-secondary transition-all duration-300 ease-in-out ${
+                            location === link.href ? 'w-full' : 'group-hover:w-full'
+                          }`}
+                        />
+                      </Link>
+                    </motion.div>
+                  ))}
+                </nav>
+                
+                <div className="flex flex-col space-y-4">
                   <motion.div
-                    key={link.href}
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.1 + index * 0.1 }}
+                    transition={{ delay: 0.5 }}
                   >
-                    <Link 
-                      href={link.href} 
-                      className={`text-white text-2xl font-heading font-medium hover:text-restaurant-secondary transition-colors ${
-                        location === link.href ? 'text-restaurant-secondary' : ''
-                      }`}
+                    <Button 
+                      className={`w-full bg-white hover:bg-white/90 ${globalStyles.colors.primary} py-6 rounded-lg text-lg font-heading font-semibold ${globalStyles.shadows.hover} ${globalStyles.transitions.button}`}
                       onClick={() => setMobileMenuOpen(false)}
+                      asChild
                     >
-                      {link.label}
-                    </Link>
+                      <Link href="/menu">
+                        View Menu
+                      </Link>
+                    </Button>
                   </motion.div>
-                ))}
-              </nav>
-              
-              <div className="flex flex-col space-y-4">
-                <motion.div
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.5 }}
-                >
-                  <Button 
-                    className={`w-full bg-white hover:bg-white/90 ${globalStyles.colors.primary} py-6 rounded-lg text-lg font-heading font-semibold ${globalStyles.shadows.hover} ${globalStyles.transitions.button}`}
-                    onClick={() => setMobileMenuOpen(false)}
-                    asChild
+                  
+                  <motion.div
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.6 }}
                   >
-                    <Link href="/menu">
-                      View Menu
-                    </Link>
-                  </Button>
-                </motion.div>
+                    <Button 
+                      className={`w-full bg-transparent hover:bg-white/10 text-white py-6 rounded-lg text-lg border border-white/20 font-heading font-semibold transition-all duration-300 ease-in-out`}
+                      onClick={() => setMobileMenuOpen(false)}
+                      asChild
+                    >
+                      <Link href="/cart">
+                        <ShoppingCart className="w-5 h-5 mr-2 inline-block" />
+                        View Cart
+                      </Link>
+                    </Button>
+                  </motion.div>
+                </div>
                 
                 <motion.div
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.6 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.7 }}
+                  className="absolute bottom-10 left-0 right-0 text-center"
                 >
-                  <Button 
-                    className={`w-full ${globalStyles.colors.secondaryBg}/20 ${globalStyles.colors.secondaryHover}/30 text-white py-6 rounded-lg text-lg border border-white/20 font-heading font-semibold ${globalStyles.transitions.button}`}
-                    onClick={() => setMobileMenuOpen(false)}
-                    asChild
+                  <a 
+                    href="tel:+1234567890" 
+                    className="inline-flex items-center justify-center gap-2 text-white/80 hover:text-white transition-all duration-300"
                   >
-                    <Link href="/cart">
-                      <ShoppingCart className="w-5 h-5 mr-2 inline-block" />
-                      View Cart
-                    </Link>
-                  </Button>
+                    <Phone size={18} />
+                    <span className="font-medium">(123) 456-7890</span>
+                  </a>
                 </motion.div>
-              </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
+          </>
         )}
       </AnimatePresence>
       
