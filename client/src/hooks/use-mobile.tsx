@@ -1,19 +1,62 @@
-import * as React from "react"
+import * as React from "react";
 
-const MOBILE_BREAKPOINT = 768
+// Define breakpoints for consistent responsive behavior
+export const BREAKPOINTS = {
+  MOBILE: 640, // sm: Small mobile devices
+  TABLET: 1024, // lg: Tablets and smaller laptops
+};
 
+// Hook to check if viewport is mobile size
 export function useIsMobile() {
-  const [isMobile, setIsMobile] = React.useState<boolean | undefined>(undefined)
+  const [isMobile, setIsMobile] = React.useState<boolean | undefined>(
+    undefined
+  );
 
   React.useEffect(() => {
-    const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`)
-    const onChange = () => {
-      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
-    }
-    mql.addEventListener("change", onChange)
-    setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
-    return () => mql.removeEventListener("change", onChange)
-  }, [])
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth < BREAKPOINTS.TABLET);
+    };
 
-  return !!isMobile
+    // Check immediately
+    checkScreenSize();
+
+    // Add event listener for resize
+    window.addEventListener("resize", checkScreenSize);
+
+    // Clean up
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
+
+  return !!isMobile;
+}
+
+// Hook to get more specific screen size information
+export function useScreenSize() {
+  const [screenSize, setScreenSize] = React.useState({
+    isMobile: false, // <640px
+    isTablet: false, // 640px-1024px
+    isDesktop: false, // >1024px
+  });
+
+  React.useEffect(() => {
+    const checkScreenSize = () => {
+      const width = window.innerWidth;
+      setScreenSize({
+        isMobile: width < BREAKPOINTS.MOBILE,
+        isTablet: width >= BREAKPOINTS.MOBILE && width < BREAKPOINTS.TABLET,
+        isDesktop: width >= BREAKPOINTS.TABLET,
+      });
+    };
+
+    // Check immediately
+    checkScreenSize();
+
+    // Add event listener for resize
+    window.addEventListener("resize", checkScreenSize);
+
+    // Clean up
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
+
+  return screenSize;
 }

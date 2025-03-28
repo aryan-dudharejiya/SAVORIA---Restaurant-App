@@ -5,6 +5,9 @@ export default {
   content: ["./client/index.html", "./client/src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      screens: {
+        xs: "480px",
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
@@ -46,24 +49,24 @@ export default {
         ring: "hsl(var(--ring))",
         // Custom restaurant theme colors
         restaurant: {
-          primary: "#D72638",    // Deep Red for CTAs and highlights
-          secondary: "#FF914D",  // Warm Orange for active elements
+          primary: "#D72638", // Deep Red for CTAs and highlights
+          secondary: "#FF914D", // Warm Orange for active elements
           background: "#FFF7E6", // Soft Cream background
-          text: "#3D2C2E",       // Dark Brown for text
-          accent: "#6D9773",     // Olive Green accent
+          text: "#3D2C2E", // Dark Brown for text
+          accent: "#6D9773", // Olive Green accent
         },
         amber: {
-          '50': '#fffbeb',
-          '100': '#fef3c7',
-          '200': '#fde68a',
-          '300': '#fcd34d',
-          '400': '#fbbf24',
-          '500': '#f59e0b',
-          '600': '#d97706',
-          '700': '#b45309',
-          '800': '#92400e',
-          '900': '#78350f',
-          '950': '#451a03',
+          "50": "#fffbeb",
+          "100": "#fef3c7",
+          "200": "#fde68a",
+          "300": "#fcd34d",
+          "400": "#fbbf24",
+          "500": "#f59e0b",
+          "600": "#d97706",
+          "700": "#b45309",
+          "800": "#92400e",
+          "900": "#78350f",
+          "950": "#451a03",
         },
         chart: {
           "1": "hsl(var(--chart-1))",
@@ -148,10 +151,10 @@ export default {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "navSlideDown": "nav-slide-down 0.3s ease-out",
-        "slowZoom": "slow-zoom 20s ease-out infinite alternate",
-        "fadeInUp": "fade-in-up 0.6s ease-out",
-        "fadeIn": "fade-in 0.6s ease-out",
+        navSlideDown: "nav-slide-down 0.3s ease-out",
+        slowZoom: "slow-zoom 20s ease-out infinite alternate",
+        fadeInUp: "fade-in-up 0.6s ease-out",
+        fadeIn: "fade-in 0.6s ease-out",
         "hover-scale": "hover-scale 0.3s ease-in-out",
       },
       fontFamily: {
@@ -160,49 +163,49 @@ export default {
         body: ["Roboto", "Lato", "sans-serif"],
       },
       fontSize: {
-        h1: ['2.5rem', { lineHeight: '1.2', fontWeight: '700' }],
-        h2: ['2rem', { lineHeight: '1.3', fontWeight: '600' }],
-        h3: ['1.75rem', { lineHeight: '1.4', fontWeight: '500' }],
-        base: ['1rem', { lineHeight: '1.5', fontWeight: '400' }],
+        h1: ["2.5rem", { lineHeight: "1.2", fontWeight: "700" }],
+        h2: ["2rem", { lineHeight: "1.3", fontWeight: "600" }],
+        h3: ["1.75rem", { lineHeight: "1.4", fontWeight: "500" }],
+        base: ["1rem", { lineHeight: "1.5", fontWeight: "400" }],
       },
       boxShadow: {
-        'hover': '0px 4px 12px rgba(0, 0, 0, 0.1)',
-        'card': '0 4px 8px rgba(0, 0, 0, 0.05)',
-        'button': '0 2px 4px rgba(0, 0, 0, 0.1)',
+        hover: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+        card: "0 4px 8px rgba(0, 0, 0, 0.05)",
+        button: "0 2px 4px rgba(0, 0, 0, 0.1)",
       },
     },
   },
   plugins: [
-    require("tailwindcss-animate"), 
+    require("tailwindcss-animate"),
     require("@tailwindcss/typography"),
-    function({ addUtilities }) {
+    function ({ addUtilities }) {
       const newUtilities = {
-        '.line-clamp-1': {
-          display: '-webkit-box',
-          '-webkit-line-clamp': '1',
-          '-webkit-box-orient': 'vertical',
-          overflow: 'hidden',
+        ".line-clamp-1": {
+          display: "-webkit-box",
+          "-webkit-line-clamp": "1",
+          "-webkit-box-orient": "vertical",
+          overflow: "hidden",
         },
-        '.line-clamp-2': {
-          display: '-webkit-box',
-          '-webkit-line-clamp': '2',
-          '-webkit-box-orient': 'vertical',
-          overflow: 'hidden',
+        ".line-clamp-2": {
+          display: "-webkit-box",
+          "-webkit-line-clamp": "2",
+          "-webkit-box-orient": "vertical",
+          overflow: "hidden",
         },
-        '.line-clamp-3': {
-          display: '-webkit-box',
-          '-webkit-line-clamp': '3',
-          '-webkit-box-orient': 'vertical',
-          overflow: 'hidden',
+        ".line-clamp-3": {
+          display: "-webkit-box",
+          "-webkit-line-clamp": "3",
+          "-webkit-box-orient": "vertical",
+          overflow: "hidden",
         },
-        '.line-clamp-4': {
-          display: '-webkit-box',
-          '-webkit-line-clamp': '4',
-          '-webkit-box-orient': 'vertical',
-          overflow: 'hidden',
+        ".line-clamp-4": {
+          display: "-webkit-box",
+          "-webkit-line-clamp": "4",
+          "-webkit-box-orient": "vertical",
+          overflow: "hidden",
         },
-      }
-      addUtilities(newUtilities)
-    }
+      };
+      addUtilities(newUtilities);
+    },
   ],
 } satisfies Config;
