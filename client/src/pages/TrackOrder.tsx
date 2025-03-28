@@ -372,7 +372,9 @@ function TrackOrderForm() {
                   placeholder="e.g. SAV-1234-ABC"
                   value={trackingId}
                   onChange={(e) => setTrackingId(e.target.value)}
-                  className="flex-1 h-12"
+                  className="rounded-lg border border-[#D1D5DB] border-[1.5px] bg-[#FFF3E3] px-4 py-3 h-12 text-[#3D2C2E] text-base
+                  shadow-[0_2px_4px_rgba(0,0,0,0.05)] focus:border-[#D72638] focus:outline-none focus:shadow-[0_0_5px_rgba(215,38,56,0.4)]
+                  hover:border-[#D72638]/50 placeholder:text-[#9CA3AF] placeholder:font-normal transition-all duration-300"
                 />
               </div>
               

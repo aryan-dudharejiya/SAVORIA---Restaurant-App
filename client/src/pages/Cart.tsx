@@ -384,7 +384,9 @@ const Cart = () => {
                           <input
                             type="text"
                             placeholder="Enter promo code"
-                            className="flex-1 px-4 py-3 text-gray-700 text-sm focus:outline-none border-0"
+                            className="flex-1 rounded-lg border-0 bg-[#FFF3E3] px-4 py-3 min-h-[50px] text-[#3D2C2E] text-sm
+                            placeholder:text-[#9CA3AF] placeholder:font-normal focus:outline-none focus:shadow-[0_0_5px_rgba(215,38,56,0.4)]
+                            transition-all duration-300"
                             value={promoCode}
                             onChange={(e) => setPromoCode(e.target.value)}
                             onKeyDown={(e) => {
