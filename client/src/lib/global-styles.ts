@@ -45,9 +45,12 @@ export const globalStyles = {
     bodyBold: 'text-base font-body font-semibold',
     small: 'text-sm font-body',
     caption: 'text-xs font-body text-gray-500',
-    formLabel: 'text-[16px] font-semibold text-[#3D2C2E]', // Form labels
-    formInput: 'text-[16px] font-normal text-[#3D2C2E]', // Form input text
-    formHelper: 'text-sm text-gray-500', // Helper text for forms
+    formLabel: 'text-base font-semibold text-[#3D2C2E] font-[\'Poppins\']', // Form labels
+    formInput: 'text-base font-normal text-[#3D2C2E] font-[\'Roboto\']', // Form input text
+    formPlaceholder: 'text-[#9CA3AF] font-normal', // Placeholder text
+    formHelper: 'text-sm text-gray-500 font-[\'Roboto\']', // Helper text for forms
+    formError: 'text-sm text-[#D72638] font-[\'Roboto\']', // Error text for forms
+    formButton: 'text-base font-semibold font-[\'Poppins\']', // Button text in forms
   },
 
   // Color variations for primary color
@@ -76,14 +79,19 @@ export const globalStyles = {
     text: 'text-restaurant-text',
     
     // Form specific colors
-    formBg: 'bg-[#FFF7E6]', // Light beige for form backgrounds
+    formBg: 'bg-[#FAF5E9]', // Light beige for form backgrounds
     formInputBg: 'bg-[#F7F7F7]', // Light gray for input backgrounds
     formInputWarmBg: 'bg-[#FFF3E3]', // Warm beige for premium input backgrounds
-    formInputBorder: 'border-[#D1D5DB]', // Subtle border for inputs
-    formInputFocusBorder: 'focus:border-[#D72638]', // Primary color border on focus
-    formPlaceholder: 'placeholder:text-[#9CA3AF]', // Lighter shade for placeholders
-    formActiveButton: 'bg-[#D72638]', // Deep red for primary buttons
-    formSecondaryButton: 'bg-[#FF914D]', // Warm orange for secondary buttons
+    formInputBorder: 'border-[#D1D5DB] border-[1.5px]', // Subtle border for inputs
+    formInputFocusBorder: 'focus:border-[#D72638]', // Primary color border on focus 
+    formInputFocusShadow: 'focus:shadow-[0_0_5px_rgba(215,38,56,0.4)]', // Glow effect on focus
+    formInputHoverBorder: 'hover:border-[#D72638]/50', // Hover effect for borders
+    formInputShadow: 'shadow-[0_2px_4px_rgba(0,0,0,0.05)]', // Subtle shadow for inputs
+    formPlaceholder: 'placeholder:text-[#9CA3AF] placeholder:font-normal', // Lighter shade for placeholders
+    formPrimaryButton: 'bg-[#D72638] hover:bg-[#D72638]/90', // Deep red for primary buttons
+    formSecondaryButton: 'bg-[#FF914D] hover:bg-[#FF914D]/90', // Warm orange for secondary buttons
+    formLabelText: 'text-[#3D2C2E] font-[\'Poppins\'] font-semibold', // Label text style
+    formInputText: 'text-[#3D2C2E] font-[\'Roboto\']' // Input text style
   },
 
   // Button styles
@@ -95,9 +103,18 @@ export const globalStyles = {
     outline: 'bg-transparent border border-restaurant-primary text-restaurant-primary font-heading font-semibold rounded-lg px-6 py-3 transition-all duration-300 hover:bg-restaurant-primary/5',
     
     // Form specific buttons
-    formPrimary: 'bg-[#D72638] text-white font-semibold rounded-lg px-6 py-3 min-h-[45px] transition-all duration-300 hover:bg-[#D72638]/90 hover:shadow-lg transform hover:scale-105',
-    formSecondary: 'bg-[#FF914D] text-white font-semibold rounded-lg px-6 py-3 min-h-[45px] transition-all duration-300 hover:bg-[#FF914D]/90 hover:shadow-lg transform hover:scale-105',
-    formOutline: 'bg-transparent border-2 border-[#FF914D] text-[#FF914D] font-semibold rounded-lg px-6 py-3 min-h-[45px] transition-all duration-300 hover:bg-[#FF914D]/10 transform hover:scale-105',
+    formPrimary: `bg-[#D72638] text-white font-semibold font-['Poppins'] rounded-lg px-6 py-3 
+                 min-h-[50px] text-base shadow-[0_2px_4px_rgba(215,38,56,0.3)] 
+                 transition-all duration-300 hover:bg-[#D72638]/90 hover:shadow-lg 
+                 transform hover:scale-105 active:translate-y-0.5 active:shadow-inner`,
+    formSecondary: `bg-[#FF914D] text-white font-semibold font-['Poppins'] rounded-lg px-6 py-3 
+                   min-h-[50px] text-base shadow-[0_2px_4px_rgba(255,145,77,0.3)] 
+                   transition-all duration-300 hover:bg-[#FF914D]/90 hover:shadow-lg 
+                   transform hover:scale-105 active:translate-y-0.5 active:shadow-inner`,
+    formOutline: `bg-transparent border-2 border-[#FF914D] text-[#FF914D] font-semibold font-['Poppins'] 
+                 rounded-lg px-6 py-3 min-h-[50px] text-base 
+                 transition-all duration-300 hover:bg-[#FF914D]/10 hover:shadow-[0_2px_4px_rgba(255,145,77,0.2)]
+                 transform hover:scale-105 active:translate-y-0.5`,
   },
   
   // Card styles
@@ -128,15 +145,64 @@ export const globalStyles = {
   
   // Form styles
   forms: {
-    container: 'bg-[#FAF5E9] rounded-lg p-6 shadow-[0px_4px_10px_rgba(0,0,0,0.05)]',
-    fieldGroup: 'mb-6 last:mb-0',
-    label: 'block mb-2 text-[16px] font-semibold text-[#3D2C2E] font-sans',
-    input: 'w-full rounded-[6px] border border-[#D1D5DB] bg-[#FFF3E3] px-4 py-3 min-h-[45px] text-[#3D2C2E] text-[16px] placeholder:text-[#9CA3AF] focus:border-[#D72638] focus:outline-none transition-colors duration-200',
-    select: 'w-full rounded-[6px] border border-[#D1D5DB] bg-[#FFF3E3] px-4 py-3 min-h-[45px] text-[#3D2C2E] text-[16px] focus:border-[#D72638] focus:outline-none transition-colors duration-200',
-    textarea: 'w-full rounded-[6px] border border-[#D1D5DB] bg-[#FFF3E3] px-4 py-3 min-h-[120px] text-[#3D2C2E] text-[16px] placeholder:text-[#9CA3AF] focus:border-[#D72638] focus:outline-none transition-colors duration-200 resize-y',
-    checkbox: 'rounded-sm border-2 border-[#D1D5DB] text-[#D72638] focus:ring-[#D72638]',
-    radio: 'border-2 border-[#D1D5DB] text-[#D72638] focus:ring-[#D72638]',
-    error: 'mt-1 text-sm text-[#D72638]',
-    helper: 'mt-1 text-sm text-gray-500',
+    container: 'bg-[#FAF5E9] rounded-lg p-6 shadow-[0px_4px_12px_rgba(0,0,0,0.07)]',
+    fieldGroup: 'mb-5 last:mb-0',
+    label: 'block mb-2 text-base font-semibold text-[#3D2C2E] font-[\'Poppins\']',
+    input: `w-full rounded-lg border border-[#D1D5DB] border-[1.5px] bg-[#FFF3E3] 
+            px-4 py-3 min-h-[50px] text-[#3D2C2E] text-base font-['Roboto']
+            placeholder:text-[#9CA3AF] placeholder:font-normal
+            shadow-[0_2px_4px_rgba(0,0,0,0.05)]
+            focus:border-[#D72638] focus:outline-none focus:shadow-[0_0_5px_rgba(215,38,56,0.4)]
+            hover:border-[#D72638]/50
+            transition-all duration-300`,
+    select: `w-full rounded-lg border border-[#D1D5DB] border-[1.5px] bg-[#FFF3E3] 
+            px-4 py-3 min-h-[50px] text-[#3D2C2E] text-base font-['Roboto']
+            shadow-[0_2px_4px_rgba(0,0,0,0.05)]
+            focus:border-[#D72638] focus:outline-none focus:shadow-[0_0_5px_rgba(215,38,56,0.4)]
+            hover:border-[#D72638]/50
+            transition-all duration-300`,
+    textarea: `w-full rounded-lg border border-[#D1D5DB] border-[1.5px] bg-[#FFF3E3] 
+              px-4 py-3 min-h-[120px] text-[#3D2C2E] text-base font-['Roboto']
+              placeholder:text-[#9CA3AF] placeholder:font-normal
+              shadow-[0_2px_4px_rgba(0,0,0,0.05)]
+              focus:border-[#D72638] focus:outline-none focus:shadow-[0_0_5px_rgba(215,38,56,0.4)]
+              hover:border-[#D72638]/50
+              transition-all duration-300 resize-y`,
+    checkbox: `rounded-sm border-2 border-[#D1D5DB] text-[#D72638] 
+              focus:ring-[#D72638] focus:ring-offset-0
+              shadow-[0_1px_2px_rgba(0,0,0,0.05)]
+              transition-all duration-200
+              cursor-pointer h-5 w-5`,
+    radio: `border-2 border-[#D1D5DB] text-[#D72638] 
+           focus:ring-[#D72638] focus:ring-offset-0
+           shadow-[0_1px_2px_rgba(0,0,0,0.05)]
+           transition-all duration-200
+           cursor-pointer h-5 w-5`,
+    error: 'mt-1.5 text-sm text-[#D72638] font-[\'Roboto\']',
+    helper: 'mt-1.5 text-sm text-gray-500 font-[\'Roboto\']',
+    primaryButton: `bg-[#D72638] text-white font-semibold rounded-lg 
+                   px-6 py-3 min-h-[50px] 
+                   font-['Poppins'] text-base
+                   shadow-[0_2px_4px_rgba(215,38,56,0.3)]
+                   transition-all duration-300 
+                   hover:bg-[#D72638]/90 hover:shadow-lg 
+                   transform hover:scale-105
+                   active:translate-y-0.5 active:shadow-inner`,
+    secondaryButton: `bg-[#FF914D] text-white font-semibold rounded-lg 
+                     px-6 py-3 min-h-[50px] 
+                     font-['Poppins'] text-base
+                     shadow-[0_2px_4px_rgba(255,145,77,0.3)]
+                     transition-all duration-300 
+                     hover:bg-[#FF914D]/90 hover:shadow-lg 
+                     transform hover:scale-105
+                     active:translate-y-0.5 active:shadow-inner`,
+    outlineButton: `bg-transparent border-2 border-[#FF914D] text-[#FF914D] 
+                   font-semibold rounded-lg 
+                   px-6 py-3 min-h-[50px] 
+                   font-['Poppins'] text-base
+                   transition-all duration-300 
+                   hover:bg-[#FF914D]/10 hover:shadow-[0_2px_4px_rgba(255,145,77,0.2)]
+                   transform hover:scale-105
+                   active:translate-y-0.5`,
   }
 };

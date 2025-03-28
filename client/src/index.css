@@ -76,55 +76,114 @@
   
   /* Modern Form Styling */
   .form-container {
-    @apply bg-[#FAF5E9] rounded-lg p-6 shadow-[0px_4px_10px_rgba(0,0,0,0.05)];
+    @apply bg-[#FAF5E9] rounded-lg p-6 shadow-[0px_4px_12px_rgba(0,0,0,0.07)];
   }
   
   .form-field-group {
-    @apply mb-6 last:mb-0;
+    @apply mb-5 last:mb-0;
   }
 
   .form-label {
-    @apply block mb-2 text-[16px] font-semibold text-[#3D2C2E] font-sans;
+    @apply block mb-2 text-base font-semibold text-[#3D2C2E] font-['Poppins'];
   }
   
   .form-input {
-    @apply w-full rounded-[6px] border border-[#D1D5DB] bg-[#FFF3E3] px-4 py-3 min-h-[45px] text-[#3D2C2E] text-[16px] placeholder:text-[#9CA3AF] focus:border-[#D72638] focus:outline-none transition-colors duration-200;
+    @apply w-full rounded-lg border border-[#D1D5DB] border-[1.5px] bg-[#FFF3E3] 
+           px-4 py-3 min-h-[50px] text-[#3D2C2E] text-base font-['Roboto']
+           placeholder:text-[#9CA3AF] placeholder:font-normal
+           shadow-[0_2px_4px_rgba(0,0,0,0.05)]
+           focus:border-[#D72638] focus:outline-none focus:shadow-[0_0_5px_rgba(215,38,56,0.4)]
+           hover:border-[#D72638]/50
+           transition-all duration-300;
   }
   
   .form-select {
-    @apply w-full rounded-[6px] border border-[#D1D5DB] bg-[#FFF3E3] px-4 py-3 min-h-[45px] text-[#3D2C2E] text-[16px] focus:border-[#D72638] focus:outline-none transition-colors duration-200;
+    @apply w-full rounded-lg border border-[#D1D5DB] border-[1.5px] bg-[#FFF3E3] 
+           px-4 py-3 min-h-[50px] text-[#3D2C2E] text-base font-['Roboto']
+           shadow-[0_2px_4px_rgba(0,0,0,0.05)]
+           focus:border-[#D72638] focus:outline-none focus:shadow-[0_0_5px_rgba(215,38,56,0.4)]
+           hover:border-[#D72638]/50
+           transition-all duration-300;
   }
   
   .form-textarea {
-    @apply w-full rounded-[6px] border border-[#D1D5DB] bg-[#FFF3E3] px-4 py-3 min-h-[120px] text-[#3D2C2E] text-[16px] placeholder:text-[#9CA3AF] focus:border-[#D72638] focus:outline-none transition-colors duration-200 resize-y;
+    @apply w-full rounded-lg border border-[#D1D5DB] border-[1.5px] bg-[#FFF3E3] 
+           px-4 py-3 min-h-[120px] text-[#3D2C2E] text-base font-['Roboto']
+           placeholder:text-[#9CA3AF] placeholder:font-normal
+           shadow-[0_2px_4px_rgba(0,0,0,0.05)]
+           focus:border-[#D72638] focus:outline-none focus:shadow-[0_0_5px_rgba(215,38,56,0.4)]
+           hover:border-[#D72638]/50
+           transition-all duration-300 resize-y;
   }
   
   .form-checkbox {
-    @apply rounded-sm border-2 border-[#D1D5DB] text-[#D72638] focus:ring-[#D72638];
+    @apply rounded-sm border-2 border-[#D1D5DB] text-[#D72638] 
+           focus:ring-[#D72638] focus:ring-offset-0
+           shadow-[0_1px_2px_rgba(0,0,0,0.05)]
+           transition-all duration-200
+           cursor-pointer h-5 w-5;
   }
   
   .form-radio {
-    @apply border-2 border-[#D1D5DB] text-[#D72638] focus:ring-[#D72638];
+    @apply border-2 border-[#D1D5DB] text-[#D72638] 
+           focus:ring-[#D72638] focus:ring-offset-0
+           shadow-[0_1px_2px_rgba(0,0,0,0.05)]
+           transition-all duration-200
+           cursor-pointer h-5 w-5;
   }
   
   .form-error {
-    @apply mt-1 text-sm text-[#D72638];
+    @apply mt-1.5 text-sm text-[#D72638] font-['Roboto'];
   }
   
   .form-helper {
-    @apply mt-1 text-sm text-gray-500;
+    @apply mt-1.5 text-sm text-gray-500 font-['Roboto'];
   }
 
+  /* Form button styling */
   .btn-form-primary {
-    @apply bg-[#D72638] text-white font-semibold rounded-lg px-6 py-3 min-h-[45px] transition-all duration-300 hover:bg-[#D72638]/90 hover:shadow-lg transform hover:scale-105;
+    @apply bg-[#D72638] text-white font-semibold rounded-lg 
+           px-6 py-3 min-h-[50px] 
+           font-['Poppins'] text-base
+           shadow-[0_2px_4px_rgba(215,38,56,0.3)]
+           transition-all duration-300 
+           hover:bg-[#D72638]/90 hover:shadow-lg 
+           transform hover:scale-105
+           active:translate-y-0.5 active:shadow-inner;
   }
   
   .btn-form-secondary {
-    @apply bg-[#FF914D] text-white font-semibold rounded-lg px-6 py-3 min-h-[45px] transition-all duration-300 hover:bg-[#FF914D]/90 hover:shadow-lg transform hover:scale-105;
+    @apply bg-[#FF914D] text-white font-semibold rounded-lg 
+           px-6 py-3 min-h-[50px] 
+           font-['Poppins'] text-base
+           shadow-[0_2px_4px_rgba(255,145,77,0.3)]
+           transition-all duration-300 
+           hover:bg-[#FF914D]/90 hover:shadow-lg 
+           transform hover:scale-105
+           active:translate-y-0.5 active:shadow-inner;
   }
   
   .btn-form-outline {
-    @apply bg-transparent border-2 border-[#FF914D] text-[#FF914D] font-semibold rounded-lg px-6 py-3 min-h-[45px] transition-all duration-300 hover:bg-[#FF914D]/10 transform hover:scale-105;
+    @apply bg-transparent border-2 border-[#FF914D] text-[#FF914D] 
+           font-semibold rounded-lg 
+           px-6 py-3 min-h-[50px] 
+           font-['Poppins'] text-base
+           transition-all duration-300 
+           hover:bg-[#FF914D]/10 hover:shadow-[0_2px_4px_rgba(255,145,77,0.2)]
+           transform hover:scale-105
+           active:translate-y-0.5;
+  }
+  
+  /* Responsive adjustments for mobile */
+  @media (max-width: 640px) {
+    .form-input, .form-textarea, .form-select,
+    .btn-form-primary, .btn-form-secondary, .btn-form-outline {
+      @apply px-4 py-3 text-base;
+    }
+    
+    .form-field-group {
+      @apply mb-4;
+    }
   }
 }
 
@@ -194,4 +253,32 @@ img.lazy-load.loaded {
 
 .carousel-item.active {
   @apply opacity-100 scale-105;
+}
+
+/* Stripe Payment Element Styling */
+.payment-element .StripeElement {
+  @apply rounded-lg border border-[#D1D5DB] border-[1.5px] bg-[#FFF7F7] 
+         px-4 py-3 shadow-[0_2px_4px_rgba(0,0,0,0.05)]
+         hover:border-[#D72638]/50 transition-all duration-300;
+}
+
+.payment-element .StripeElement--focus {
+  @apply border-[#D72638] shadow-[0_0_5px_rgba(215,38,56,0.4)];
+}
+
+.payment-element .StripeElement--invalid {
+  @apply border-red-500;
+}
+
+/* Enhance all input fields globally */
+input:not([type="checkbox"]):not([type="radio"]):not(.form-input):not(.custom-styled),
+select:not(.form-select):not(.custom-styled),
+textarea:not(.form-textarea):not(.custom-styled) {
+  @apply rounded-lg border border-[#D1D5DB] border-[1.5px] bg-[#FFF3E3] 
+         px-4 py-3 min-h-[50px] text-[#3D2C2E] text-base
+         placeholder:text-[#9CA3AF] placeholder:font-normal
+         shadow-[0_2px_4px_rgba(0,0,0,0.05)]
+         focus:border-[#D72638] focus:outline-none focus:shadow-[0_0_5px_rgba(215,38,56,0.4)]
+         hover:border-[#D72638]/50
+         transition-all duration-300;
 }
