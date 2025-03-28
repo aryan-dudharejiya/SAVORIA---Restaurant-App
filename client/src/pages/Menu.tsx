@@ -224,7 +224,7 @@ const Menu = () => {
   };
   
   return (
-    <section className="pt-12 pb-24 bg-gradient-to-b from-amber-50/70 to-white">
+    <section className="pt-12 pb-24 bg-[#FAF5E9]">
       {/* Hero Section */}
       <div className="container mx-auto px-4 mb-12">
         <div className="text-center">
@@ -240,7 +240,7 @@ const Menu = () => {
           </motion.div>
           
           <motion.h1 
-            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-amber-700 via-amber-600 to-amber-800 bg-clip-text text-transparent"
+            className="font-['Poppins'] text-4xl md:text-5xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-amber-700 via-amber-600 to-amber-800 bg-clip-text text-transparent"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
@@ -249,7 +249,7 @@ const Menu = () => {
           </motion.h1>
           
           <motion.p 
-            className="max-w-2xl mx-auto text-gray-600 mb-8 text-lg"
+            className="font-['Roboto'] max-w-2xl mx-auto text-[#3D2C2E] mb-8 text-lg"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -267,10 +267,10 @@ const Menu = () => {
           >
             <div className="flex justify-center">
               <Tabs defaultValue="all">
-                <TabsList className="bg-amber-100/50 p-1 rounded-full">
+                <TabsList className="bg-[#F7F7F7] p-1.5 rounded-xl shadow-[0px_2px_6px_rgba(0,0,0,0.05)]">
                   <TabsTrigger 
                     value="all" 
-                    className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ${activeCategory === 'all' ? 'bg-primary text-white' : 'text-amber-900/70 hover:text-amber-900'}`}
+                    className={`rounded-lg px-5 py-2.5 text-sm font-['Poppins'] font-medium transition-all duration-200 ${activeCategory === 'all' ? 'bg-[#D72638] text-white shadow-sm' : 'text-[#3D2C2E] hover:bg-[#FFF3E3]'}`}
                     onClick={() => scrollToCategory('all')}
                   >
                     All Menu
@@ -279,7 +279,7 @@ const Menu = () => {
                     <TabsTrigger 
                       key={category} 
                       value={category}
-                      className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ${activeCategory === category ? 'bg-primary text-white' : 'text-amber-900/70 hover:text-amber-900'}`}
+                      className={`rounded-lg px-5 py-2.5 text-sm font-['Poppins'] font-medium transition-all duration-200 ${activeCategory === category ? 'bg-[#D72638] text-white shadow-sm' : 'text-[#3D2C2E] hover:bg-[#FFF3E3]'}`}
                       onClick={() => scrollToCategory(category)}
                     >
                       {categoryTitles[category]}
@@ -298,7 +298,7 @@ const Menu = () => {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="max-w-4xl mx-auto relative z-10"
         >
-          <Card className="backdrop-blur-sm bg-white/80 border border-amber-100 shadow-md">
+          <Card className="backdrop-blur-sm bg-[#F7F7F7] border border-amber-100 shadow-[0px_4px_12px_rgba(0,0,0,0.07)] rounded-xl">
             <CardContent className="p-6">
               <div className="flex flex-col gap-4">
                 {/* Search Bar */}
@@ -308,9 +308,9 @@ const Menu = () => {
                     placeholder="Search our menu by name or ingredients..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full py-6 pl-12 pr-4 border-amber-200 rounded-full shadow-sm bg-white text-amber-900 placeholder:text-amber-400 focus-visible:ring-amber-400"
+                    className="w-full py-6 pl-12 pr-4 border-[#D1D5DB] border-[1.5px] rounded-lg shadow-[0_2px_4px_rgba(0,0,0,0.05)] bg-[#FFF3E3] text-[#3D2C2E] font-['Roboto'] placeholder:text-[#9CA3AF] focus-visible:ring-[#D72638] focus-visible:border-[#D72638] hover:border-[#D72638]/50"
                   />
-                  <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-amber-400" size={18} />
+                  <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-amber-500" size={18} />
                   
                   {/* Filter Toggle - Mobile Only */}
                   {isMobile && (
@@ -318,7 +318,7 @@ const Menu = () => {
                       variant="outline"
                       size="icon"
                       onClick={() => setIsFiltersOpen(!isFiltersOpen)}
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 h-9 w-9 rounded-full border-amber-200 bg-white text-amber-600"
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 h-9 w-9 rounded-lg border-amber-200 bg-white text-amber-600"
                     >
                       <SlidersHorizontal size={16} />
                     </Button>
@@ -330,14 +330,14 @@ const Menu = () => {
                   <div className={`flex flex-col md:flex-row gap-4 ${isMobile ? 'animate-fadeInUp' : ''}`}>
                     {/* Category Filter */}
                     <div className="flex-1">
-                      <label className="text-xs font-medium text-amber-800 mb-1 block">
+                      <label className="text-sm font-['Poppins'] font-semibold text-[#3D2C2E] mb-2 block">
                         Category
                       </label>
                       <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-                        <SelectTrigger className="py-2 px-4 border-amber-200 rounded-full bg-white font-medium text-amber-900">
+                        <SelectTrigger className="py-2 px-4 border-[#D1D5DB] border-[1.5px] rounded-lg bg-[#FFF3E3] font-['Roboto'] text-[#3D2C2E] shadow-[0_2px_4px_rgba(0,0,0,0.05)] hover:border-[#D72638]/50">
                           <SelectValue placeholder="All Categories" />
                         </SelectTrigger>
-                        <SelectContent className="border-amber-200 rounded-lg">
+                        <SelectContent className="border-[#D1D5DB] rounded-lg bg-white font-['Roboto']">
                           <SelectItem value="all">All Categories</SelectItem>
                           <SelectItem value="starters">Starters</SelectItem>
                           <SelectItem value="main">Main Course</SelectItem>
@@ -349,14 +349,14 @@ const Menu = () => {
                     
                     {/* Price Sorting */}
                     <div className="flex-1">
-                      <label className="text-xs font-medium text-amber-800 mb-1 block">
+                      <label className="text-sm font-['Poppins'] font-semibold text-[#3D2C2E] mb-2 block">
                         Sort by Price
                       </label>
                       <Select value={priceSort} onValueChange={(value: "none" | "low-high" | "high-low") => setPriceSort(value)}>
-                        <SelectTrigger className="py-2 px-4 border-amber-200 rounded-full bg-white font-medium text-amber-900">
+                        <SelectTrigger className="py-2 px-4 border-[#D1D5DB] border-[1.5px] rounded-lg bg-[#FFF3E3] font-['Roboto'] text-[#3D2C2E] shadow-[0_2px_4px_rgba(0,0,0,0.05)] hover:border-[#D72638]/50">
                           <SelectValue placeholder="Sort by Price" />
                         </SelectTrigger>
-                        <SelectContent className="border-amber-200 rounded-lg">
+                        <SelectContent className="border-[#D1D5DB] rounded-lg bg-white font-['Roboto']">
                           <SelectItem value="none">No Sorting</SelectItem>
                           <SelectItem value="low-high">Price: Low to High</SelectItem>
                           <SelectItem value="high-low">Price: High to Low</SelectItem>
@@ -446,10 +446,10 @@ const Menu = () => {
                       {category === 'drinks' && <ChevronsUpDown className="text-white h-6 w-6" />}
                     </div>
                     <div>
-                      <h2 className="text-3xl font-bold text-amber-900 capitalize" id={`${category}-heading`}>
+                      <h2 className="text-3xl font-['Poppins'] font-bold text-[#3D2C2E] capitalize" id={`${category}-heading`}>
                         {categoryTitles[category]}
                       </h2>
-                      <p className="text-amber-600 text-sm">
+                      <p className="text-amber-600 text-sm font-['Roboto']">
                         {items.length} {items.length === 1 ? 'item' : 'items'}
                       </p>
                     </div>
@@ -473,7 +473,7 @@ const Menu = () => {
                           whileHover={{ y: -5 }}
                           className="h-full"
                         >
-                          <Card className="overflow-hidden h-full bg-white border-amber-100 hover:shadow-xl transition-all duration-500 hover:border-amber-300 relative group">
+                          <Card className="overflow-hidden h-full bg-[#F7F7F7] border-amber-100 hover:shadow-[0px_4px_12px_rgba(0,0,0,0.1)] transition-all duration-500 hover:border-amber-300 relative group rounded-xl">
                             {/* Featured or popular badge */}
                             {item.id % 5 === 0 && (
                               <div className="absolute top-3 left-3 z-10">
@@ -484,11 +484,11 @@ const Menu = () => {
                             )}
                             
                             {/* Item Image with overlay */}
-                            <div className="relative h-56 overflow-hidden bg-amber-100">
+                            <div className="relative h-56 overflow-hidden bg-amber-100 rounded-t-xl">
                               <img 
                                 src={item.image} 
                                 alt={item.name} 
-                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                 loading="lazy"
                               />
                               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
@@ -522,11 +522,11 @@ const Menu = () => {
                             
                             {/* Item Details */}
                             <CardContent className="p-6 flex flex-col h-[calc(100%-224px)]">
-                              <h3 className="font-bold text-xl text-amber-900 mb-2 line-clamp-1 group-hover:text-primary transition-colors">
+                              <h3 className="font-['Inter'] font-semibold text-xl text-[#3D2C2E] mb-2 line-clamp-1 group-hover:text-primary transition-colors">
                                 {item.name}
                               </h3>
                               
-                              <p className="text-gray-600 mb-4 line-clamp-3 text-sm flex-grow">
+                              <p className="font-['Roboto'] text-[#3D2C2E] mb-4 line-clamp-3 text-sm flex-grow">
                                 {item.description}
                               </p>
                               
@@ -549,16 +549,26 @@ const Menu = () => {
                                 </div>
                               )}
                               
-                              {/* Add to cart button */}
-                              <Button 
-                                className="w-full bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white rounded-full py-6 mt-auto group-hover:shadow-md transition-all duration-300 text-sm font-medium"
-                                onClick={() => handleAddToCart(item)}
-                              >
-                                <div className="absolute left-0 top-0 w-full h-full overflow-hidden rounded-full">
-                                  <div className="absolute -left-full top-0 w-full h-full bg-amber-500/20 skew-x-[45deg] transform transition-all duration-500 group-hover:left-full"></div>
-                                </div>
-                                <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart
-                              </Button>
+                              <div className="flex gap-2 mt-auto">
+                                {/* Add to Cart Button */}
+                                <Button 
+                                  className="flex-1 bg-[#D72638] hover:bg-[#D72638]/90 text-white rounded-lg py-2 shadow-md transition-all duration-300 text-base font-medium hover:shadow-lg transform hover:scale-[1.03]"
+                                  onClick={() => handleAddToCart(item)}
+                                >
+                                  <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart
+                                </Button>
+
+                                {/* View Details Button */}
+                                <Button 
+                                  className="bg-transparent border-2 border-[#FF914D] text-[#FF914D] hover:bg-[#FF914D]/10 rounded-lg py-2 transition-all duration-300 text-base font-medium transform hover:scale-[1.03]"
+                                  onClick={() => toast({
+                                    title: "Item Details",
+                                    description: `You're viewing details for ${item.name}.`,
+                                  })}
+                                >
+                                  <Info className="mr-2 h-4 w-4" /> Details
+                                </Button>
+                              </div>
                               
                               {/* Reviews preview (collapsible) */}
                               {getItemReviews(item.id).length > 0 && (
