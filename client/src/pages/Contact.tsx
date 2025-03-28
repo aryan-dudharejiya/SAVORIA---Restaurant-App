@@ -181,7 +181,7 @@ const Contact = () => {
               initial={{ opacity: 0, x: -30 }}
               animate={isLoaded ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
               transition={{ delay: 0.2, duration: 0.6 }}
-              className="p-8 lg:p-12 form-container"
+              className="p-8 lg:p-12 form-container rounded-l-xl"
             >
               <div className="flex items-center gap-2 mb-6">
                 <MessageSquare className="text-primary h-5 w-5" />
@@ -197,7 +197,11 @@ const Contact = () => {
                       <FormItem className="form-field-group">
                         <FormLabel className="form-label">Full Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="Your name" {...field} className="form-input" />
+                          <Input 
+                            placeholder="Your name" 
+                            {...field} 
+                            className="form-input" 
+                          />
                         </FormControl>
                         <FormMessage className="form-error" />
                       </FormItem>
@@ -211,7 +215,12 @@ const Contact = () => {
                       <FormItem className="form-field-group">
                         <FormLabel className="form-label">Email</FormLabel>
                         <FormControl>
-                          <Input type="email" placeholder="Your email address" {...field} className="form-input" />
+                          <Input 
+                            type="email" 
+                            placeholder="Your email address" 
+                            {...field} 
+                            className="form-input" 
+                          />
                         </FormControl>
                         <FormMessage className="form-error" />
                       </FormItem>
