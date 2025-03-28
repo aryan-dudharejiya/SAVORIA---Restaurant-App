@@ -217,14 +217,24 @@ function OrderDetails({ order }: { order: Order }) {
               </div>
               <div className="space-y-3 max-h-60 overflow-y-auto pr-1">
                 {items.map((item: any, index: number) => (
-                  <div key={index} className="flex justify-between items-center border-b pb-2">
-                    <div className="flex items-center">
-                      <span className="w-5 h-5 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs mr-2">
-                        {item.quantity}
+                  <div key={index} className="flex justify-between items-start border-b pb-3 gap-3">
+                    {item.image && (
+                      <div className="w-16 h-16 flex-shrink-0 rounded-md overflow-hidden">
+                        <img src={item.image} alt={item.name} className="w-full h-full object-cover" loading="lazy" />
+                      </div>
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center">
+                        <span className="w-5 h-5 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs mr-2">
+                          {item.quantity}
+                        </span>
+                        <span className="font-medium truncate">{item.name}</span>
+                      </div>
+                      <span className="text-sm text-gray-500">
+                        ${item.price.toFixed(2)} each
                       </span>
-                      <span>{item.name}</span>
                     </div>
-                    <span className="font-medium">${(item.price * item.quantity).toFixed(2)}</span>
+                    <span className="font-medium shrink-0">${(item.price * item.quantity).toFixed(2)}</span>
                   </div>
                 ))}
               </div>

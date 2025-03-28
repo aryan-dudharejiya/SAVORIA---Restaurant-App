@@ -69,6 +69,31 @@ function OrderCard({ order }: { order: Order }) {
       <CardContent className="pb-2">
         <div className="text-sm">
           <p className="font-medium">{itemCount} {itemCount === 1 ? 'item' : 'items'}</p>
+          
+          {/* Item images row */}
+          <div className="flex -space-x-2 overflow-hidden my-2">
+            {items.slice(0, 3).map((item: any, index: number) => (
+              item.image ? (
+                <div 
+                  key={index} 
+                  className="inline-block h-10 w-10 rounded-full border-2 border-white overflow-hidden bg-gray-100"
+                >
+                  <img 
+                    src={item.image} 
+                    alt={item.name} 
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+              ) : null
+            ))}
+            {items.length > 3 && (
+              <div className="inline-flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-gray-100 text-xs font-medium">
+                +{items.length - 3}
+              </div>
+            )}
+          </div>
+          
           <p className="text-muted-foreground line-clamp-1">
             {items.map((item: any) => item.name).join(', ')}
           </p>
