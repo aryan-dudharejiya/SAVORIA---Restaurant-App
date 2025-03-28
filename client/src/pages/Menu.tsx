@@ -32,7 +32,8 @@ const Menu = () => {
       menuItemId: item.id,
       name: item.name,
       price: parseFloat(item.price.toString()),
-      quantity: 1
+      quantity: 1,
+      image: item.image
     });
     
     toast({
