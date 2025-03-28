@@ -42,12 +42,22 @@ function OrderSummary({ cartItems }: { cartItems: CartItem[] }) {
       <CardContent className="space-y-4">
         <div className="max-h-64 overflow-y-auto">
           {cartItems.map((item) => (
-            <div key={item.id} className="flex justify-between items-center py-2 border-b">
-              <div>
-                <p className="font-medium">{item.name}</p>
+            <div key={item.id} className="flex justify-between items-start py-3 border-b gap-3">
+              {item.image && (
+                <div className="w-16 h-16 rounded-md overflow-hidden flex-shrink-0">
+                  <img 
+                    src={item.image} 
+                    alt={item.name} 
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+              )}
+              <div className="flex-1 min-w-0">
+                <p className="font-medium truncate">{item.name}</p>
                 <p className="text-sm text-muted-foreground">Qty: {item.quantity}</p>
               </div>
-              <p className="font-medium">${(item.price * item.quantity).toFixed(2)}</p>
+              <p className="font-medium shrink-0">${(item.price * item.quantity).toFixed(2)}</p>
             </div>
           ))}
         </div>
@@ -249,6 +259,33 @@ export default function Checkout() {
               <p className="text-sm text-muted-foreground mt-2">
                 Order Tracking ID: <span className="font-bold">{orderId}</span>
               </p>
+              
+              {/* Order thumbnail images */}
+              <div className="flex justify-center my-6">
+                <div className="flex -space-x-4 overflow-hidden">
+                  {cartItems.slice(0, 3).map((item, index) => (
+                    item.image ? (
+                      <div 
+                        key={index} 
+                        className="inline-block h-16 w-16 rounded-full border-2 border-white overflow-hidden"
+                      >
+                        <img 
+                          src={item.image} 
+                          alt={item.name} 
+                          className="h-full w-full object-cover"
+                          loading="lazy"
+                        />
+                      </div>
+                    ) : null
+                  ))}
+                  {cartItems.length > 3 && (
+                    <div className="inline-flex h-16 w-16 items-center justify-center rounded-full border-2 border-white bg-gray-100 text-sm font-medium">
+                      +{cartItems.length - 3}
+                    </div>
+                  )}
+                </div>
+              </div>
+              
               <p className="text-sm mt-4">
                 You can track your order status using this tracking ID.
               </p>
