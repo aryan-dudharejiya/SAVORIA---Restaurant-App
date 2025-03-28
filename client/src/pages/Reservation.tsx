@@ -128,14 +128,14 @@ const Reservation = () => {
   const maxDateString = maxDate.toISOString().split('T')[0];
   
   return (
-    <section id="reservation" className="py-16 bg-gray-50">
+    <section id="reservation" className="py-16 bg-[#FAF5E9]">
       <div className="container mx-auto px-4">
         <div className="max-w-5xl mx-auto">
           <div className="flex flex-col md:flex-row shadow-xl rounded-lg overflow-hidden">
-            <Card className="md:w-1/2 p-0 border-0 shadow-none rounded-none order-2 md:order-1">
+            <Card className="md:w-1/2 p-0 border-0 shadow-none rounded-none order-2 md:order-1 bg-[#FAF5E9]">
               <CardContent className="form-container p-8 rounded-none h-full">
-                <h2 className="font-heading text-3xl font-bold mb-4 text-[#3D2C2E]">Book a Table</h2>
-                <p className="text-gray-600 mb-8">
+                <h2 className="font-['Poppins'] text-3xl font-bold mb-4 text-[#3D2C2E]">Book a Table</h2>
+                <p className="font-['Roboto'] text-[#3D2C2E] mb-8">
                   Reserve your table now for a memorable dining experience. We'll confirm your booking via email.
                 </p>
                 
@@ -149,7 +149,13 @@ const Reservation = () => {
                           <FormItem className="form-field-group">
                             <FormLabel className="form-label">Full Name</FormLabel>
                             <FormControl>
-                              <Input placeholder="John Doe" {...field} className="form-input" />
+                              <Input 
+                                placeholder="John Doe" 
+                                {...field} 
+                                className="rounded-lg border border-[#D1D5DB] border-[1.5px] bg-[#FFF3E3] px-4 py-3 min-h-[50px] text-[#3D2C2E] text-base
+                                shadow-[0_2px_4px_rgba(0,0,0,0.05)] focus:border-[#D72638] focus:outline-none focus:shadow-[0_0_5px_rgba(215,38,56,0.4)]
+                                hover:border-[#D72638]/50 placeholder:text-[#9CA3AF] placeholder:font-normal transition-all duration-300" 
+                              />
                             </FormControl>
                             <FormMessage className="form-error" />
                           </FormItem>
@@ -163,7 +169,14 @@ const Reservation = () => {
                           <FormItem className="form-field-group">
                             <FormLabel className="form-label">Email</FormLabel>
                             <FormControl>
-                              <Input type="email" placeholder="john@example.com" {...field} className="form-input" />
+                              <Input 
+                                type="email" 
+                                placeholder="john@example.com" 
+                                {...field} 
+                                className="rounded-lg border border-[#D1D5DB] border-[1.5px] bg-[#FFF3E3] px-4 py-3 min-h-[50px] text-[#3D2C2E] text-base
+                                shadow-[0_2px_4px_rgba(0,0,0,0.05)] focus:border-[#D72638] focus:outline-none focus:shadow-[0_0_5px_rgba(215,38,56,0.4)]
+                                hover:border-[#D72638]/50 placeholder:text-[#9CA3AF] placeholder:font-normal transition-all duration-300" 
+                              />
                             </FormControl>
                             <FormMessage className="form-error" />
                           </FormItem>
@@ -184,7 +197,9 @@ const Reservation = () => {
                                 min={today} 
                                 max={maxDateString} 
                                 {...field} 
-                                className="form-input"
+                                className="rounded-lg border border-[#D1D5DB] border-[1.5px] bg-[#FFF3E3] px-4 py-3 min-h-[50px] text-[#3D2C2E] text-base
+                                shadow-[0_2px_4px_rgba(0,0,0,0.05)] focus:border-[#D72638] focus:outline-none focus:shadow-[0_0_5px_rgba(215,38,56,0.4)]
+                                hover:border-[#D72638]/50 placeholder:text-[#9CA3AF] placeholder:font-normal transition-all duration-300"
                               />
                             </FormControl>
                             <FormMessage className="form-error" />
@@ -203,8 +218,10 @@ const Reservation = () => {
                               defaultValue={field.value}
                             >
                               <FormControl>
-                                <SelectTrigger className="form-select">
-                                  <SelectValue placeholder="Select Time" />
+                                <SelectTrigger className="rounded-lg border border-[#D1D5DB] border-[1.5px] bg-[#FFF3E3] px-4 py-3 min-h-[50px] text-[#3D2C2E] text-base
+                                shadow-[0_2px_4px_rgba(0,0,0,0.05)] focus:border-[#D72638] focus:ring-0 focus:ring-offset-0 focus:outline-none focus:shadow-[0_0_5px_rgba(215,38,56,0.4)]
+                                hover:border-[#D72638]/50 transition-all duration-300">
+                                  <SelectValue placeholder="Select Time" className="text-[#9CA3AF]" />
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent className="bg-white border border-[#D1D5DB]">
@@ -232,8 +249,10 @@ const Reservation = () => {
                             defaultValue={field.value}
                           >
                             <FormControl>
-                              <SelectTrigger className="form-select">
-                                <SelectValue placeholder="Select Number of Guests" />
+                              <SelectTrigger className="rounded-lg border border-[#D1D5DB] border-[1.5px] bg-[#FFF3E3] px-4 py-3 min-h-[50px] text-[#3D2C2E] text-base
+                                shadow-[0_2px_4px_rgba(0,0,0,0.05)] focus:border-[#D72638] focus:ring-0 focus:ring-offset-0 focus:outline-none focus:shadow-[0_0_5px_rgba(215,38,56,0.4)]
+                                hover:border-[#D72638]/50 transition-all duration-300">
+                                <SelectValue placeholder="Select Number of Guests" className="text-[#9CA3AF]" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent className="bg-white border border-[#D1D5DB]">
@@ -260,7 +279,9 @@ const Reservation = () => {
                           <FormControl>
                             <Textarea 
                               placeholder="Any special requests or dietary requirements?" 
-                              className="form-textarea" 
+                              className="rounded-lg border border-[#D1D5DB] border-[1.5px] bg-[#FFF3E3] px-4 py-3 min-h-[100px] text-[#3D2C2E] text-base
+                               shadow-[0_2px_4px_rgba(0,0,0,0.05)] focus:border-[#D72638] focus:outline-none focus:shadow-[0_0_5px_rgba(215,38,56,0.4)]
+                               hover:border-[#D72638]/50 placeholder:text-[#9CA3AF] placeholder:font-normal transition-all duration-300" 
                               onChange={field.onChange}
                               value={field.value || ''}
                               name={field.name}
