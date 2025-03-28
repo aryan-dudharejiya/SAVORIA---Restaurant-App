@@ -248,7 +248,7 @@ export class MemStorage implements IStorage {
         description: "Crispy fried calamari rings served with marinara sauce.",
         price: "12.99", 
         category: "starters",
-        image: "https://images.unsplash.com/photo-1629046068694-a63508c35f5c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
+        image: "https://images.unsplash.com/photo-1599147977417-9ca203317105?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
       },
       {
         name: "Truffle Pasta",
@@ -269,7 +269,7 @@ export class MemStorage implements IStorage {
         description: "Creamy blend of spinach, artichokes, and melted cheeses, served with toasted bread.",
         price: "10.99",
         category: "starters",
-        image: "https://images.unsplash.com/photo-1576300292702-bb2af0d5fd4c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
+        image: "https://images.unsplash.com/photo-1594320990326-999235dbc952?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
       },
       // Main Course
       {
@@ -327,7 +327,7 @@ export class MemStorage implements IStorage {
         description: "Rich vanilla custard topped with a layer of caramelized sugar.",
         price: "8.99",
         category: "desserts",
-        image: "https://images.unsplash.com/photo-1534767854069-14a57f75c2f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
+        image: "https://images.unsplash.com/photo-1579372785655-90ca4a1c28af?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
       },
       {
         name: "Chocolate Lava Cake",
@@ -363,7 +363,7 @@ export class MemStorage implements IStorage {
         description: "Refreshing cocktail with rum, mint, lime, sugar, and soda water.",
         price: "9.99",
         category: "drinks",
-        image: "https://images.unsplash.com/photo-1623123095585-bfa830a89394?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
+        image: "https://images.unsplash.com/photo-1551538827-9c037cb4f32a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
       },
       {
         name: "Craft Beer Flight",
@@ -377,14 +377,14 @@ export class MemStorage implements IStorage {
         description: "Glass of crisp, dry Italian prosecco with delicate bubbles.",
         price: "8.99",
         category: "drinks",
-        image: "https://images.unsplash.com/photo-1585985750376-3ea447d9dc6c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
+        image: "https://images.unsplash.com/photo-1616781296073-65d3f087de41?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
       },
       {
         name: "Espresso Martini",
         description: "Cocktail made with vodka, coffee liqueur, and freshly brewed espresso.",
         price: "11.99",
         category: "drinks",
-        image: "https://images.unsplash.com/photo-1620088676099-c496e35cbbb6?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
+        image: "https://images.unsplash.com/photo-1621873495819-27001a01e277?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=500&q=80"
       }
     ];
     
