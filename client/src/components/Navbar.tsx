@@ -249,7 +249,16 @@ const Navbar = () => {
       
       {/* Cart Dropdown */}
       <AnimatePresence>
-        {cartOpen && <Cart onClose={() => setCartOpen(false)} />}
+        {cartOpen && (
+          <motion.div
+            key="cart-modal"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <Cart onClose={() => setCartOpen(false)} />
+          </motion.div>
+        )}
       </AnimatePresence>
     </header>
   );
