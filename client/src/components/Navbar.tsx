@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
-import { ShoppingCart, Menu, X, Phone } from "lucide-react";
+import { ShoppingCart, Menu, X, Phone, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "../contexts/CartContext";
 import Cart from "./Cart";
 import { motion, AnimatePresence } from "framer-motion";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { globalStyles } from "@/lib/global-styles";
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -70,7 +71,7 @@ const Navbar = () => {
         visible ? 'translate-y-0' : isHomePage ? '-translate-y-full' : 'translate-y-0'
       } ${
         scrolled 
-          ? 'bg-white shadow-lg py-2' 
+          ? 'bg-white shadow-md py-2' 
           : 'bg-transparent py-4'
       }`}
     >
@@ -79,7 +80,7 @@ const Navbar = () => {
           {/* Logo */}
           <Link href="/" className="flex items-center z-10">
             <span className={`font-heading text-2xl font-bold transition-colors duration-300 ${
-              scrolled ? 'text-primary' : 'text-white'
+              scrolled ? 'text-restaurant-primary' : 'text-white'
             } drop-shadow-sm`}>
               SAVORIA
             </span>
@@ -91,14 +92,14 @@ const Navbar = () => {
               <Link 
                 key={link.href} 
                 href={link.href} 
-                className={`relative font-medium text-sm uppercase tracking-wide transition-colors duration-300 py-2 group ${
+                className={`relative font-heading font-medium text-sm uppercase tracking-wide ${globalStyles.transitions.medium} py-2 group ${
                   location === link.href 
-                    ? scrolled ? 'text-primary font-semibold' : 'text-primary font-semibold' 
-                    : scrolled ? 'text-gray-800 hover:text-primary' : 'text-white hover:text-primary/90'
+                    ? scrolled ? `${globalStyles.colors.primary} font-semibold` : `${globalStyles.colors.secondary} font-semibold` 
+                    : scrolled ? `${globalStyles.colors.text} hover:${globalStyles.colors.primary}` : `text-white hover:${globalStyles.colors.secondary}`
                 }`}
               >
                 {link.label}
-                <span className={`absolute bottom-0 left-0 w-full h-0.5 bg-primary transform scale-x-0 origin-left transition-transform duration-300 ${
+                <span className={`absolute bottom-0 left-0 w-full h-0.5 ${scrolled ? 'bg-restaurant-primary' : 'bg-restaurant-secondary'} transform scale-x-0 origin-left transition-transform duration-300 ${
                   location === link.href ? 'scale-x-100' : 'group-hover:scale-x-100'
                 }`}></span>
               </Link>
@@ -110,34 +111,22 @@ const Navbar = () => {
             {/* Checkout Button - Desktop only */}
             <Link 
               href="/checkout" 
-              className={`hidden md:flex items-center gap-1 transition-colors duration-300 ${
-                scrolled ? 'text-gray-800 hover:text-primary' : 'text-white hover:text-primary/90'
+              className={`hidden md:flex items-center gap-1 px-4 py-2 rounded-lg ${globalStyles.transitions.medium} ${
+                scrolled ? 
+                  'text-restaurant-primary border border-restaurant-primary/30 hover:bg-restaurant-primary/5' : 
+                  'text-white border border-white/30 hover:bg-white/10 backdrop-blur-sm'
               }`}
             >
-              <svg 
-                xmlns="http://www.w3.org/2000/svg" 
-                width="18" 
-                height="18" 
-                viewBox="0 0 24 24" 
-                fill="none" 
-                stroke="currentColor" 
-                strokeWidth="2" 
-                strokeLinecap="round" 
-                strokeLinejoin="round"
-                className="mr-1"
-              >
-                <path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6" />
-                <path d="M12 12V8l4 4-4 4v-4" />
-              </svg>
-              <span className="text-sm font-medium">Checkout</span>
+              <ChevronRight className="w-4 h-4" />
+              <span className="text-sm font-medium font-heading">Checkout</span>
             </Link>
             
             {/* Cart Link */}
             <Link 
               href="/cart"
-              className={`relative flex items-center justify-center p-2.5 rounded-full transition-all duration-300 ${
+              className={`relative flex items-center justify-center p-2.5 rounded-full ${globalStyles.transitions.medium} ${
                 scrolled 
-                  ? 'bg-white hover:bg-primary/10 text-primary shadow-md border border-gray-100' 
+                  ? `bg-white hover:bg-restaurant-primary/5 ${globalStyles.colors.primary} ${globalStyles.shadows.sm} border border-gray-100` 
                   : 'bg-white/20 hover:bg-white/30 text-white backdrop-blur-sm'
               }`}
               aria-label="View Shopping Cart"
@@ -150,7 +139,7 @@ const Navbar = () => {
                     animate={{ scale: 1 }}
                     exit={{ scale: 0 }}
                     transition={{ type: "spring", stiffness: 500, damping: 25 }}
-                    className="absolute -top-2 -right-2 bg-primary text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow-md"
+                    className={`absolute -top-2 -right-2 ${globalStyles.colors.primaryBg} text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center ${globalStyles.shadows.sm}`}
                   >
                     {totalItems}
                   </motion.span>
@@ -161,7 +150,7 @@ const Navbar = () => {
             {/* Mobile Menu Button */}
             <button 
               className={`md:hidden z-10 transition-colors duration-300 ${
-                mobileMenuOpen ? 'text-white' : (scrolled ? 'text-gray-800' : 'text-white')
+                mobileMenuOpen ? 'text-white' : (scrolled ? 'text-restaurant-text' : 'text-white')
               }`} 
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Mobile menu"
@@ -180,7 +169,7 @@ const Navbar = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-gradient-to-br from-black/95 to-primary/90 z-40 flex flex-col justify-center items-center"
+            className="fixed inset-0 bg-gradient-to-br from-black/95 to-restaurant-primary/90 z-40 flex flex-col justify-center items-center"
           >
             <motion.div 
               initial={{ y: 20, opacity: 0 }}
@@ -198,8 +187,8 @@ const Navbar = () => {
                   >
                     <Link 
                       href={link.href} 
-                      className={`text-white text-2xl font-medium hover:text-primary/50 transition-colors ${
-                        location === link.href ? 'text-primary/80' : ''
+                      className={`text-white text-2xl font-heading font-medium hover:text-restaurant-secondary transition-colors ${
+                        location === link.href ? 'text-restaurant-secondary' : ''
                       }`}
                       onClick={() => setMobileMenuOpen(false)}
                     >
@@ -216,7 +205,7 @@ const Navbar = () => {
                   transition={{ delay: 0.5 }}
                 >
                   <Button 
-                    className="w-full bg-white hover:bg-white/90 text-primary py-6 rounded-md text-lg"
+                    className={`w-full bg-white hover:bg-white/90 ${globalStyles.colors.primary} py-6 rounded-lg text-lg font-heading font-semibold ${globalStyles.shadows.hover} ${globalStyles.transitions.button}`}
                     onClick={() => setMobileMenuOpen(false)}
                     asChild
                   >
@@ -232,11 +221,12 @@ const Navbar = () => {
                   transition={{ delay: 0.6 }}
                 >
                   <Button 
-                    className="w-full bg-primary/20 hover:bg-primary/30 text-white py-6 rounded-md text-lg border border-white/20"
+                    className={`w-full ${globalStyles.colors.secondaryBg}/20 ${globalStyles.colors.secondaryHover}/30 text-white py-6 rounded-lg text-lg border border-white/20 font-heading font-semibold ${globalStyles.transitions.button}`}
                     onClick={() => setMobileMenuOpen(false)}
                     asChild
                   >
                     <Link href="/cart">
+                      <ShoppingCart className="w-5 h-5 mr-2 inline-block" />
                       View Cart
                     </Link>
                   </Button>

@@ -1,27 +1,38 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&family=Inter:wght@400;500;600;700&family=Lato:wght@300;400;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  :root {
+    scroll-behavior: smooth;
+  }
+  
   * {
     @apply border-border;
   }
 
   body {
-    @apply font-sans antialiased bg-background text-foreground;
+    @apply font-body antialiased bg-restaurant-background text-restaurant-text;
   }
 
-  .font-heading {
-    font-family: 'Playfair Display', serif;
+  h1 {
+    @apply text-h1 font-heading leading-tight;
   }
 
-  .font-accent {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
+  h2 {
+    @apply text-h2 font-heading leading-snug;
   }
-  
+
+  h3 {
+    @apply text-h3 font-heading leading-relaxed;
+  }
+
+  p {
+    @apply text-base leading-relaxed;
+  }
+
   /* Custom scrollbar styling */
   .custom-scrollbar::-webkit-scrollbar {
     width: 6px;
@@ -39,6 +50,28 @@
   
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     background: rgba(107, 114, 128, 0.7);
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-restaurant-primary text-white rounded-lg px-6 py-3 font-heading font-semibold hover:shadow-hover transform transition-all duration-300 hover:scale-105;
+  }
+
+  .btn-secondary {
+    @apply border-2 border-restaurant-secondary text-restaurant-text rounded-lg px-6 py-3 font-heading font-semibold hover:bg-restaurant-secondary/10 transform transition-all duration-300 hover:scale-105;
+  }
+
+  .card {
+    @apply bg-white rounded-xl shadow-card p-6 transition-all duration-300 hover:shadow-hover transform hover:scale-[1.02];
+  }
+
+  .section {
+    @apply py-16 md:py-24;
+  }
+
+  .container {
+    @apply px-4 md:px-6 lg:px-8 mx-auto max-w-7xl;
   }
 }
 
