@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "wouter";
-import { ShoppingCart, Menu, X, Phone, ChevronRight } from "lucide-react";
+import { ShoppingCart, Menu, X, Phone, ChevronRight, CalendarDays } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "../contexts/CartContext";
 import Cart from "./Cart";
@@ -58,6 +58,18 @@ const Navbar = () => {
         document.body.style.overflowY = '';
       }
     };
+  }, [mobileMenuOpen]);
+  
+  // Handle ESC key to close mobile menu
+  useEffect(() => {
+    const handleEscKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && mobileMenuOpen) {
+        setMobileMenuOpen(false);
+      }
+    };
+    
+    window.addEventListener('keydown', handleEscKey);
+    return () => window.removeEventListener('keydown', handleEscKey);
   }, [mobileMenuOpen]);
   
   // Default to "scrolled" look on non-home pages
@@ -216,8 +228,9 @@ const Navbar = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40"
+              transition={{ duration: 0.25, ease: "easeInOut" }}
+              className="fixed inset-0 bg-black/85 backdrop-blur-[2px] z-40 will-change-[opacity]"
+              style={{ backfaceVisibility: "hidden" }}
               onClick={() => setMobileMenuOpen(false)}
             />
             
@@ -226,36 +239,41 @@ const Navbar = () => {
               initial={{ opacity: 0, x: "100%" }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: "100%" }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="fixed inset-y-0 right-0 w-full max-w-sm bg-gradient-to-br from-black/95 to-restaurant-primary/90 z-50 flex flex-col justify-center items-center shadow-2xl overflow-y-auto overscroll-contain"
+              transition={{ 
+                duration: 0.3, 
+                ease: [0.32, 0.72, 0, 1],
+                opacity: { duration: 0.2 }
+              }}
+              className="fixed inset-y-0 right-0 w-[80%] sm:w-[70%] md:w-[50%] lg:w-[35%] bg-gradient-to-br from-black/95 to-restaurant-primary/90 z-50 flex flex-col justify-center items-center shadow-xl overflow-y-auto overscroll-contain"
+              style={{ willChange: "transform, opacity" }}
             >
               {/* Close button in top right */}
               <button 
-                className="absolute top-6 right-6 flex items-center justify-center w-10 h-10 rounded-full bg-black/20 text-white hover:bg-black/30 transition-all duration-300 active:scale-95"
+                className="absolute top-6 right-6 flex items-center justify-center w-12 h-12 rounded-full bg-black/20 text-white hover:bg-black/40 transition-all duration-300 active:scale-95 hover:shadow-lg"
                 onClick={() => setMobileMenuOpen(false)}
                 aria-label="Close menu"
               >
-                <X size={24} />
+                <X size={26} strokeWidth={2.5} className="text-white" />
               </button>
               
               <motion.div 
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.1, staggerChildren: 0.1 }}
-                className="w-full max-w-md px-8"
+                className="w-full max-w-md px-6 sm:px-8 py-16"
               >
-                <nav className="flex flex-col space-y-5 text-center mb-12">
+                <nav className="flex flex-col space-y-6 text-center mb-12">
                   {navLinks.map((link, index) => (
                     <motion.div
                       key={link.href}
                       initial={{ y: 20, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       transition={{ delay: 0.1 + index * 0.1 }}
-                      className="overflow-hidden py-2"
+                      className="overflow-hidden"
                     >
                       <Link 
                         href={link.href} 
-                        className={`relative block text-white text-[1.25rem] font-heading font-medium tracking-wide hover:text-restaurant-secondary transition-all duration-300 ease-in-out group py-2 ${
+                        className={`relative block text-white text-[1.2rem] sm:text-[1.25rem] font-heading font-medium tracking-wide hover:text-restaurant-secondary transition-all duration-300 ease-in-out group py-3 ${
                           location === link.href ? 'text-restaurant-secondary font-semibold' : ''
                         }`}
                         onClick={() => setMobileMenuOpen(false)}
@@ -272,19 +290,20 @@ const Navbar = () => {
                   ))}
                 </nav>
                 
-                <div className="flex flex-col space-y-4 w-full mt-3">
+                <div className="flex flex-col space-y-5 w-full mt-8">
                   <motion.div
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.5 }}
                   >
                     <Button 
-                      className="w-full bg-[#D72638] hover:bg-[#C02030] text-white py-5 rounded-lg text-lg font-heading font-semibold shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98]"
+                      className="w-full bg-[#D72638] hover:bg-[#C02030] text-white py-6 rounded-lg text-[1.1rem] font-heading font-semibold shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98]"
                       onClick={() => setMobileMenuOpen(false)}
                       asChild
                     >
-                      <Link href="/menu">
-                        View Menu
+                      <Link href="/menu" className="flex items-center justify-center gap-2">
+                        <Menu className="w-5 h-5" />
+                        Order Now
                       </Link>
                     </Button>
                   </motion.div>
@@ -295,7 +314,7 @@ const Navbar = () => {
                     transition={{ delay: 0.6 }}
                   >
                     <Button 
-                      className="w-full bg-transparent hover:bg-white/10 text-white py-5 rounded-lg text-lg border border-white/30 font-heading font-semibold transition-all duration-300 ease-in-out shadow-md hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98]"
+                      className="w-full bg-transparent hover:bg-white/10 text-white py-6 rounded-lg text-[1.1rem] border border-white/40 font-heading font-semibold transition-all duration-300 ease-in-out shadow-md hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98]"
                       onClick={() => setMobileMenuOpen(false)}
                       asChild
                     >
@@ -311,15 +330,30 @@ const Navbar = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.7 }}
-                  className="absolute bottom-10 left-0 right-0 text-center"
+                  className="absolute bottom-8 left-0 right-0 flex flex-col items-center gap-3"
                 >
-                  <a 
-                    href="tel:+1234567890" 
-                    className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white hover:bg-white/20 transition-all duration-300 backdrop-blur-sm"
-                  >
-                    <Phone className="w-5 h-5 text-restaurant-secondary" strokeWidth={2.5} />
-                    <span className="font-medium tracking-wide">(123) 456-7890</span>
-                  </a>
+                  <div className="flex flex-col items-center gap-3">
+                    <a 
+                      href="tel:+1234567890" 
+                      className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-white/10 text-white hover:bg-white/20 transition-all duration-300 backdrop-blur-sm"
+                    >
+                      <Phone className="w-5 h-5 text-restaurant-secondary" strokeWidth={2.5} />
+                      <span className="font-medium tracking-wide">(123) 456-7890</span>
+                    </a>
+                    
+                    <a 
+                      href="/reservation" 
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="inline-flex items-center justify-center gap-2 px-5 py-2 text-white/90 hover:text-white transition-all duration-300 text-sm"
+                    >
+                      <CalendarDays className="w-4 h-4 text-restaurant-secondary/90" strokeWidth={2} />
+                      <span className="font-medium">Reserve a Table</span>
+                    </a>
+                  </div>
+                  
+                  <p className="text-white/60 text-xs mt-2">
+                    Open 10:00 AM - 10:00 PM
+                  </p>
                 </motion.div>
               </motion.div>
             </motion.div>
