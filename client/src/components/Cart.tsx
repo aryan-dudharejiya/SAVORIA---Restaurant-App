@@ -1,4 +1,4 @@
-import { X, ShoppingBag, Trash2, ShoppingCart, Gift, Clock, CreditCard, ChevronRight, Minus, Plus, PackageCheck, ArrowRight, ShieldCheck } from "lucide-react";
+import { X, ShoppingBag, Truck, Trash2, ShoppingCart, Gift, Clock, CreditCard, ChevronRight, Minus, Plus, PackageCheck, ArrowRight, ShieldCheck, MapPin, CircleDot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useCart } from "../contexts/CartContext";
@@ -463,10 +463,49 @@ const Cart = ({ onClose }: CartProps) => {
               </div>
             </div>
             
-            {/* Delivery Time Estimate with better styling */}
-            <div className="p-4 border-t border-gray-200 bg-white/90 backdrop-blur-sm flex items-center justify-center gap-2 text-sm text-gray-700 shadow-inner">
-              <Clock size={14} className="text-primary" />
-              <span>Estimated delivery: 30-45 minutes</span>
+            {/* Order Tracking UI */}
+            <div className="p-6 border-t border-gray-200 bg-white/90 backdrop-blur-sm">
+              <div className="flex items-center justify-between mb-4">
+                <h4 className="font-semibold text-gray-800">Order Status</h4>
+                <Clock size={14} className="text-primary" />
+              </div>
+              
+              <div className="relative flex items-center justify-between mb-2">
+                <div className="absolute left-0 right-0 top-1/2 h-0.5 bg-gradient-to-r from-primary/20 via-primary to-primary/20 -translate-y-1/2"></div>
+                
+                {/* Status points */}
+                <div className="relative z-10 flex flex-col items-center">
+                  <div className="w-4 h-4 rounded-full bg-primary flex items-center justify-center">
+                    <ShoppingCart size={10} className="text-white" />
+                  </div>
+                  <span className="text-xs mt-1 font-medium text-primary">Order</span>
+                </div>
+                
+                <div className="relative z-10 flex flex-col items-center">
+                  <div className="w-4 h-4 rounded-full bg-primary flex items-center justify-center">
+                    <CircleDot size={10} className="text-white" />
+                  </div>
+                  <span className="text-xs mt-1 font-medium text-primary">Preparing</span>
+                </div>
+                
+                <div className="relative z-10 flex flex-col items-center">
+                  <div className="w-4 h-4 rounded-full bg-primary/20 flex items-center justify-center">
+                    <Truck size={10} className="text-primary" />
+                  </div>
+                  <span className="text-xs mt-1 text-gray-600">Delivery</span>
+                </div>
+                
+                <div className="relative z-10 flex flex-col items-center">
+                  <div className="w-4 h-4 rounded-full bg-primary/20 flex items-center justify-center">
+                    <MapPin size={10} className="text-primary" />
+                  </div>
+                  <span className="text-xs mt-1 text-gray-600">Arrived</span>
+                </div>
+              </div>
+              
+              <div className="text-center mt-4 text-sm text-gray-700">
+                <span>Estimated delivery: 30-45 minutes</span>
+              </div>
             </div>
           </>
         )}
