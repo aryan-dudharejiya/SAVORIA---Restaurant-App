@@ -5,23 +5,31 @@ import path, { dirname } from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 import { fileURLToPath } from "url";
 
+// Safe __dirname in ES module
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-export default defineConfig({
-  plugins: [
+// Conditionally import cartographer plugin
+async function getPlugins() {
+  const plugins = [
     react(),
     runtimeErrorOverlay(),
     themePlugin(),
-    ...(process.env.NODE_ENV !== "production" &&
-    process.env.REPL_ID !== undefined
-      ? [
-          await import("@replit/vite-plugin-cartographer").then((m) =>
-            m.cartographer(),
-          ),
-        ]
-      : []),
-  ],
+  ];
+
+  if (process.env.NODE_ENV !== "production" && process.env.REPL_ID !== undefined) {
+    const { cartographer } = await import("@replit/vite-plugin-cartographer");
+    plugins.push(cartographer());
+  }
+
+  return plugins;
+}
+
+export default defineConfig(async () => ({
+  base: "/", // Ensures assets work correctly on Render
+
+  plugins: await getPlugins(),
+
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "client", "src"),
@@ -29,9 +37,16 @@ export default defineConfig({
       "@assets": path.resolve(__dirname, "attached_assets"),
     },
   },
+
   root: path.resolve(__dirname, "client"),
+
   build: {
-    outDir: path.resolve(__dirname, "dist/public"),
+    outDir: path.resolve(__dirname, "dist/public"), // Render will serve static files from here
     emptyOutDir: true,
   },
-});
+
+  server: {
+    port: 5173,
+    strictPort: true,
+  },
+}));

@@ -1,11 +1,22 @@
 import express, { type Request, Response, NextFunction } from "express";
+import compression from "compression";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { createServer } from "http";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const app = express();
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+// ✅ Enable gzip compression
+app.use(compression());
+
+// ✅ Parse incoming requests
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// ✅ Request logging for API routes
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;
@@ -37,34 +48,37 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-  const server = await registerRoutes(app);
+  const server = createServer(app);
 
+  // ✅ Register backend routes
+  await registerRoutes(app);
+
+  // ✅ Production: Serve static files from client build
+  if (app.get("env") === "development") {
+    await setupVite(app, server); // Only use Vite dev server in dev
+  } else {
+    serveStatic(app);
+
+    // ✅ SPA fallback for React Router (if needed)
+    app.get("*", (_req, res) => {
+      res.sendFile(path.join(__dirname, "../client/index.html"));
+    });
+  }
+
+  // ✅ Global error handler
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
-
     res.status(status).json({ message });
-    throw err;
+    log(`❌ Error: ${message}`);
   });
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
-  if (app.get("env") === "development") {
-    await setupVite(app, server);
-  } else {
-    serveStatic(app);
-  }
+  // ✅ Tune keep-alive and listen
+  server.keepAliveTimeout = 65000;
+  server.headersTimeout = 66000;
 
-  // ALWAYS serve the app on port 5000
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
-  const port = 3000;
-  server.listen({
-    port,
-    host: "0.0.0.0",
-    reusePort: true,
-  }, () => {
-    log(`serving on port ${port}`);
+  const port = process.env.PORT || 8000;
+  server.listen(port, "0.0.0.0", () => {
+    log(`🚀 Server running on port ${port}`);
   });
 })();

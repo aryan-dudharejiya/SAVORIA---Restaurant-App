@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: savoria-app
+    env: node
+    plan: free # or 'starter' / 'pro' depending on your needs
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+    buildFilter:
+      paths:
+        - client/**
+        - server/**
+        - package.json
+        - tsconfig.json
+        - vite.config.ts
+    autoDeploy: true
+    region: oregon # You can change this to 'frankfurt' or 'singapore' if closer
